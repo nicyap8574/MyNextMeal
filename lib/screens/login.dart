@@ -1,0 +1,21 @@
+import 'package:flutter/material.dart';
+
+class LoginScreen extends StatelessWidget {
+  const LoginScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.only(
+            top: Dimensions.appBarHeight,
+            left: Dimensions.defaultSpace,
+            bottom: Dimensions.defaultSpace,
+            right: Dimensions.defaultSpace,
+          ),
+        ),
+      ),
+    );
+  }
+}

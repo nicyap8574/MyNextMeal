@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:mynextmeal/utils/constants/colors.dart';
 import 'package:mynextmeal/utils/theme/theme.dart';
 
 import 'app.dart';
 
 void main() {
-
 
   runApp(const App());
 

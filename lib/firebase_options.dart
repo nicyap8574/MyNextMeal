@@ -70,6 +70,9 @@ class DefaultFirebaseOptions {
     messagingSenderId: '116185447489',
     projectId: 'mynextmeal-678a9',
     storageBucket: 'mynextmeal-678a9.firebasestorage.app',
+    androidClientId: '116185447489-9fuoqpflssvpchkp883hvnlqf1qfs5e7.apps.googleusercontent.com',
+    iosClientId: '116185447489-1l7udpp4vchgb7rhbc0f3gqdmpon41cf.apps.googleusercontent.com',
     iosBundleId: 'com.example.mynextmeal',
   );
+
 }

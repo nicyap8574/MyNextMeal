@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:mynextmeal/common/styles/spacing_styles.dart';
+import 'package:mynextmeal/screens/signup.dart';
+import 'package:mynextmeal/utils/helpers/helper_functions.dart';
 
 import '../utils/constants/colors.dart';
 import '../utils/constants/image_strings.dart';
@@ -11,22 +15,27 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dark = AppHelperFunctions.isDarkMode(context);
+
     return Scaffold(
-      backgroundColor: AppColors.celadon700,
-      body: SingleChildScrollView(
+        backgroundColor: dark ? AppColors.darkBackground : AppColors.lightBackground,
+
+        body: SingleChildScrollView(
         child: Padding(
           padding: AppSpacingStyle.paddingWithAppBarHeight,
           child: Column(
             children: [
               //Logo, Title, and sub title
               Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Image(
                     height: 150,
-                    image: AssetImage(AppImages.AppLogo),
+                    image: AssetImage(dark ? AppImages.darkAppLogo : AppImages.lightAppLogo),
                   ),
+
                   const SizedBox(height: AppSizes.sm),
+
                   Text(
                     'Welcome to MyNextMeal',
                     textDirection: TextDirection.ltr,
@@ -74,7 +83,7 @@ class LoginScreen extends StatelessWidget {
                         //remember me
                         Row(
                           children:[
-                            Checkbox(value: false, onChanged: (value){}),
+                            SizedBox(width: 24, height: 24, child: Checkbox(value: true, onChanged: (value){})),
                             const Text("Remember Me"),
                           ],
                         ),
@@ -95,10 +104,13 @@ class LoginScreen extends StatelessWidget {
                       child: ElevatedButton(onPressed: (){}, child: const Text("Sign In")),
                     ),
 
+                    const SizedBox(height: AppSizes.spaceBtwInputFields),
+
+
                     //create account button
                     SizedBox(
                       width: double.infinity,
-                      child: OutlinedButton(onPressed: (){}, child: const Text("Create Account")),
+                      child: OutlinedButton(onPressed: () => Get.to(() => const SignUpScreen()), child: const Text("Create Account")),
                     ),
 
 
@@ -114,8 +126,32 @@ class LoginScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Divider(color: AppColors.darkerGrey, thickness: 0.5),
+                  Flexible(child: Divider(color: dark ? AppColors.darkGrey : AppColors.grey, thickness: 0.5, indent: 60, endIndent: 5)),
+                  Text("Or Sign In With", style: Theme.of(context).textTheme.labelMedium),
+                  Flexible(child: Divider(color: dark ? AppColors.darkGrey : AppColors.grey, thickness: 0.5, indent: 5, endIndent: 60)),
                 ],
+              ),
+
+              const SizedBox(height: AppSizes.spaceBtwItems),
+
+
+              //Footer
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children:[
+                  Container(
+                    decoration: BoxDecoration(border: Border.all(color: AppColors.grey), borderRadius: BorderRadius.circular(100)),
+                    child: IconButton(
+                      onPressed: (){},
+                      icon: const Image(
+                        width: AppSizes.iconMd,
+                        height: AppSizes.iconMd,
+                        image: AssetImage(AppImages.googleLogo),
+                      ),
+
+                    )
+                  )
+                ]
               )
 
             ],

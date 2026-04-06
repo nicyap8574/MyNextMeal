@@ -12,6 +12,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.celadon700,
       body: SingleChildScrollView(
         child: Padding(
           padding: AppSpacingStyle.paddingWithAppBarHeight,

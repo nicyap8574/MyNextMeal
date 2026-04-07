@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:mynextmeal/screens/login.dart';
+import 'package:mynextmeal/utils/validator/validator.dart';
 
+import '../features/authentication/controllers/signup/signup_controller.dart';
 import '../utils/constants/colors.dart';
 import '../utils/constants/image_strings.dart';
 import '../utils/constants/sizes.dart';
@@ -14,6 +18,7 @@ class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dark = AppHelperFunctions.isDarkMode(context);
+    final controller = Get.put(SignupController());
 
     return Scaffold(
       backgroundColor: dark ? AppColors.darkBackground : AppColors.lightBackground,
@@ -31,24 +36,30 @@ class SignUpScreen extends StatelessWidget {
 
               const SizedBox(height: AppSizes.spaceBtwSections),
 
-              //Form
-              Form(child: Padding(
+              //Sign up Form
+              Form(
+                key: controller.signupFormKey,
+                child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: AppSizes.spaceBtwSections),
                 child: Column(
                 children: [
 
                   //Username
                   TextFormField(
-                      decoration: const InputDecoration(
-                          labelText: "Username",
-                          prefixIcon: Icon(Icons.person)
-                      ),
+                    controller: controller.username,
+                    validator: (value) => AppValidator.validateUsername(value),
+                    decoration: const InputDecoration(
+                        labelText: "Username",
+                        prefixIcon: Icon(Icons.person)
+                    ),
                   ),
 
                   const SizedBox(height: AppSizes.spaceBtwInputFields),
 
                   //Email
                   TextFormField(
+                    controller: controller.email,
+                    validator: (value) => AppValidator.validateEmail(value),
                     decoration: const InputDecoration(
                         labelText: "Email Address",
                         prefixIcon: Icon(Icons.email)
@@ -57,26 +68,41 @@ class SignUpScreen extends StatelessWidget {
 
                   const SizedBox(height: AppSizes.spaceBtwInputFields),
 
-                  //Password
-                  TextFormField(
-                    obscureText: true,
-                    decoration: const InputDecoration(
-                        labelText: "Password",
-                        prefixIcon: Icon(Icons.lock),
-                        suffixIcon: Icon(Icons.visibility_off),
-                  ),
-                  ),
+                  //Password (observer)
+                  Obx(
+                    () => TextFormField(
+                      controller: controller.password,
+                      obscureText: controller.hidePassword.value,
+                      validator: (value) => AppValidator.validatePassword(value),
+                      decoration: InputDecoration(
+                          labelText: "Password",
+                          prefixIcon: const Icon(Icons.lock),
+                          suffixIcon: IconButton(
+                              onPressed: () => controller.hidePassword.value = !controller.hidePassword.value,
+                              icon: Icon(controller.hidePassword.value ? Icons.visibility_off : Icons.visibility                              ),
+                          ),
+                      ),
+                    ),
+                ),
+
 
                   const SizedBox(height: AppSizes.spaceBtwInputFields),
 
                   //Password confirmation
-                  TextFormField(
-                    obscureText: true,
-                    decoration: const InputDecoration(
+                  Obx(
+                    () => TextFormField(
+                      controller: controller.confirmPassword,
+                      obscureText: controller.hidePassword.value,
+                      validator: (value) => AppValidator.validatePassword(value),
+                      decoration: InputDecoration(
                         labelText: "Re-enter Password",
-                        prefixIcon: Icon(Icons.lock),
-                        suffixIcon: Icon(Icons.visibility_off),
-                  ),
+                        prefixIcon: const Icon(Icons.lock),
+                        suffixIcon: IconButton(
+                          onPressed: () => controller.hidePassword.value = !controller.hidePassword.value,
+                          icon: Icon(controller.hidePassword.value ? Icons.visibility_off : Icons.visibility                              ),
+                        ),
+                      ),
+                    ),
                   ),
 
                   const SizedBox(height: AppSizes.spaceBtwSections),
@@ -84,7 +110,9 @@ class SignUpScreen extends StatelessWidget {
                   //create account button
                   SizedBox(
                     width: double.infinity,
-                    child: ElevatedButton(onPressed: (){}, child: const Text("Create Account")),
+                    child: ElevatedButton(
+                        onPressed: () => controller.signup(),
+                        child: const Text("Create Account")),
                   ),
 
                   const SizedBox(height: AppSizes.spaceBtwInputFields),
@@ -131,16 +159,14 @@ class SignUpScreen extends StatelessWidget {
                         )
                       ]
                   )
-
-
                 ],
                 ),
-
               ),
               ),
             ],
           ),
         ),
-      ),);
+      ),
+    );
   }
 }

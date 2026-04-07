@@ -7,6 +7,7 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:get_storage/get_storage.dart';
 
 import '../../../screens/login.dart';
+import '../../../utils/popups/loaders.dart';
 
 class AuthenticationRepository extends GetxController{
   static AuthenticationRepository get instance => Get.find();
@@ -25,7 +26,7 @@ class AuthenticationRepository extends GetxController{
     deviceStorage.writeIfNull('NewUser', true);
     if(deviceStorage.read('NewUser') != true){
       //Not new user, show home page
-    }else{
+/**/    }else{
       //New user, show login page
       Get.offAll(()
       {
@@ -41,12 +42,12 @@ class AuthenticationRepository extends GetxController{
       return await _auth.createUserWithEmailAndPassword(email: email, password: password);
     }on FirebaseAuthException catch (e){
       final details = e.message ?? 'No additional details provided.';
-      throw 'Authentication failed (${e.code}): $details';
-    }catch(e){
-      throw "Unexpected authentication error: $e";
+
+      if(e.code == 'email-already-in-use'){
+        throw 'Email has already been used';
+      }else{
+        throw 'Authentication failed (${e.code}): $details';
+      }
     }
   }
-
-
-
 }

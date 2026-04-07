@@ -4,7 +4,6 @@ class UserModel {
   final String email;
 
   //Constructor
-
   UserModel({
     required this.id,
     required this.username,

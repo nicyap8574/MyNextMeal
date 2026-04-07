@@ -23,6 +23,14 @@ class SignupController extends GetxController{
   final confirmPassword = TextEditingController();
   GlobalKey<FormState> signupFormKey = GlobalKey<FormState>(); //Form validation
 
+  String _cleanErrorMessage(Object error){
+    return error
+        .toString()
+        .replaceFirst('Exception: ', '')
+        .replaceFirst('FirebaseException: ', '')
+        .trim();
+  }
+
   Future<void> signup() async{
     try{
 
@@ -68,7 +76,7 @@ class SignupController extends GetxController{
       );
 
     } catch(e){
-      AppLoaders.errorSnackBar(title: "Error", message: e.toString());
+      AppLoaders.errorSnackBar(title: "Error", message: (e));
     }
   }
 }

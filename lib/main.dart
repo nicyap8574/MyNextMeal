@@ -25,7 +25,7 @@ Future<void> main() async {
 
   //Initialise firebase
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform).then(
-      (FirebaseApp value) => Get.put(AuthenticationRepository()), //check current state of the user
+      (FirebaseApp value) => Get.put(AuthenticationRepository()), //check current state of the user, create instance of AuthenticationRepository()
   );
 
   //Initialise authentication

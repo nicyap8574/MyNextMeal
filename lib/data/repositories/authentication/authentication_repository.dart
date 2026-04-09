@@ -7,7 +7,7 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:get_storage/get_storage.dart';
 
 import '../../../screens/login.dart';
-import '../../../screens/main_navigation_screen.dart';
+import '../../../screens/home.dart';
 import '../../../utils/popups/loaders.dart';
 
 class AuthenticationRepository extends GetxController{
@@ -15,6 +15,7 @@ class AuthenticationRepository extends GetxController{
 
   final deviceStorage = GetStorage();
   final _auth = FirebaseAuth.instance;
+
 
   @override
   void onReady() {
@@ -24,10 +25,12 @@ class AuthenticationRepository extends GetxController{
 
   //Redirect to respective screen
   void screenRedirect() async{
+
+    //get details of currently logged in user
     final user = _auth.currentUser;
 
     if(user != null){
-      Get.offAll(() => const MainNavigationScreen());
+      Get.offAll(() => const Home());
     }else{
       Get.offAll(() => const LoginScreen());
     }

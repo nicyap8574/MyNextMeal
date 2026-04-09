@@ -7,6 +7,7 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:get_storage/get_storage.dart';
 
 import '../../../screens/login.dart';
+import '../../../screens/main_navigation_screen.dart';
 import '../../../utils/popups/loaders.dart';
 
 class AuthenticationRepository extends GetxController{
@@ -21,18 +22,29 @@ class AuthenticationRepository extends GetxController{
     screenRedirect();
   }
 
-  screenRedirect() async{
-    //local storage
-    deviceStorage.writeIfNull('NewUser', true);
-    if(deviceStorage.read('NewUser') != true){
-      //Not new user, show home page
-/**/    }else{
-      //New user, show login page
-      Get.offAll(()
-      {
-        return const LoginScreen();
-      },
-      );
+  //Redirect to respective screen
+  void screenRedirect() async{
+    final user = _auth.currentUser;
+
+    if(user != null){
+      Get.offAll(() => const MainNavigationScreen());
+    }else{
+      Get.offAll(() => const LoginScreen());
+    }
+  }
+
+  //Login user
+  Future<UserCredential> loginWithEmailAndPassword(String email, String password) async{
+    try{
+      return await _auth.signInWithEmailAndPassword(email: email, password: password);
+    }on FirebaseAuthException catch (e){
+      final details = e.message ?? 'No additional details provided.';
+
+      if(e.code == 'email-already-in-use'){
+        throw 'Email has already been used';
+      }else{
+        throw 'Authentication failed (${e.code}): $details';
+      }
     }
   }
 

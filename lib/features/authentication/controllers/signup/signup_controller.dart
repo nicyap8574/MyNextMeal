@@ -61,6 +61,7 @@ class SignupController extends GetxController{
       //Show success message
       AppLoaders.successSnackBar(title: "Success", message: "User created successfully");
 
+      //catch errors with Firebase Authentication
     } on FirebaseAuthException catch (e) {
       final details = e.message ?? 'No additional details provided.';
       AppLoaders.errorSnackBar(
@@ -68,6 +69,7 @@ class SignupController extends GetxController{
         message: "${e.code}: $details",
       );
 
+      //catch Firestore errors
     } on FirebaseException catch (e) {
       final details = e.message ?? 'No additional details provided.';
       AppLoaders.errorSnackBar(

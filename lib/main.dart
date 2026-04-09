@@ -20,7 +20,7 @@ Future<void> main() async {
   await GetStorage.init();
 
   //Await splash
-  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding); //Until removed in onReady() in authentication_repository.dart
 
 
   //Initialise firebase

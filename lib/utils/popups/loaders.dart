@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
+//TODO: Combine into one snack bar?
+
 class AppLoaders{
   static successSnackBar({required title, message = '', duration = 3}){
     Get.snackbar(

@@ -83,7 +83,7 @@ class SignUpScreen extends StatelessWidget {
                           ),
                       ),
                     ),
-                ),
+                  ),
 
 
                   const SizedBox(height: AppSizes.spaceBtwInputFields),

@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:mynextmeal/common/styles/spacing_styles.dart';
 import 'package:mynextmeal/screens/signup.dart';
 import 'package:mynextmeal/utils/helpers/helper_functions.dart';
 
+import '../features/authentication/controllers/login/login_controller.dart';
 import '../utils/constants/colors.dart';
 import '../utils/constants/image_strings.dart';
 import '../utils/constants/sizes.dart';
+import '../utils/validator/validator.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -16,6 +20,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dark = AppHelperFunctions.isDarkMode(context);
+    final controller = Get.put(LoginController());
 
     return Scaffold(
         backgroundColor: dark ? AppColors.darkBackground : AppColors.lightBackground,
@@ -48,13 +53,17 @@ class LoginScreen extends StatelessWidget {
               ),
 
               //Form
-              Form(child: Padding(
+              Form(
+                key: controller.loginFormKey,
+                child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: AppSizes.spaceBtwSections),
                 child: Column(
                   children:[
 
                     //Email
                     TextFormField(
+                      controller: controller.email,
+                      validator: (value) => AppValidator.validateEmail(value),
                       decoration: const InputDecoration(
                           prefixIcon: Icon(Icons.email),
                         labelText: "Email Address"
@@ -63,16 +72,22 @@ class LoginScreen extends StatelessWidget {
 
                     const SizedBox(height: AppSizes.spaceBtwInputFields),
 
-                    //Password
-                    TextFormField(
-                      obscureText: true,
-                      decoration: const InputDecoration(
-                          prefixIcon: Icon(Icons.lock),
+                    //Password (observer)
+                    Obx(
+                        () => TextFormField(
+                        controller: controller.password,
+                        obscureText: controller.hidePassword.value,
+                        validator: (value) => AppValidator.validatePassword(value),
+                        decoration: InputDecoration(
                           labelText: "Password",
-                          suffixIcon: Icon(Icons.visibility_off),
+                          prefixIcon: const Icon(Icons.lock),
+                          suffixIcon: IconButton(
+                            onPressed: () => controller.hidePassword.value = !controller.hidePassword.value,
+                            icon: Icon(controller.hidePassword.value ? Icons.visibility_off : Icons.visibility                              ),
+                          ),
+                        ),
                       ),
                     ),
-
                     const SizedBox(height: AppSizes.sm),
 
 
@@ -83,7 +98,7 @@ class LoginScreen extends StatelessWidget {
                         //remember me
                         Row(
                           children:[
-                            SizedBox(width: 24, height: 24, child: Checkbox(value: true, onChanged: (value){})),
+                            Obx(() => SizedBox(width: 24, height: 24, child: Checkbox(value: controller.rememberMe.value, onChanged: (value) => controller.rememberMe.value = !controller.rememberMe.value))),
                             const Text("Remember Me"),
                           ],
                         ),
@@ -101,7 +116,7 @@ class LoginScreen extends StatelessWidget {
                     //sign in button
                     SizedBox(
                       width: double.infinity,
-                      child: ElevatedButton(onPressed: (){}, child: const Text("Sign In")),
+                      child: ElevatedButton(onPressed: () => controller.signIn(), child: const Text("Sign In")),
                     ),
 
                     const SizedBox(height: AppSizes.spaceBtwInputFields),

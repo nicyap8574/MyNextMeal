@@ -40,7 +40,4 @@ class LoginController extends GetxController {
       AppLoaders.errorSnackBar(title: "Error", message: (e));
     }
   }
-
-
-
 }

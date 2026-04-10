@@ -5,6 +5,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../../screens/login.dart';
 import '../../../screens/home.dart';
@@ -55,6 +56,31 @@ class AuthenticationRepository extends GetxController{
   Future<UserCredential> registerWithEmailAndPassword(String email, String password) async{
     try{
       return await _auth.createUserWithEmailAndPassword(email: email, password: password);
+    }on FirebaseAuthException catch (e){
+      final details = e.message ?? 'No additional details provided.';
+
+      if(e.code == 'email-already-in-use'){
+        throw 'Email has already been used';
+      }else{
+        throw 'Authentication failed (${e.code}): $details';
+      }
+    }
+  }
+
+  //Google sign in
+  Future<UserCredential> signInWithGoogle() async{
+    try{
+      //trigger the authentication flow
+      final GoogleSignInAccount? googleUser = await GoogleSignIn.instance.authenticate();
+
+      // Obtain the auth details from the request
+      final GoogleSignInAuthentication? googleAuth = googleUser?.authentication;
+
+      // Create a new credential
+      final credential = GoogleAuthProvider.credential(idToken: googleAuth?.idToken);
+
+      // Once signed in, return the UserCredential
+      return await FirebaseAuth.instance.signInWithCredential(credential);
     }on FirebaseAuthException catch (e){
       final details = e.message ?? 'No additional details provided.';
 

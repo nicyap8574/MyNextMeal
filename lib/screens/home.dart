@@ -28,7 +28,7 @@ class Home extends StatelessWidget {
               //observe and change state of widget
               Obx(() => Text("Welcome ${controller.user.value.username}",style: Theme.of(context).textTheme.headlineMedium)),
 
-              //sign in button
+              //sign out button
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(onPressed: () => controller.signOut(), child: const Text("Sign Out")),

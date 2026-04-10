@@ -45,7 +45,7 @@ class Home extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                     onPressed: () => Get.to(() => const ImageAnalysis()),
-                    child: const Text("Gemini")),
+                    child: const Text("Add New Meal")),
               ),
             ],
           ),

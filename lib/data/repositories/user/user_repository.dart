@@ -76,7 +76,6 @@ class UserRepository extends GetxController{
     }on FirebaseException catch (e){
       final details = e.message ?? 'No additional details provided.';
       throw 'Firestore failed (${e.code}): $details';
-
     }catch(e){
       throw "Unexpected error occurred: $e";
     }

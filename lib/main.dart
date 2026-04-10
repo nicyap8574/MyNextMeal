@@ -6,6 +6,9 @@ import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:mynextmeal/utils/constants/colors.dart';
 import 'package:mynextmeal/utils/theme/theme.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_ai/firebase_ai.dart';
+import 'firebase_options.dart';
 
 import 'app.dart';
 import 'data/repositories/authentication/authentication_repository.dart';
@@ -22,15 +25,13 @@ Future<void> main() async {
   //Await splash
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding); //Until removed in onReady() in authentication_repository.dart
 
-
   //Initialise firebase
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform).then(
-      (FirebaseApp value) => Get.put(AuthenticationRepository()), //check current state of the user, create instance of AuthenticationRepository()
+  await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform
   );
 
-  //Initialise authentication
-
+  Get.put(AuthenticationRepository());
 
   runApp(const App());
-
 }
+

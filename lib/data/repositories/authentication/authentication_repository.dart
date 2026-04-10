@@ -46,6 +46,8 @@ class AuthenticationRepository extends GetxController{
 
       if(e.code == 'email-already-in-use'){
         throw 'Email has already been used';
+      }else if(e.code == 'invalid-credential'){
+        throw 'Invalid email or password';
       }else{
         throw 'Authentication failed (${e.code}): $details';
       }

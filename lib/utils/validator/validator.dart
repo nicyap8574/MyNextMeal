@@ -31,7 +31,7 @@ class AppValidator{
     return null;
   }
 
-  static String? validatePassword(String? value) {
+  static String? validateSignUpPassword(String? value) {
     if (value == null || value.isEmpty){
       return "Password is required";
     }
@@ -40,6 +40,13 @@ class AppValidator{
       return "Password must be at least 6 characters long";
     }
 
+    return null;
+  }
+
+  static String? validateSignInPassword(String? value) {
+    if (value == null || value.isEmpty){
+      return "Password is required";
+    }
     return null;
   }
 }

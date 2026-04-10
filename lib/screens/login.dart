@@ -77,13 +77,13 @@ class LoginScreen extends StatelessWidget {
                         () => TextFormField(
                         controller: controller.password,
                         obscureText: controller.hidePassword.value,
-                        validator: (value) => AppValidator.validatePassword(value),
+                        validator: (value) => AppValidator.validateSignInPassword(value),
                         decoration: InputDecoration(
                           labelText: "Password",
                           prefixIcon: const Icon(Icons.lock),
                           suffixIcon: IconButton(
                             onPressed: () => controller.hidePassword.value = !controller.hidePassword.value,
-                            icon: Icon(controller.hidePassword.value ? Icons.visibility_off : Icons.visibility                              ),
+                            icon: Icon(controller.hidePassword.value ? Icons.visibility_off : Icons.visibility),
                           ),
                         ),
                       ),

@@ -73,7 +73,7 @@ class SignUpScreen extends StatelessWidget {
                     () => TextFormField(
                       controller: controller.password,
                       obscureText: controller.hidePassword.value,
-                      validator: (value) => AppValidator.validatePassword(value),
+                      validator: (value) => AppValidator.validateSignUpPassword(value),
                       decoration: InputDecoration(
                           labelText: "Password",
                           prefixIcon: const Icon(Icons.lock),
@@ -93,7 +93,7 @@ class SignUpScreen extends StatelessWidget {
                     () => TextFormField(
                       controller: controller.confirmPassword,
                       obscureText: controller.hidePassword.value,
-                      validator: (value) => AppValidator.validatePassword(value),
+                      validator: (value) => AppValidator.validateSignUpPassword(value),
                       decoration: InputDecoration(
                         labelText: "Re-enter Password",
                         prefixIcon: const Icon(Icons.lock),

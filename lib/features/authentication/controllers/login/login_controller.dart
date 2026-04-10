@@ -32,10 +32,8 @@ class LoginController extends GetxController {
       //Login user
       final userCredential = await AuthenticationRepository.instance.loginWithEmailAndPassword(email.text.trim(), password.text.trim());
 
-
       //Redirect
       AuthenticationRepository.instance.screenRedirect();
-
     }catch(e){
       AppLoaders.errorSnackBar(title: "Error", message: (e));
     }

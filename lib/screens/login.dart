@@ -8,7 +8,7 @@ import 'package:mynextmeal/common/styles/spacing_styles.dart';
 import 'package:mynextmeal/screens/signup.dart';
 import 'package:mynextmeal/utils/helpers/helper_functions.dart';
 
-import '../features/authentication/controllers/login/login_controller.dart';
+import '../features/controllers/login_controller.dart';
 import '../utils/constants/colors.dart';
 import '../utils/constants/image_strings.dart';
 import '../utils/constants/sizes.dart';

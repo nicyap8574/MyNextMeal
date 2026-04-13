@@ -9,7 +9,7 @@ import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:get_storage/get_storage.dart';
 
-import '../../../features/authentication/models/user_model.dart';
+import '../../../features/models/user_model.dart';
 import '../../../screens/login.dart';
 
 class UserRepository extends GetxController{
@@ -23,7 +23,7 @@ class UserRepository extends GetxController{
     try{
       //collection name: users
       //document name: user.id
-      await _db.collection('users').doc(user.id).set(user.toJson());
+      await _db.collection('users').doc(user.id).set(user.toJson()); //automatically creates document if doesn't exist
 
     }on FirebaseException catch (e){
       final details = e.message ?? 'No additional details provided.';

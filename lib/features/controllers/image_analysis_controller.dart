@@ -1,13 +1,15 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_ai/firebase_ai.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:image_picker/image_picker.dart';
 
-class ImageAnalysisRepository {
+class ImageAnalysisController {
 
   //JSON format
   static final jsonSchema = Schema.object(
@@ -37,12 +39,15 @@ class ImageAnalysisRepository {
       generationConfig: GenerationConfig(
           responseMimeType: 'application/json', responseSchema: jsonSchema));
 
-  static ImageAnalysisRepository get instance => Get.find();
+  static ImageAnalysisController get instance => Get.find();
 
   late RxString response = "".obs;
   final RxBool isLoading = false.obs;
   final ImagePicker picker = ImagePicker();
   final Rxn<File> foodImage = Rxn<File>();
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
+  final _auth = FirebaseAuth.instance;
+
 
   Future<void> pickImage() async{
     final XFile? image = await picker.pickImage(
@@ -72,11 +77,26 @@ class ImageAnalysisRepository {
       ]);
 
       response.value = result.text!;
+
+      final data = jsonDecode(response.value) as Map<String,dynamic>;
+      await saveMealRecord(data);
+
     }catch(e){
       response.value = "An error has occurred. Please try again.";
     }finally{
       isLoading.value = false;
     }
+  }
+
+  //Map<String,dynamic> --> every key is a String, every value is dynamic
+  Future<void> saveMealRecord(Map<String, dynamic> json) async{
+    final user = _auth.currentUser;
+
+    await _db.collection('meals').add({
+      'analysis': json,
+      'createdAt': FieldValue.serverTimestamp(),
+      'user': user!.uid,
+    });
   }
 
 }

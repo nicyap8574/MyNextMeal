@@ -6,7 +6,7 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
 import '../../data/repositories/authentication/authentication_repository.dart';
 import '../../data/repositories/user/user_repository.dart';
-import '../authentication/models/user_model.dart';
+import '../models/user_model.dart';
 
 class UserController extends GetxController {
   static UserController get instance => Get.find();

@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-import '../../../../data/repositories/authentication/authentication_repository.dart';
-import '../../../../utils/popups/loaders.dart';
+import '../../data/repositories/authentication/authentication_repository.dart';
+import '../../utils/popups/loaders.dart';
 
 class LoginController extends GetxController {
   static LoginController get instance => Get.find();

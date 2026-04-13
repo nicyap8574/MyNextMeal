@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:mynextmeal/features/controllers/image_analysis_controller.dart';
 
 import '../common/styles/spacing_styles.dart';
-import '../data/repositories/image_analysis/image_analysis_repository.dart';
+import '../features/personalisation/user_controller.dart';
 import '../utils/constants/sizes.dart';
 
 class ImageAnalysis extends StatelessWidget {
@@ -14,7 +15,7 @@ class ImageAnalysis extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final repo = Get.put(ImageAnalysisRepository());
+    final controller = Get.put(ImageAnalysisController());
 
     return Scaffold(
       appBar: AppBar(
@@ -28,7 +29,7 @@ class ImageAnalysis extends StatelessWidget {
             children: [
               Center(
                 child: ElevatedButton(
-                    onPressed: () => repo.pickImage(),
+                    onPressed: () => controller.pickImage(),
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 32,
@@ -42,9 +43,9 @@ class ImageAnalysis extends StatelessWidget {
               const SizedBox(height: AppSizes.spaceBtwSections),
           
               Obx((){
-                final imageFile = repo.foodImage.value;
+                final imageFile = controller.foodImage.value;
           
-                if(repo.isLoading.value != true && imageFile != null){
+                if(controller.isLoading.value != true && imageFile != null){
                   return Column(
                     children: [
                       Image.file(
@@ -60,14 +61,14 @@ class ImageAnalysis extends StatelessWidget {
               }),
           
               const SizedBox(height: AppSizes.spaceBtwSections),
-          
+
+              //Obx so that it updates when response changes and can get the data from repository
               Obx((){
-                if(repo.isLoading.value == true){
+                if(controller.isLoading.value == true){
                   return Text("Response is loading...");
                 }else{
 
-
-                  final data = jsonDecode(repo.response.value);
+                  final data = jsonDecode(controller.response.value);
                   final nutrients = data['nutrients'] as List<dynamic>;
                   final meal = nutrients[0] as Map<String, dynamic>;
                   final mealName = meal['meal_name'];

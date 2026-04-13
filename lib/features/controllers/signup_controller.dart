@@ -8,9 +8,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mynextmeal/data/repositories/authentication/authentication_repository.dart';
 
-import '../../../../data/repositories/user/user_repository.dart';
-import '../../../../utils/popups/loaders.dart';
-import '../../models/user_model.dart';
+import '../../data/repositories/user/user_repository.dart';
+import '../../utils/popups/loaders.dart';
+import '../models/user_model.dart';
 
 class SignupController extends GetxController{
   static SignupController get instance => Get.find();

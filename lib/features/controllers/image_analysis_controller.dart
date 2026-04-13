@@ -78,6 +78,7 @@ class ImageAnalysisController {
 
       response.value = result.text!;
 
+      //change into appropriate format to be understood
       final data = jsonDecode(response.value) as Map<String,dynamic>;
       await saveMealRecord(data);
 

@@ -65,7 +65,16 @@ class ImageAnalysis extends StatelessWidget {
               //Obx so that it updates when response changes and can get the data from repository
               Obx((){
                 if(controller.isLoading.value == true){
-                  return Text("Response is loading...");
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children:[
+                        const CircularProgressIndicator(),
+                        const SizedBox(height: AppSizes.spaceBtwItems),
+                        Text("Response is loading..."),
+                      ],
+                    ),
+                  );
                 }else{
 
                   final data = jsonDecode(controller.response.value);

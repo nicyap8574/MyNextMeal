@@ -7,9 +7,9 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-import '../../../screens/login.dart';
-import '../../../screens/home.dart';
-import '../../../utils/popups/loaders.dart';
+import '../../screens/login.dart';
+import '../../screens/home.dart';
+import '../../utils/popups/loaders.dart';
 
 class AuthenticationRepository extends GetxController{
   static AuthenticationRepository get instance => Get.find();
@@ -26,7 +26,6 @@ class AuthenticationRepository extends GetxController{
 
   //Redirect to respective screen
   void screenRedirect() async{
-
     //get details of currently logged in user
     final user = _auth.currentUser;
 

@@ -6,9 +6,9 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:mynextmeal/data/repositories/authentication/authentication_repository.dart';
+import 'package:mynextmeal/data/repositories/authentication_repository.dart';
 
-import '../../data/repositories/user/user_repository.dart';
+import '../../data/repositories/user_repository.dart';
 import '../../utils/popups/loaders.dart';
 import '../models/user_model.dart';
 

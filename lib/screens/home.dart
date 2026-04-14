@@ -4,6 +4,7 @@ import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:mynextmeal/screens/meal_history.dart';
+import 'package:mynextmeal/screens/user_profile.dart';
 import 'package:mynextmeal/utils/helpers/helper_functions.dart';
 
 import '../features/personalisation/user_controller.dart';
@@ -56,6 +57,16 @@ class Home extends StatelessWidget {
                 child: ElevatedButton(
                     onPressed: () => Get.to(() => const MealHistory()),
                     child: const Text("View Past Meals")),
+              ),
+
+              const SizedBox(height: AppSizes.spaceBtwSections),
+
+              //Gemini button
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                    onPressed: () => Get.to(() => const UserProfile()),
+                    child: const Text("My Profile")),
               ),
             ],
           ),

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -49,7 +50,7 @@ class ImageAnalysis extends StatelessWidget {
                   return Column(
                     children: [
                       Image.file(
-                        imageFile,
+                        File(imageFile.path), //converts XFile to File -> directory to image in device
                         height: 300,
                         fit: BoxFit.cover
                       ),
@@ -76,6 +77,9 @@ class ImageAnalysis extends StatelessWidget {
                     ),
                   );
                 }else{
+                  if (controller.response.value.isEmpty) {
+                    return const SizedBox.shrink();
+                  }
 
                   final data = jsonDecode(controller.response.value);
                   final nutrients = data['nutrients'] as List<dynamic>;

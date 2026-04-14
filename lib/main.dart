@@ -11,7 +11,7 @@ import 'package:firebase_ai/firebase_ai.dart';
 import 'firebase_options.dart';
 
 import 'app.dart';
-import 'data/repositories/authentication/authentication_repository.dart';
+import 'data/repositories/authentication_repository.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {

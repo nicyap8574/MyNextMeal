@@ -65,4 +65,7 @@ class AppSizes{
 
   //Grid view spacing
   static const double gridViewSpacing = 16.0;
+
+  //Button text size
+  static const double buttonTextSize = 20.0;
 }

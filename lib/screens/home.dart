@@ -9,6 +9,7 @@ import 'package:mynextmeal/utils/helpers/helper_functions.dart';
 
 import '../features/personalisation/user_controller.dart';
 import '../utils/constants/colors.dart';
+import '../utils/constants/enums.dart';
 import '../utils/constants/sizes.dart';
 import 'image_analysis.dart';
 
@@ -29,44 +30,79 @@ class Home extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(AppSizes.defaultSpace),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+
             children: [
+              Text("Welcome,",
+                style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                    color: AppColors.primary,
+                    fontSize: Theme.of(context).textTheme.headlineMedium!.fontSize! + 5),
+                  ),
+
               //observe and change state of widget
-              Obx(() => Text("Welcome, ${controller.user.value.username}",style: Theme.of(context).textTheme.headlineMedium)),
-
-              //sign out button
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(onPressed: () => controller.signOut(), child: const Text("Sign Out")),
-              ),
+              Obx(() => Text(controller.user.value.username,style: Theme.of(context).textTheme.headlineMedium)),
 
               const SizedBox(height: AppSizes.spaceBtwSections),
 
-              //Gemini button
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                    onPressed: () => Get.to(() => const ImageAnalysis()),
-                    child: const Text("Add New Meal")),
-              ),
+              Row(
+                children: [
+                  //Gemini button
+                  Expanded(
+                    child: AspectRatio(
+                      aspectRatio: 1,
+                      child: ElevatedButton(
+                          onPressed: () => Get.to(() => const ImageAnalysis()),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Icon(Icons.lunch_dining, size: 40),
+                              SizedBox(height: AppSizes.spaceBtwItems),
+                              Text("Add New Meal", style: TextStyle(fontSize: AppSizes.buttonTextSize)),
+                            ],
+                          )
+                    ),
+                  ),),
+
+                  const SizedBox(width: AppSizes.spaceBtwSections),
+
+                  //View past meals button
+                  Expanded(
+                    child: AspectRatio(
+                      aspectRatio: 1,
+                      child: ElevatedButton(
+                          onPressed: () => Get.to(() => const MealHistory()),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children:[
+                              Icon(Icons.history, size: 40),
+                              SizedBox(height: AppSizes.spaceBtwItems),
+                              Text("View Past Meals", style: TextStyle(fontSize: AppSizes.buttonTextSize)),
+                            ],
+                          )
+                    ),
+                  ),
+                ),
+              ],
+            ),
 
               const SizedBox(height: AppSizes.spaceBtwSections),
 
-              //Gemini button
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                    onPressed: () => Get.to(() => const MealHistory()),
-                    child: const Text("View Past Meals")),
-              ),
-
-              const SizedBox(height: AppSizes.spaceBtwSections),
-
-              //Gemini button
+              //My profile button
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
                     onPressed: () => Get.to(() => const UserProfile()),
                     child: const Text("My Profile")),
+              ),
+
+              const SizedBox(height: AppSizes.spaceBtwSections),
+
+              //sign out button
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(onPressed: () => controller.signOut(), child: const Text("Sign Out")),
               ),
             ],
           ),

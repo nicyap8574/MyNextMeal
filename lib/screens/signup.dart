@@ -11,6 +11,7 @@ import '../utils/constants/colors.dart';
 import '../utils/constants/image_strings.dart';
 import '../utils/constants/sizes.dart';
 import '../utils/helpers/helper_functions.dart';
+import '../utils/popups/loaders.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
@@ -111,8 +112,11 @@ class SignUpScreen extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                        onPressed: () => controller.signup(),
-                        child: const Text("Create Account")),
+                        onPressed: (){
+                          controller.signup(context: context);
+                          AppLoaders.showSnackBar(context,"User created successfully");
+                        },
+                        child: const Text("Create Account"),),
                   ),
 
                   const SizedBox(height: AppSizes.spaceBtwInputFields),

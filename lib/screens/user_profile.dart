@@ -6,6 +6,7 @@ import 'package:mynextmeal/common/styles/spacing_styles.dart';
 import 'package:mynextmeal/utils/constants/sizes.dart';
 
 import '../features/controllers/user_profile_controller.dart';
+import '../utils/popups/loaders.dart';
 
 class UserProfile extends StatefulWidget {
   const UserProfile({super.key});
@@ -164,6 +165,7 @@ class _UserProfileState extends State<UserProfile> {
                             .toList();
 
                         controller.saveChanges(
+                          context: context,
                           selectedDietOptions: diet,
                           selectedDietaryFocus: focus,
                         );

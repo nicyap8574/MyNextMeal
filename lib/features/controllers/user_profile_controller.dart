@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import '../../utils/popups/loaders.dart';
@@ -11,6 +12,7 @@ class UserProfileController extends GetxController{
 
 
   Future<void> saveChanges({
+    required BuildContext context,
     required List<String> selectedDietOptions,
     required List<String> selectedDietaryFocus,
   }) async {
@@ -26,7 +28,8 @@ class UserProfileController extends GetxController{
         'dietaryFocus': selectedDietaryFocus,
       }, SetOptions(merge: true));
 
-      AppLoaders.successSnackBar(title: "Success", message: "Changes saved");
+      //AppLoaders.successSnackBar(title: "Success", message: "Changes Saved!");
+      AppLoaders.showSnackBar(context, "Changes Saved!");
 
     }catch(e){
       print("Error saving changes: $e");

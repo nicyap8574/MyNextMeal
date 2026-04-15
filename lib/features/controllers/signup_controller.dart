@@ -23,7 +23,7 @@ class SignupController extends GetxController{
   final confirmPassword = TextEditingController();
   GlobalKey<FormState> signupFormKey = GlobalKey<FormState>(); //Form validation
 
-  Future<void> signup() async{
+  Future<void> signup({required BuildContext context}) async{
     try{
 
       //Check if form is valid
@@ -33,8 +33,8 @@ class SignupController extends GetxController{
 
       //Verify if passwords match
       if(password.text.trim() != confirmPassword.text.trim()){
-        AppLoaders.errorSnackBar(title: "Error", message: "Passwords do not match");
-        return;
+        AppLoaders.showSnackBar(context, "Passwords do not match");
+        // return "Passwords do not match";
       }
 
       //Register user in firebase authentication and save user data in firebase
@@ -51,26 +51,26 @@ class SignupController extends GetxController{
       await userRepository.saveUserRecord(newUser);
 
       //Show success message
-      AppLoaders.successSnackBar(title: "Success", message: "User created successfully");
+      AppLoaders.showSnackBar(context, "User created successfully");
+
+
 
       //catch errors with Firebase Authentication
     } on FirebaseAuthException catch (e) {
       final details = e.message ?? 'No additional details provided.';
-      AppLoaders.errorSnackBar(
-        title: "Auth Error",
-        message: "${e.code}: $details",
-      );
+
+      AppLoaders.showSnackBar(context, "Auth Error: $details");
 
       //catch Firestore errors
     } on FirebaseException catch (e) {
       final details = e.message ?? 'No additional details provided.';
-      AppLoaders.errorSnackBar(
-        title: "Firestore Error",
-        message: "${e.code}: $details",
-      );
+
+      AppLoaders.showSnackBar(context, "Firebase Error: $details");
+
 
     } catch(e){
-      AppLoaders.errorSnackBar(title: "Error", message: (e));
+      AppLoaders.showSnackBar(context, "Error: $e");
+
     }
   }
 }

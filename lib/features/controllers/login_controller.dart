@@ -16,7 +16,7 @@ class LoginController extends GetxController {
   GlobalKey<FormState> loginFormKey = GlobalKey<FormState>(); //Form validation
   final localStorage = GetStorage();
 
-  Future<void> signIn() async{
+  Future<void> signIn({required BuildContext context}) async{
     try{
       //Check if form is valid
       if(!loginFormKey.currentState!.validate()){
@@ -35,7 +35,7 @@ class LoginController extends GetxController {
       //Redirect
       AuthenticationRepository.instance.screenRedirect();
     }catch(e){
-      AppLoaders.errorSnackBar(title: "Error", message: (e));
+      AppLoaders.showSnackBar(context, "Error: $e");
     }
   }
 }

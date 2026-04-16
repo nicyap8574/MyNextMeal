@@ -9,17 +9,21 @@ import 'package:mynextmeal/features/controllers/image_analysis_controller.dart';
 
 import '../common/styles/spacing_styles.dart';
 import '../features/personalisation/user_controller.dart';
+import '../utils/constants/colors.dart';
 import '../utils/constants/sizes.dart';
+import '../utils/helpers/helper_functions.dart';
 
 class ImageAnalysis extends StatelessWidget {
   const ImageAnalysis({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final dark = AppHelperFunctions.isDarkMode(context);
     final controller = Get.put(ImageAnalysisController());
 
     return Scaffold(
-      appBar: AppBar(
+        backgroundColor: dark ? AppColors.darkBackground : AppColors.lightBackground,
+        appBar: AppBar(
         title: const Text('Meal Analysis'),
       ),
       body: SingleChildScrollView(
@@ -40,7 +44,22 @@ class ImageAnalysis extends StatelessWidget {
                     child: const Text("Upload Image")
                 ),
               ),
-          
+
+              const SizedBox(height: AppSizes.spaceBtwSections),
+
+              Center(
+                child: ElevatedButton(
+                    onPressed: () => controller.pickImage(),
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 32,
+                        vertical: 18,
+                      ),
+                    ),
+                    child: const Text("Open Camera")
+                ),
+              ),
+
               const SizedBox(height: AppSizes.spaceBtwSections),
           
               Obx((){

@@ -9,7 +9,6 @@ import 'package:mynextmeal/utils/helpers/helper_functions.dart';
 
 import '../features/personalisation/user_controller.dart';
 import '../utils/constants/colors.dart';
-import '../utils/constants/enums.dart';
 import '../utils/constants/sizes.dart';
 import 'image_analysis.dart';
 
@@ -61,8 +60,9 @@ class Home extends StatelessWidget {
                               Text("Add New Meal", style: TextStyle(fontSize: AppSizes.buttonTextSize)),
                             ],
                           )
+                      ),
                     ),
-                  ),),
+                  ),
 
                   const SizedBox(width: AppSizes.spaceBtwSections),
 

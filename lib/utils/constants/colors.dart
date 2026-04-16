@@ -27,7 +27,8 @@ class AppColors{
   static const Color textWhite = Color(0xFFFFFFFF);
 
   //Background colours
-  static const Color lightBackground = Color(0xFFF6F6F6);
+  // static const Color lightBackground = Color(0xFFF6F6F6);
+  static const Color lightBackground = Color(0xFFfdfae7);
   static const Color darkBackground = Color(0xFF272727);
   static const Color primaryBackground = Color(0xFFF6F6F6);
 

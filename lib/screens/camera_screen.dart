@@ -2,16 +2,15 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
 class CameraScreen extends StatefulWidget {
-  const CameraScreen({super.key});
+  const CameraScreen({super.key, required this.camera});
+
+  final CameraDescription camera;
 
   @override
   State<CameraScreen> createState() => _CameraScreenState();
 }
 
 class _CameraScreenState extends State<CameraScreen> {
-  @override
-  Widget build(BuildContext context) {
-
     late CameraController _controller;
     late Future<void> _initializeControllerFuture;
 
@@ -24,6 +23,18 @@ class _CameraScreenState extends State<CameraScreen> {
       );
 
       _initializeControllerFuture = _controller.initialize();
+    }
+
+    @override
+    void dispose(){
+      //dispose controller when widget is disposed
+      _controller.dispose();
+      super.dispose();
+    }
+
+    @override
+    Widget build(BuildContext context) {
+      return Container();
     }
   }
 }

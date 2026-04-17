@@ -9,7 +9,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../data/repositories/image_analysis_repository.dart';
 
-class ImageAnalysisController {
+class ImageAnalysisController{
 
   //JSON format
   static final jsonSchema = Schema.object(

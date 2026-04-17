@@ -67,8 +67,6 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>NSCameraUsageDescription</key>
-    <string>your usage description here</string>
-    <key>NSMicrophoneUsageDescription</key>
-    <string>your usage description here</string>
+    <string>Camera will be used to capture images</string>
 </dict>
 </plist>

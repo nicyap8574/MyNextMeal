@@ -53,18 +53,15 @@ class _CameraScreenState extends State<CameraScreen> {
         future: controller.initializeControllerFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            return Stack(
+            return Column(
+
                 children: [
-                  SizedBox.expand(
-                    child: CameraPreview(
-                        controller.cameraController), //shows camera preview
-                  ),
+
+                  CameraPreview(controller.cameraController), //shows camera preview
 
                   //Capture button
-                  Positioned(
-                      bottom: 40,
-                      left: 0,
-                      right: 0,
+                  SizedBox(
+                    height: 120,
                       child: Center(
                         child: FloatingActionButton(
                           onPressed: () async {

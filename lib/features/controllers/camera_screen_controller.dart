@@ -8,6 +8,7 @@ class CameraScreenController{
     cameraController = CameraController(
       camera,
       ResolutionPreset.medium,
+      enableAudio: false,
     );
 
     initializeControllerFuture = cameraController.initialize();

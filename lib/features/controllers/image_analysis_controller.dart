@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_ai/firebase_ai.dart';
@@ -8,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../data/repositories/image_analysis_repository.dart';
+import '../../utils/helpers/helper_functions.dart';
 
 class ImageAnalysisController{
 
@@ -50,7 +52,17 @@ class ImageAnalysisController{
   final repo = Get.put(ImageAnalysisRepository());
 
   Future<void> pickImage() async{
-    var status = await Permission.photos.request();
+    Permission permission;
+
+    //storage permission depending on Android version
+    if(Platform.isAndroid){
+      if(await AppHelperFunctions.isAndroid13OrAbove()){
+        permission = Permission.photos;
+      }else{
+        permission = Permission.storage;
+      }
+
+      var status = await permission.request();
 
     if(status.isGranted){
       final XFile? image = await picker.pickImage(
@@ -63,6 +75,7 @@ class ImageAnalysisController{
         foodImage.value = image;
         await analyseFoodImage(image);
         }
+    }
     }else{
       print("Storage Permission Denied");
     }

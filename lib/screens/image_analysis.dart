@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
@@ -34,23 +35,59 @@ class ImageAnalysis extends StatelessWidget {
           padding: AppSpacingStyle.paddingWithAppBarHeight,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
             children: [
-              Center(
+              Container(
+                height: 300,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.darkerGrey.withOpacity(0.3),
+                      blurRadius: 10,
+                      offset: Offset(0,4),
+                    ),
+                  ],
+                ),
                 child: ElevatedButton(
                     onPressed: () => controller.pickImage(),
                     style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 32,
-                        vertical: 18,
-                      ),
+                      backgroundColor: Color(0xFFF8F5D3),
+                      side: BorderSide(color: Colors.transparent, width: 0),
                     ),
-                    child: const Text("Upload Image")
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                            padding: const EdgeInsets.all(20.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: AppColors.primary,
+                            ),
+                            child: SvgPicture.asset("assets/icons/add_photo_alternate_secondary.svg", height: 40)
+                        ),
+                        SizedBox(height: AppSizes.spaceBtwItems),
+                        Text("Upload Image", style: TextStyle(color: AppColors.primary, fontSize: 20.0, fontWeight: FontWeight.w800)),
+                      ],
+                    ),
                 ),
               ),
 
               const SizedBox(height: AppSizes.spaceBtwSections),
 
-              Center(
+              Container(
+                height: 300,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.darkerGrey.withOpacity(0.3),
+                      blurRadius: 10,
+                      offset: Offset(0,4),
+                    ),
+                  ],
+                ),
                 child: ElevatedButton(
                     onPressed: () async {
                       final cameras = await availableCameras();
@@ -58,12 +95,25 @@ class ImageAnalysis extends StatelessWidget {
                       Get.to(() => CameraScreen(camera: firstCamera));
                     },
                     style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 32,
-                        vertical: 18,
+                    backgroundColor: Color(0xFFF8F5D3),
+                    side: BorderSide(color: Colors.transparent, width: 0),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                          padding: const EdgeInsets.all(20.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: AppColors.primary,
+                          ),
+                          child: SvgPicture.asset("assets/icons/photo_camera_secondary.svg", height: 40)
                       ),
-                    ),
-                    child: const Text("Open Camera")
+                      SizedBox(height: AppSizes.spaceBtwItems),
+                      Text("Open Camera", style: TextStyle(color: AppColors.primary, fontSize: 20.0, fontWeight: FontWeight.w800)),
+                    ],
+                  ),
                 ),
               ),
 

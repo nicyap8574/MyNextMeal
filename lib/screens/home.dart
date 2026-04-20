@@ -11,6 +11,7 @@ import '../features/personalisation/user_controller.dart';
 import '../utils/constants/colors.dart';
 import '../utils/constants/sizes.dart';
 import 'image_analysis.dart';
+import 'meal_recommendation.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -86,6 +87,16 @@ class Home extends StatelessWidget {
                 ),
               ],
             ),
+
+              const SizedBox(height: AppSizes.spaceBtwSections),
+
+              //My profile button
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                    onPressed: () => Get.to(() => const MealRecommendation()),
+                    child: const Text("Meal Recommender")),
+              ),
 
               const SizedBox(height: AppSizes.spaceBtwSections),
 

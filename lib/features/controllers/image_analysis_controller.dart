@@ -38,8 +38,8 @@ class ImageAnalysisController{
 
   //Initialise the Gemini Developer API backend
   final model = FirebaseAI.googleAI().generativeModel(
-      model: 'gemini-3.1-flash-lite-preview',
-      // model: 'gemini-2.5-flash-lite',
+      // model: 'gemini-3.1-flash-lite-preview',
+      model: 'gemini-2.5-flash-lite',
       generationConfig: GenerationConfig(
           responseMimeType: 'application/json', responseSchema: jsonSchema));
 

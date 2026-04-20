@@ -43,14 +43,8 @@ class MealHistory extends StatelessWidget {
                 itemBuilder: (context,index){
                   final meal = meals[index].data(); //JSON output from Firestore
 
-                  // print(meal.runtimeType);
-                  // print(meal);
-
                   return ListTile(
                     title: Text(meal['analysis']['nutrients'][0]['meal_name'] ?? 'No name'), //[0] means get the first (and only) item from nutrients list
-                    //analysis -> map{} / Map<String,dynamic>
-                    //nutrients -> list[] / List<dynamic>
-                    //inside nutrients[], {} -> Map<String,dynamic>
                   );
                 }
             );

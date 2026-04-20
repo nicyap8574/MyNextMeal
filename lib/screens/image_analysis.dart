@@ -16,6 +16,7 @@ import '../utils/constants/colors.dart';
 import '../utils/constants/sizes.dart';
 import '../utils/helpers/helper_functions.dart';
 import 'camera_screen.dart';
+import 'food_analysis_results.dart';
 
 class ImageAnalysis extends StatelessWidget {
   const ImageAnalysis({super.key});
@@ -28,8 +29,8 @@ class ImageAnalysis extends StatelessWidget {
     return Scaffold(
         backgroundColor: dark ? AppColors.darkBackground : AppColors.lightBackground,
         appBar: AppBar(
-        title: const Text('Meal Analysis'),
-      ),
+          title: const Text('Meal Analysis'),
+        ),
       body: SingleChildScrollView(
         child: Padding(
           padding: AppSpacingStyle.paddingWithAppBarHeight,
@@ -50,7 +51,14 @@ class ImageAnalysis extends StatelessWidget {
                   ],
                 ),
                 child: ElevatedButton(
-                    onPressed: () => controller.pickImage(),
+                    onPressed: () async{
+                      controller.pickImage();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const FoodAnalysisResults()),
+                      );
+                    },
+
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xFFF8F5D3),
                       side: BorderSide(color: Colors.transparent, width: 0),
@@ -117,8 +125,10 @@ class ImageAnalysis extends StatelessWidget {
                 ),
               ),
 
+
+/*
               const SizedBox(height: AppSizes.spaceBtwSections),
-          
+
               Obx((){
                 final imageFile = controller.foodImage.value;
           
@@ -233,7 +243,7 @@ class ImageAnalysis extends StatelessWidget {
 
                   //return Text(repo.response.value);
                 }
-              }),
+              }),*/
             ]
           ),
         )

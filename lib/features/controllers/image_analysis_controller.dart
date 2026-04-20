@@ -13,7 +13,6 @@ import '../../utils/helpers/helper_functions.dart';
 
 class ImageAnalysisController{
 
-
   //JSON format
   static final jsonSchema = Schema.object(
       properties: {

@@ -10,12 +10,14 @@ import 'gemini_controller.dart';
 
 class MealRecommendationController {
   static MealRecommendationController get instance => Get.find();
+  final userProfile = Get.find<UserProfileController>(); //retrieve an already-created controller instance
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
   List<Map<String, dynamic>> todayMeals = [];
   final RxBool isLoading = false.obs;
   final gemini = GeminiController();
   late RxString response = "".obs;
+
 
   Future<QuerySnapshot<Map<String, dynamic>>> displayTodayMeals() async{
     //retrieves details of current user
@@ -154,7 +156,7 @@ class MealRecommendationController {
       }
 
       //generate text output
-      final result = await gemini.model.generateContent([
+      final result = await gemini.recommendationModel.generateContent([
         Content.text(prompt.text),
       ]);
 

@@ -68,7 +68,7 @@ class _UserProfileState extends State<UserProfile> {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(UserProfileController());
+    final controller = Get.find<UserProfileController>();
 
     return Scaffold(
         appBar: AppBar(

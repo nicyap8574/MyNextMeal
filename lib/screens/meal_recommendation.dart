@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 
 import '../common/styles/spacing_styles.dart';
 import '../features/controllers/meal_recommendation_controller.dart';
@@ -22,6 +23,7 @@ class _MealRecommendationState extends State<MealRecommendation> {
   Widget build(BuildContext context) {
     final dark = AppHelperFunctions.isDarkMode(context);
     final controller = Get.put(MealRecommendationController());
+    final repo = Get.put(MealRecommendationController());
 
     return Scaffold(
         backgroundColor: dark ? AppColors.darkBackground : AppColors.lightBackground,
@@ -96,21 +98,55 @@ class _MealRecommendationState extends State<MealRecommendation> {
                           }
                       ),
                     // )
-                  ],
+
+                      const SizedBox(height: AppSizes.spaceBtwSections),
+
+                      Container(
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              padding: EdgeInsets.all(16),
+                            ),
+                            onPressed: () => controller.generateMealRecs(),
+                            child: Text("Generate Meal Recommendations"),
+                          ),
+                      ),
+
+                      const SizedBox(height: AppSizes.spaceBtwSections),
+
+                      Obx((){
+                        if(controller.isLoading.value == true){
+                          return Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children:[
+                                const CircularProgressIndicator(),
+                                const SizedBox(height: AppSizes.spaceBtwItems),
+                                Text("Response is loading..."),
+                              ],
+                            ),
+                          );
+                        }else{
+                          return Text(repo.response.value);
+                        }
+                      }),
+
+                    ],
                   ),
                 ),
 
-                const SizedBox(height: AppSizes.spaceBtwSections),
+                // const SizedBox(height: AppSizes.spaceBtwSections),
+                //
+                // Container(
+                //   child: ElevatedButton(
+                //     style: ElevatedButton.styleFrom(
+                //       padding: EdgeInsets.all(16),
+                //     ),
+                //     onPressed: () => controller.generateMealRecs(),
+                //     child: Text("Generate Meal Recommendations"),
+                //   )
+                // )
 
-                Container(
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.all(16),
-                    ),
-                    onPressed: () => controller.generateMealRecs(),
-                    child: Text("Generate Meal Recommendations"),
-                  )
-                )
+
               ],
             ),
           )

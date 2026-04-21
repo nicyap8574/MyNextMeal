@@ -73,7 +73,7 @@ class ImageAnalysisController{
       );
 
       //generate text output
-      final result = await gemini.model.generateContent([
+      final result = await gemini.analysisModel.generateContent([
         Content.multi([prompt,imagePart])
       ]);
 

@@ -1,14 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_ai/firebase_ai.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:mynextmeal/features/controllers/user_profile_controller.dart';
+
+import 'gemini_controller.dart';
 
 class MealRecommendationController {
   static MealRecommendationController get instance => Get.find();
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
+  List<Map<String, dynamic>> todayMeals = [];
+  final RxBool isLoading = false.obs;
+  final gemini = GeminiController();
+  late RxString response = "".obs;
 
-  Future<QuerySnapshot<Map<String, dynamic>>> getTodayMeals() async{
+  Future<QuerySnapshot<Map<String, dynamic>>> displayTodayMeals() async{
     //retrieves details of current user
     final user = _auth.currentUser;
 
@@ -24,8 +33,144 @@ class MealRecommendationController {
         .where('createdAt', isLessThan: Timestamp.fromDate(dateTmr))
         .get();
 
+
+    //add today's meals into a List
+
+    for(var x in todayMeal.docs){
+      todayMeals.add(x.data());
+    }
+
     return todayMeal;
   }
 
+  Future<void> generateMealRecs() async{
+    try{
+      isLoading.value = true;
+      final user = _auth.currentUser;
+      TextPart prompt;
 
+      //check if meal history is empty
+      if(todayMeals.isEmpty){
+        final data = await UserProfileController.instance.getSelectedPreferences();
+
+        //user selected dietary goals
+        Map<String,dynamic>? selectedDietOptions = data?['dietOptions'];
+        Map<String,dynamic>? selectedDietaryFocus = data?['dietaryFocus'];
+
+        prompt = TextPart("""
+          No previous meals have been recorded.
+          
+          User dietary goals and preferences include:
+          Diet Options: $selectedDietOptions
+          Dietary Focus: $selectedDietaryFocus
+          
+          Generate the following
+          - 3 meal recommendations to maintain a healthy diet, while following diet options and dietary focus
+          - Keep it simple
+          """);
+      }else{
+        int carbsCount = 0;
+        int proteinCount = 0;
+        int fatsCount = 0;
+
+        for(var x=0; x<todayMeals.length; x++){
+          switch(todayMeals[x]['analysis']['nutrients'][0]['carbs_macro']){
+            case 'High':
+              carbsCount+=3;
+              break;
+            case 'Medium':
+              carbsCount+=2;
+              break;
+            case 'Low':
+              carbsCount+=1;
+              break;
+            default:
+              carbsCount+=0;
+          }
+
+          switch(todayMeals[x]['analysis']['nutrients'][0]['protein_macro']){
+            case 'High':
+              proteinCount+=3;
+              break;
+            case 'Medium':
+              proteinCount+=2;
+              break;
+            case 'Low':
+              proteinCount+=1;
+              break;
+            default:
+              proteinCount+=0;
+          }
+
+          switch(todayMeals[x]['analysis']['nutrients'][0]['fats_macro']){
+            case 'High':
+              fatsCount+=3;
+              break;
+            case 'Medium':
+              fatsCount+=2;
+              break;
+            case 'Low':
+              fatsCount+=1;
+              break;
+            default:
+              fatsCount+=0;
+          }
+        }
+        // print("Carbs Index: $carbsCount");
+        // print("Protein Index: $proteinCount");
+        // print("Fats Index: $fatsCount");
+
+        //Calculate nutrition ratio
+        double carbsRatio = carbsCount / (todayMeals.length * 3);
+        double proteinRatio = proteinCount / (todayMeals.length * 3);
+        double fatsRatio = fatsCount / (todayMeals.length * 3);
+
+        //round to 2dp
+        double carbsRatioRounded = double.parse(carbsRatio.toStringAsFixed(2));
+        double proteinRatioRounded = double.parse(proteinRatio.toStringAsFixed(2));
+        double fatsRatioRounded = double.parse(fatsRatio.toStringAsFixed(2));
+
+        final data = await UserProfileController.instance.getSelectedPreferences();
+
+        //user selected dietary goals
+        Map<String,dynamic>? selectedDietOptions = data?['dietOptions'];
+        Map<String,dynamic>? selectedDietaryFocus = data?['dietaryFocus'];
+
+        prompt = TextPart("""
+          User nutrition summary for today:
+          Carbs: $carbsRatioRounded
+          Protein: $proteinRatioRounded
+          Fats: $fatsRatioRounded
+          
+          User dietary goals and preferences include:
+          Diet Options: $selectedDietOptions
+          Dietary Focus: $selectedDietaryFocus
+          
+          Generate the following
+          - Explain what is imbalanced
+          - 3 meal recommendations to maintain a healthy diet, while following diet options and dietary focus
+          - Keep it simple
+          """);
+      }
+
+      //generate text output
+      final result = await gemini.model.generateContent([
+        Content.text(prompt.text),
+      ]);
+
+      if(result.text!.contains("error") || result.text!.contains("Overloaded")){
+        response.value = "AI is currently busy. Please try again later.";
+        return;
+      }
+
+      response.value = result.text!;
+
+      //TODO: Output result in frontend, backend is done
+
+      // print("===== MEAL RECOMMENDATIONS =====");
+      // print(todayMeals);
+    }catch(e){
+      print(e);
+    }
+  }
 }

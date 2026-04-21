@@ -16,6 +16,8 @@ class MealRecommendation extends StatefulWidget {
 }
 
 class _MealRecommendationState extends State<MealRecommendation> {
+
+
   @override
   Widget build(BuildContext context) {
     final dark = AppHelperFunctions.isDarkMode(context);
@@ -35,7 +37,6 @@ class _MealRecommendationState extends State<MealRecommendation> {
 
               children: [
                 Container(
-                  height: 300,
                   width: double.infinity,
                   padding: const EdgeInsets.all(16),
 
@@ -53,14 +54,16 @@ class _MealRecommendationState extends State<MealRecommendation> {
                   
                   child: Column(
                     // crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
                           "Today's Meals",
                           style: TextStyle(fontSize: AppSizes.md, fontWeight: FontWeight.bold)),
 
-                      Expanded(
-                      child: FutureBuilder(
-                          future: controller.getTodayMeals(),
+                      // Expanded(
+                      // child:
+                      FutureBuilder(
+                          future: controller.displayTodayMeals(),
                           builder: (context, todayMeal){
 
                             if(todayMeal.connectionState == ConnectionState.waiting){
@@ -79,9 +82,10 @@ class _MealRecommendationState extends State<MealRecommendation> {
 
                             return ListView.builder(
                                 itemCount: meals.length,
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
                                 itemBuilder: (context,index){
                                   final meal = meals[index].data(); //JSON output from Firestore
-                                  print(meal);
                                   return ListTile(
                                     title: Text(meal['analysis']['nutrients'][0]['meal_name'] ?? 'No name'),
                                     subtitle: Text(
@@ -91,18 +95,26 @@ class _MealRecommendationState extends State<MealRecommendation> {
                             );
                           }
                       ),
-                    )],
-
-
+                    // )
+                  ],
                   ),
+                ),
+
+                const SizedBox(height: AppSizes.spaceBtwSections),
+
+                Container(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.all(16),
+                    ),
+                    onPressed: () => controller.generateMealRecs(),
+                    child: Text("Generate Meal Recommendations"),
+                  )
                 )
               ],
-
             ),
           )
         )
-
-
     );
   }
 }

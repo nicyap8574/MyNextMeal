@@ -10,37 +10,11 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../../data/repositories/image_analysis_repository.dart';
 import '../../utils/helpers/helper_functions.dart';
+import 'gemini_controller.dart';
 
 class ImageAnalysisController{
+  final gemini = GeminiController();
 
-  //JSON format
-  static final jsonSchema = Schema.object(
-      properties: {
-        'nutrients': Schema.array(
-            items: Schema.object(
-                properties: {
-                  'meal_name': Schema.string(),
-                  'detected_ingredients': Schema.array(
-                    items: Schema.string(),
-                  ),
-                  'carbs_macro': Schema.enumString(enumValues: ['Low', 'Medium', 'High', 'Unknown']),
-                  'protein_macro': Schema.enumString(enumValues: ['Low', 'Medium', 'High', 'Unknown']),
-                  'fats_macro': Schema.enumString(enumValues: ['Low', 'Medium', 'High', 'Unknown']),
-                  'meal_healthiness': Schema.enumString(enumValues: ['Unhealthy', 'Moderate', 'Healthy', 'Unknown']),
-                  'confidence_level': Schema.enumString(enumValues: ['Low', 'Medium', 'High']),
-                  'brief_summary': Schema.string(),
-                }
-            )
-        )
-      }
-  );
-
-  //Initialise the Gemini Developer API backend
-  final model = FirebaseAI.googleAI().generativeModel(
-      // model: 'gemini-3.1-flash-lite-preview',
-      model: 'gemini-2.5-flash-lite',
-      generationConfig: GenerationConfig(
-          responseMimeType: 'application/json', responseSchema: jsonSchema));
 
   late RxString response = "".obs;
   final RxBool isLoading = false.obs;
@@ -85,7 +59,6 @@ class ImageAnalysisController{
       isLoading.value = true;
       final user = _auth.currentUser;
 
-
       //text prompt
       final prompt = TextPart("Analyze this meal image. Identify the ingredients and estimate the macronutrient composition (carbs, protein, fat as low/medium/high) and give an overall meal healthiness (unhealthy/moderate/healthy) and confidence level (low/medium/high). Provide a brief summary of the meal's nutritional profile. For anything you're unsure about, just state ""Unknown"".");
 
@@ -100,7 +73,7 @@ class ImageAnalysisController{
       );
 
       //generate text output
-      final result = await model.generateContent([
+      final result = await gemini.model.generateContent([
         Content.multi([prompt,imagePart])
       ]);
 

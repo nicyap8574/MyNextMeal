@@ -46,6 +46,8 @@ class MealRecommendationController {
   }
 
   Future<void> generateMealRecs() async{
+    var result;
+
     try{
       isLoading.value = true;
       final user = _auth.currentUser;
@@ -56,8 +58,8 @@ class MealRecommendationController {
         final data = await UserProfileController.instance.getSelectedPreferences();
 
         //user selected dietary goals
-        Map<String,dynamic>? selectedDietOptions = data?['dietOptions'];
-        Map<String,dynamic>? selectedDietaryFocus = data?['dietaryFocus'];
+        List<dynamic>? selectedDietOptions = data?['dietOptions'];
+        List<dynamic>? selectedDietaryFocus = data?['dietaryFocus'];
 
         prompt = TextPart("""
           No previous meals have been recorded.
@@ -70,6 +72,12 @@ class MealRecommendationController {
           - 3 meal recommendations to maintain a healthy diet, while following diet options and dietary focus
           - Keep it simple
           """);
+
+        //generate text output
+        result = await gemini.recommendationModel_NoPreviousMeals.generateContent([
+          Content.text(prompt.text),
+        ]);
+
       }else{
         int carbsCount = 0;
         int proteinCount = 0;
@@ -153,12 +161,12 @@ class MealRecommendationController {
           - 3 meal recommendations to maintain a healthy diet, while following diet options and dietary focus
           - Keep it simple
           """);
-      }
 
-      //generate text output
-      final result = await gemini.recommendationModel.generateContent([
-        Content.text(prompt.text),
-      ]);
+        //generate text output
+        result = await gemini.recommendationModel_PreviousMeals.generateContent([
+          Content.text(prompt.text),
+        ]);
+      }
 
       if(result.text!.contains("error") || result.text!.contains("Overloaded")){
         response.value = "AI is currently busy. Please try again later.";
@@ -173,6 +181,8 @@ class MealRecommendationController {
       // print(todayMeals);
     }catch(e){
       print(e);
+    }finally{
+      isLoading.value = false;
     }
   }
 }

@@ -23,7 +23,6 @@ class _MealRecommendationState extends State<MealRecommendation> {
   Widget build(BuildContext context) {
     final dark = AppHelperFunctions.isDarkMode(context);
     final controller = Get.put(MealRecommendationController());
-    final repo = Get.put(MealRecommendationController());
 
     return Scaffold(
         backgroundColor: dark ? AppColors.darkBackground : AppColors.lightBackground,
@@ -38,6 +37,7 @@ class _MealRecommendationState extends State<MealRecommendation> {
               mainAxisAlignment: MainAxisAlignment.center,
 
               children: [
+                //Container to display today's meals
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.all(16),
@@ -52,6 +52,7 @@ class _MealRecommendationState extends State<MealRecommendation> {
                         offset: Offset(0,4),
                       ),
                     ],
+                    borderRadius: BorderRadius.circular(20),
                   ),
                   
                   child: Column(
@@ -62,95 +63,77 @@ class _MealRecommendationState extends State<MealRecommendation> {
                           "Today's Meals",
                           style: TextStyle(fontSize: AppSizes.md, fontWeight: FontWeight.bold)),
 
-                      // Expanded(
-                      // child:
+                      SizedBox(height: AppSizes.spaceBtwItems),
+
                       FutureBuilder(
-                          future: controller.displayTodayMeals(),
-                          builder: (context, todayMeal){
+                        future: controller.displayTodayMeals(),
+                        builder: (context, todayMeal){
 
-                            if(todayMeal.connectionState == ConnectionState.waiting){
-                              return const Center(child: CircularProgressIndicator());
-                            }
-
-                            if(!todayMeal.hasData || todayMeal.data!.docs.isEmpty){
-                              return const Center(child: Text("No meals found"));
-                            }
-
-                            if(todayMeal.hasError){
-                              return Center(child: Text(todayMeal.error.toString()));
-                            }
-
-                            final meals = todayMeal.data!.docs;
-
-                            return ListView.builder(
-                                itemCount: meals.length,
-                                shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
-                                itemBuilder: (context,index){
-                                  final meal = meals[index].data(); //JSON output from Firestore
-                                  return ListTile(
-                                    title: Text(meal['analysis']['nutrients'][0]['meal_name'] ?? 'No name'),
-                                    subtitle: Text(
-                                        "Carbs: ${meal['analysis']['nutrients'][0]['carbs_macro']} | Protein: ${meal['analysis']['nutrients'][0]['protein_macro']} | Fats: ${meal['analysis']['nutrients'][0]['fats_macro']} "),
-                                  );
-                                }
-                            );
+                          if(todayMeal.connectionState == ConnectionState.waiting){
+                            return const Center(child: CircularProgressIndicator());
                           }
-                      ),
-                    // )
 
-                      const SizedBox(height: AppSizes.spaceBtwSections),
+                          if(!todayMeal.hasData || todayMeal.data!.docs.isEmpty){
+                            return const Center(child: Text("No meals found"));
+                          }
 
-                      Container(
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              padding: EdgeInsets.all(16),
-                            ),
-                            onPressed: () => controller.generateMealRecs(),
-                            child: Text("Generate Meal Recommendations"),
-                          ),
-                      ),
+                          if(todayMeal.hasError){
+                            return Center(child: Text(todayMeal.error.toString()));
+                          }
 
-                      const SizedBox(height: AppSizes.spaceBtwSections),
+                          final meals = todayMeal.data!.docs;
 
-                      Obx((){
-                        if(controller.isLoading.value == true){
-                          return Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children:[
-                                const CircularProgressIndicator(),
-                                const SizedBox(height: AppSizes.spaceBtwItems),
-                                Text("Response is loading..."),
-                              ],
-                            ),
+                          return ListView.builder(
+                              itemCount: meals.length,
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemBuilder: (context,index){
+                                final meal = meals[index].data(); //JSON output from Firestore
+                                return ListTile(
+                                  title: Text(meal['analysis']['nutrients'][0]['meal_name'] ?? 'No name'),
+                                  subtitle: Text(
+                                      "Carbs: ${meal['analysis']['nutrients'][0]['carbs_macro']} | Protein: ${meal['analysis']['nutrients'][0]['protein_macro']} | Fats: ${meal['analysis']['nutrients'][0]['fats_macro']} "),
+                                );
+                              }
                           );
-                        }else{
-                          return Text(repo.response.value);
                         }
-                      }),
-
+                      ),
                     ],
                   ),
                 ),
 
-                // const SizedBox(height: AppSizes.spaceBtwSections),
-                //
-                // Container(
-                //   child: ElevatedButton(
-                //     style: ElevatedButton.styleFrom(
-                //       padding: EdgeInsets.all(16),
-                //     ),
-                //     onPressed: () => controller.generateMealRecs(),
-                //     child: Text("Generate Meal Recommendations"),
-                //   )
-                // )
+                const SizedBox(height: AppSizes.spaceBtwSections),
 
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.all(16),
+                  ),
+                  onPressed: () => controller.generateMealRecs(),
+                  child: const Text("Generate Meal Recommendations"),
+                ),
 
+                const SizedBox(height: AppSizes.spaceBtwSections),
+
+                Obx(() {
+                  if (controller.isLoading.value == true) {
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const CircularProgressIndicator(),
+                          const SizedBox(height: AppSizes.spaceBtwItems),
+                          const Text("Response is loading..."),
+                        ],
+                      ),
+                    );
+                  } else {
+                    return Text(controller.response.value);
+                  }
+                }),
               ],
             ),
-          )
-        )
+          ),
+        ),
     );
   }
 }

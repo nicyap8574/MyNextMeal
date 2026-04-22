@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -23,6 +25,7 @@ class _MealRecommendationState extends State<MealRecommendation> {
   Widget build(BuildContext context) {
     final dark = AppHelperFunctions.isDarkMode(context);
     final controller = Get.put(MealRecommendationController());
+    final todayMeals = controller.todayMeals;
 
     return Scaffold(
         backgroundColor: dark ? AppColors.darkBackground : AppColors.lightBackground,
@@ -127,7 +130,71 @@ class _MealRecommendationState extends State<MealRecommendation> {
                       ),
                     );
                   } else {
-                    return Text(controller.response.value);
+                    if (controller.response.value.isEmpty) {
+                      return const SizedBox.shrink();
+                    }
+
+                    final data = jsonDecode(controller.response.value);
+                    final recommendations = data['recommendations'] as List<dynamic>;
+                    final meal = recommendations[0] as Map<String, dynamic>;
+                    final mealName = meal['meal_name'];
+                    final description = meal['description'];
+                    // if(todayMeals.isNotEmpty){
+                    //   final imbalanced_explanation = meal['imbalanced_explanation'];
+                    // }
+                    final mainIngredients = meal['main_ingredients'] as List<dynamic>;
+                    final suitableFor = meal['suitable_for'] as List<dynamic>;
+
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children:[
+                        for (var meal in recommendations)
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Dish Name"),
+                              Chip(
+                                label: Text(meal['meal_name']),
+                              ),
+
+                              const SizedBox(height: AppSizes.spaceBtwItems),
+
+                              Text("Description"),
+                              Text(meal['description']),
+
+                              const SizedBox(height: AppSizes.spaceBtwItems),
+
+                              if(todayMeals.isNotEmpty)
+                                Text("Reasoning"),
+                                Text(meal['imbalanced_explanation'] ?? "No reasoning available") ,
+
+                              const SizedBox(height: AppSizes.spaceBtwItems),
+
+                              Text("Main Ingredients"),
+                              Wrap(
+                                spacing: 8,
+                                children: (meal['main_ingredients'] as List<dynamic>).map((individual_ingredient){
+                                  return Chip(
+                                    label: Text(individual_ingredient),
+                                  );
+                                }).toList(),
+                              ),
+
+                              const SizedBox(height: AppSizes.spaceBtwItems),
+
+                              Text("Suitable For"),
+                              Wrap(
+                                spacing: 8,
+                                children: (meal['suitable_for'] as List<dynamic>).map((individual_suitableFor){
+                                  return Chip(
+                                    label: Text(individual_suitableFor),
+                                  );
+                                }).toList(),
+                              ),
+                            ],
+                          ),
+                      ],
+                    );
                   }
                 }),
               ],

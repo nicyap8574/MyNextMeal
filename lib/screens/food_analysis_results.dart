@@ -152,10 +152,6 @@ class FoodAnalysisResults extends StatelessWidget {
           )
         )
       )
-
     );
-
-
-
   }
 }

@@ -35,13 +35,10 @@ class MealRecommendationController {
         .where('createdAt', isLessThan: Timestamp.fromDate(dateTmr))
         .get();
 
-
     //add today's meals into a List
-
     for(var x in todayMeal.docs){
       todayMeals.add(x.data());
     }
-
     return todayMeal;
   }
 

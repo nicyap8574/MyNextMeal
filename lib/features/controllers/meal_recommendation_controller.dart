@@ -140,8 +140,8 @@ class MealRecommendationController {
         final data = await UserProfileController.instance.getSelectedPreferences();
 
         //user selected dietary goals
-        Map<String,dynamic>? selectedDietOptions = data?['dietOptions'];
-        Map<String,dynamic>? selectedDietaryFocus = data?['dietaryFocus'];
+        List<dynamic>? selectedDietOptions = data?['dietOptions'];
+        List<dynamic>? selectedDietaryFocus = data?['dietaryFocus'];
 
         prompt = TextPart("""
           User nutrition summary for today:

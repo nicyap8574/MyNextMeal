@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:intl/intl.dart';
 
 import '../features/controllers/meal_history_controller.dart';
 import '../utils/constants/colors.dart';
@@ -73,28 +74,36 @@ class MealHistory extends StatelessWidget {
                                 itemBuilder: (context,index){
                                   final meal = meals[index].data(); //JSON output from Firestore
 
+                                  // print(meal);
+
+                                  //format date for output
+                                  final timestamp = meal['createdAt'];
+                                  final date = timestamp.toDate();
+                                  final formattedDate = DateFormat('dd MMM yyyy, hh:mm a').format(date);
+
                                   return Container(
                                     width: double.infinity,
                                     margin: const EdgeInsets.symmetric(vertical: AppSizes.spaceBtwItems/2, horizontal: 16),
-                                    // padding: const EdgeInsets.all(16),
 
                                     decoration: BoxDecoration(
-                                      color: Color(0xFFF8F5D3),
+                                      // color: AppColors.lightContainer,
+                                      color: AppColors.white,
                                       border: Border.all(color: Colors.transparent, width: 0),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: AppColors.darkerGrey.withOpacity(0.3),
+                                          color: AppColors.darkerGrey.withOpacity(0.1),
                                           blurRadius: 10,
                                           offset: Offset(0,4),
                                         ),
                                       ],
-                                      borderRadius: BorderRadius.circular(20),
+                                      borderRadius: BorderRadius.circular(5),
                                     ),
 
                                     child: ListTile(
                                       title: Text(meal['analysis']['nutrients'][0]['meal_name'] ?? 'No name'),
                                       subtitle: Text(
-                                          "Carbs: ${meal['analysis']['nutrients'][0]['carbs_macro']} | Protein: ${meal['analysis']['nutrients'][0]['protein_macro']} | Fats: ${meal['analysis']['nutrients'][0]['fats_macro']} "),
+                                          "Carbs: ${meal['analysis']['nutrients'][0]['carbs_macro']} | Protein: ${meal['analysis']['nutrients'][0]['protein_macro']} | Fats: ${meal['analysis']['nutrients'][0]['fats_macro']} \n"
+                                          "Uploaded At: $formattedDate"),
                                     )
                                   );
                                 }

@@ -6,6 +6,8 @@ import 'package:mynextmeal/common/styles/spacing_styles.dart';
 import 'package:mynextmeal/utils/constants/sizes.dart';
 
 import '../features/controllers/user_profile_controller.dart';
+import '../utils/constants/colors.dart';
+import '../utils/helpers/helper_functions.dart';
 import '../utils/popups/loaders.dart';
 
 class UserProfile extends StatefulWidget {
@@ -68,10 +70,12 @@ class _UserProfileState extends State<UserProfile> {
 
   @override
   Widget build(BuildContext context) {
+    final dark = AppHelperFunctions.isDarkMode(context);
     final controller = Get.find<UserProfileController>();
 
     return Scaffold(
-        appBar: AppBar(
+      backgroundColor: dark ? AppColors.darkBackground : AppColors.lightBackground,
+      appBar: AppBar(
           title: const Text("My Profile"),
         ),
         body: SingleChildScrollView(
@@ -98,8 +102,19 @@ class _UserProfileState extends State<UserProfile> {
                         final isSelected = selectedDietOptions.contains(index);
 
                         return ChoiceChip(
-                          label: Text(dietOptions[index]),
+                          label: Text(
+                              dietOptions[index],
+                              style: TextStyle(
+                                color: isSelected ? AppColors.textWhite : AppColors.textPrimary,
+                              )),
+                          backgroundColor: AppColors.primaryButton.withOpacity(0.1),
+                          selectedColor: AppColors.primaryButton,
                           selected: isSelected,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            side: BorderSide(color: Colors.transparent),
+                          ),
+                          // showCheckmark: false,
                           onSelected: (bool selected){
                             setState((){
                               if (isSelected){
@@ -134,8 +149,18 @@ class _UserProfileState extends State<UserProfile> {
                         final isSelected = selectedDietaryFocus.contains(index);
 
                         return ChoiceChip(
-                            label: Text(dietaryFocus[index]),
+                            label: Text(
+                                dietaryFocus[index],
+                                style: TextStyle(
+                                  color: isSelected ? AppColors.textWhite : AppColors.textPrimary,
+                                )),
+                            backgroundColor: AppColors.primaryButton.withOpacity(0.1),
+                            selectedColor: AppColors.primaryButton,
                             selected: isSelected,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                              side: BorderSide(color: Colors.transparent),
+                            ),
                             onSelected: (bool selected){
                               setState((){
                                 if (isSelected){

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mynextmeal/data/repositories/authentication_repository.dart';
 
 import '../../data/repositories/user_repository.dart';
+import '../../screens/login.dart';
 import '../../utils/popups/loaders.dart';
 import '../models/user_model.dart';
 
@@ -52,8 +54,7 @@ class SignupController extends GetxController{
 
       //Show success message
       AppLoaders.showSnackBar(context, "User created successfully");
-
-
+      Get.to(LoginScreen());
 
       //catch errors with Firebase Authentication
     } on FirebaseAuthException catch (e) {

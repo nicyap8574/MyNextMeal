@@ -79,6 +79,7 @@ class MealHistory extends StatelessWidget {
                                   //format date for output
                                   final timestamp = meal['createdAt'];
                                   final date = timestamp.toDate();
+                                  // final formattedDay = DateFormat('dd MMM yyyy').format(date);
                                   final formattedDate = DateFormat('dd MMM yyyy, hh:mm a').format(date);
 
                                   return Container(

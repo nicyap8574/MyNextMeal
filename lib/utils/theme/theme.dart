@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mynextmeal/utils/theme/custom_themes/chip_theme.dart';
+import '../constants/colors.dart';
 import 'custom_themes/appbar_theme.dart';
 import 'custom_themes/bottom_sheet_theme.dart';
 import 'custom_themes/checkbox_thene.dart';
 import 'custom_themes/elevated_button_theme.dart';
 import 'custom_themes/outlined_button_theme.dart';
+import 'custom_themes/progress_indicator_theme.dart';
 import 'custom_themes/text_field_name.dart';
 import 'custom_themes/text_theme.dart';
 
@@ -25,6 +27,7 @@ class AppTheme{
     bottomSheetTheme: AppBottomSheetTheme.lightBottomSheetTheme,
     inputDecorationTheme: AppTextFieldName.lightInputDecorationTheme,
     checkboxTheme: AppCheckboxTheme.lightCheckboxTheme,
+    progressIndicatorTheme: AppProgressIndicatorTheme.lightProgressIndicatorTheme,
 
     //TODO: Add other themes, such as bottomNavigationBarTheme
   );
@@ -43,6 +46,7 @@ class AppTheme{
     bottomSheetTheme: AppBottomSheetTheme.darkBottomSheetTheme,
     inputDecorationTheme: AppTextFieldName.darkInputDecorationTheme,
     checkboxTheme: AppCheckboxTheme.darkCheckboxTheme,
+    progressIndicatorTheme: AppProgressIndicatorTheme.darkProgressIndicatorTheme,
   );
 
 }

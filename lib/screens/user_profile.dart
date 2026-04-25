@@ -104,16 +104,8 @@ class _UserProfileState extends State<UserProfile> {
                         return ChoiceChip(
                           label: Text(
                               dietOptions[index],
-                              style: TextStyle(
-                                color: isSelected ? AppColors.textWhite : AppColors.textPrimary,
-                              )),
-                          backgroundColor: AppColors.primaryButton.withOpacity(0.1),
-                          selectedColor: AppColors.primaryButton,
-                          selected: isSelected,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                            side: BorderSide(color: Colors.transparent),
                           ),
+                          selected: isSelected,
                           // showCheckmark: false,
                           onSelected: (bool selected){
                             setState((){
@@ -151,16 +143,8 @@ class _UserProfileState extends State<UserProfile> {
                         return ChoiceChip(
                             label: Text(
                                 dietaryFocus[index],
-                                style: TextStyle(
-                                  color: isSelected ? AppColors.textWhite : AppColors.textPrimary,
-                                )),
-                            backgroundColor: AppColors.primaryButton.withOpacity(0.1),
-                            selectedColor: AppColors.primaryButton,
-                            selected: isSelected,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20.0),
-                              side: BorderSide(color: Colors.transparent),
                             ),
+                            selected: isSelected,
                             onSelected: (bool selected){
                               setState((){
                                 if (isSelected){

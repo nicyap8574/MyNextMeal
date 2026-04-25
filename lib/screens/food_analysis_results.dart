@@ -11,6 +11,7 @@ import '../features/controllers/image_analysis_controller.dart';
 import '../utils/constants/colors.dart';
 import '../utils/constants/sizes.dart';
 import '../utils/helpers/helper_functions.dart';
+import 'image_analysis.dart';
 
 class FoodAnalysisResults extends StatelessWidget {
   const FoodAnalysisResults({super.key});
@@ -57,14 +58,7 @@ class FoodAnalysisResults extends StatelessWidget {
               Obx((){
                 if(controller.isLoading.value == true){
                   return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children:[
-                        const CircularProgressIndicator(),
-                        const SizedBox(height: AppSizes.spaceBtwItems),
-                        Text("Response is loading..."),
-                      ],
-                    ),
+                    child: const CircularProgressIndicator(),
                   );
                 }else{
                   if (controller.response.value.isEmpty) {
@@ -142,6 +136,30 @@ class FoodAnalysisResults extends StatelessWidget {
 
                         Text("Brief Summary"),
                         Text(briefSummary),
+
+                        const SizedBox(height: AppSizes.spaceBtwItems),
+
+                        //save meal
+                        ElevatedButton(
+                            onPressed: () async {
+                              // final data = controller.response.value as Map<String,dynamic>;
+                              final data = jsonDecode(controller.response.value);
+                              final imageUrl = controller.foodImage.value!.path;
+                              await controller.saveMealRecord(data, imageUrl, context);
+                            },
+                            child: const Text("Save Meal"),
+                        ),
+
+                        //cancel meal save
+                        ElevatedButton(
+                            onPressed: () async {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const ImageAnalysis()),
+                              );
+                            },
+                            child: const Text("Cancel"),
+                        ),
                       ]
                   );
 

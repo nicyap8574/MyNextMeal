@@ -12,7 +12,10 @@ class App extends StatelessWidget {
       themeMode: ThemeMode.system,
       theme: AppTheme.lightMode,
       darkTheme: AppTheme.darkMode,
-      home: const Scaffold(backgroundColor: AppColors.primary, body: Center(child: CircularProgressIndicator(color: Colors.white))),
+      home: const Scaffold(
+          backgroundColor: AppColors.primary,
+          body: Center(),
+      ),
     );
   }
 }

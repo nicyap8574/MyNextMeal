@@ -4,12 +4,15 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_ai/firebase_ai.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../data/repositories/image_analysis_repository.dart';
 import '../../utils/helpers/helper_functions.dart';
+import '../../utils/popups/loaders.dart';
 import 'gemini_controller.dart';
 
 class ImageAnalysisController{
@@ -84,13 +87,6 @@ class ImageAnalysisController{
 
       response.value = result.text!;
 
-      try{
-        //change into appropriate format to be understood
-        final data = jsonDecode(response.value) as Map<String,dynamic>;
-        await saveMealRecord(data, imageUrl);
-      }catch (e){
-        response.value = "Response is unable to be generated. Please try again later.";
-      }
     }catch(e){
       response.value = "An error has occurred. Please try again.";
     }finally{
@@ -99,14 +95,20 @@ class ImageAnalysisController{
   }
 
   //Map<String,dynamic> --> every key is a String, every value is dynamic
-  Future<void> saveMealRecord(Map<String, dynamic> json, String imageUrl) async{
+  Future<void> saveMealRecord(Map<String, dynamic> json, String imageUrl, BuildContext context) async{
     final user = _auth.currentUser;
 
-    await _db.collection('meals').add({
-      'analysis': json,
-      'imageUrl': imageUrl,
-      'createdAt': FieldValue.serverTimestamp(),
-      'user': user!.uid,
-    });
+    try{
+      await _db.collection('meals').add({
+        'analysis': json,
+        'imageUrl': imageUrl,
+        'createdAt': FieldValue.serverTimestamp(),
+        'user': user!.uid,
+      });
+
+      AppLoaders.showSnackBar(context, "Meal Saved Successfully");
+    }catch(e){
+      print("Error saving meal: $e");
+    }
   }
 }

@@ -33,7 +33,6 @@ class _CameraScreenState extends State<CameraScreen> {
     controller.initCamera(widget.camera);
   }
 
-  //TODO: Dispose camera
   @override
   void dispose(){
     //dispose controller when widget is disposed

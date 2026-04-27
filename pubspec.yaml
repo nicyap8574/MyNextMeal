@@ -17,7 +17,7 @@ dependencies:
   intl: ^0.20.2
   logger: ^2.0.1
   url_launcher: ^6.1.12
-  flutter_native_splash: ^2.3.2
+  flutter_native_splash: ^2.4.7
   smooth_page_indicator: ^2.0.1
 
   # Icons
@@ -42,6 +42,7 @@ dependencies:
   permission_handler: ^12.0.1
   device_info_plus: ^13.0.0
   flutter_svg: ^2.2.4
+  connectivity: ^3.0.6
 
 
 
@@ -54,9 +55,15 @@ dev_dependencies:
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/icons/logo.png"
   adaptive_icon_foreground: "assets/icons/play_store_512.png"
   adaptive_icon_background: "#366339"
+
+flutter_native_splash:
+  color: "#366339"
+  android_12:
+    color: "#366339"
+  ios: true
+
 
 flutter:
   uses-material-design: true

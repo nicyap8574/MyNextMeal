@@ -6,7 +6,6 @@ import '../../data/repositories/authentication_repository.dart';
 import '../../utils/popups/loaders.dart';
 
 class LoginController extends GetxController {
-  static LoginController get instance => Get.find();
 
   //Variables
   final hidePassword = true.obs; //observer

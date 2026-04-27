@@ -172,8 +172,6 @@ class MealRecommendationController {
 
       response.value = result.text!;
 
-      //TODO: Output result in frontend, backend is done
-
       // print("===== MEAL RECOMMENDATIONS =====");
       // print(todayMeals);
     }catch(e){

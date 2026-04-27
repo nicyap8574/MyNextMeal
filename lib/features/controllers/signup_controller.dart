@@ -15,7 +15,6 @@ import '../../utils/popups/loaders.dart';
 import '../models/user_model.dart';
 
 class SignupController extends GetxController{
-  static SignupController get instance => Get.find();
 
   //Variables
   final hidePassword = true.obs;

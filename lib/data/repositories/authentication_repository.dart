@@ -59,12 +59,21 @@ class AuthenticationRepository extends GetxController{
       return await _auth.createUserWithEmailAndPassword(email: email, password: password);
     }on FirebaseAuthException catch (e){
       final details = e.message ?? 'No additional details provided.';
-
       if(e.code == 'email-already-in-use'){
         throw 'Email has already been used';
       }else{
         throw 'Authentication failed (${e.code}): $details';
       }
+    }
+  }
+
+  //Forgot password
+  Future<void> forgotPassword(String email) async{
+    try{
+      await _auth.sendPasswordResetEmail(email: email);
+      AppLoaders.showSnackBar(Get.context!, "Password reset email sent");
+    }on FirebaseAuthException catch (e){
+      final details = e.message ?? 'No additional details provided.';
     }
   }
 

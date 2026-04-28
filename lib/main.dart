@@ -6,6 +6,7 @@ import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:mynextmeal/features/controllers/user_profile_controller.dart';
 
+import 'data/network/network_manager.dart';
 import 'firebase_options.dart';
 
 import 'app.dart';
@@ -29,6 +30,7 @@ Future<void> main() async {
 
   Get.put(AuthenticationRepository());
   Get.put(UserProfileController());
+  Get.put(NetworkManager());
 
   runApp(const App());
 }

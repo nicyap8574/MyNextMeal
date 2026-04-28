@@ -13,6 +13,7 @@ import '../utils/constants/colors.dart';
 import '../utils/constants/image_strings.dart';
 import '../utils/constants/sizes.dart';
 import '../utils/validator/validator.dart';
+import 'forgot_password_sheet.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -66,7 +67,7 @@ class LoginScreen extends StatelessWidget {
                       validator: (value) => AppValidator.validateEmail(value),
                       decoration: const InputDecoration(
                           prefixIcon: Icon(Icons.email),
-                        labelText: "Email Address"
+                          labelText: "Email Address"
                       ),
                     ),
 
@@ -88,6 +89,7 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
                     ),
+
                     const SizedBox(height: AppSizes.sm),
 
 
@@ -105,7 +107,16 @@ class LoginScreen extends StatelessWidget {
 
                         //forgot password
                         TextButton(
-                          onPressed: (){},
+                          onPressed: (){
+                            Get.bottomSheet(
+                              ForgotPasswordSheet(email: ''),
+                              backgroundColor: dark ? AppColors.darkBackground : AppColors.lightBackground,
+                              isScrollControlled: true,
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                              )
+                            );
+                          },
                           child: const Text("Forgot Password?"),
                         )
                       ],

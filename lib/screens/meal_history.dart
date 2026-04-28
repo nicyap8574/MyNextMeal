@@ -101,7 +101,10 @@ class MealHistory extends StatelessWidget {
                                     ),
 
                                     child: ListTile(
-                                      title: Text(meal['analysis']['nutrients'][0]['meal_name'] ?? 'No name'),
+                                      title: Text(
+                                          meal['analysis']['nutrients'][0]['meal_name'] ?? 'No name',
+                                          style: TextStyle(fontWeight: FontWeight.bold)
+                                      ),
                                       subtitle: Text(
                                           "Carbs: ${meal['analysis']['nutrients'][0]['carbs_macro']} | Protein: ${meal['analysis']['nutrients'][0]['protein_macro']} | Fats: ${meal['analysis']['nutrients'][0]['fats_macro']} \n"
                                           "Uploaded At: $formattedDate"),

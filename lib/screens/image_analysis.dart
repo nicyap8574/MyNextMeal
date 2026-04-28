@@ -52,11 +52,20 @@ class ImageAnalysis extends StatelessWidget {
                 ),
                 child: ElevatedButton(
                     onPressed: () async{
-                      controller.pickImage();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const FoodAnalysisResults()),
-                      );
+
+                      final imageChosen = await controller.pickImage();
+
+                      if(!imageChosen){
+                        return;
+                      }
+
+                      Get.to(() => const FoodAnalysisResults());
+
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(builder: (context) => const FoodAnalysisResults()),
+                      // );
+
                     },
 
                     style: ElevatedButton.styleFrom(

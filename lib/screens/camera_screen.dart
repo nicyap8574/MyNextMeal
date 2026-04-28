@@ -1,5 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
@@ -61,7 +62,7 @@ class _CameraScreenState extends State<CameraScreen> {
 
                   //Capture button
                   SizedBox(
-                    height: 120,
+                    height: 150,
                       child: Center(
                         child: FloatingActionButton(
                           onPressed: () async {
@@ -77,15 +78,22 @@ class _CameraScreenState extends State<CameraScreen> {
                               //call for the analyseFoodImage() method
                               imageAnalysisController.analyseFoodImage(capturedImage);
 
-                              //return to the image_analysis screen
-                              // Get.back();
                               Get.to(FoodAnalysisResults());
                             }catch(e){
                               AppLoaders.showSnackBar(context, "An error has occurred. Please try again.");
                             }
-
                           },
-                          child: const Icon(Icons.camera),
+
+                          backgroundColor: AppColors.primary,
+                          shape: const CircleBorder(),
+                          elevation: 0,
+                          child: SvgPicture.asset("assets/icons/photo_camera_secondary.svg",  height: 40),
+
+                          // child: const Icon(Icons.camera),
+                          // child: const CircleAvatar(
+                          //   radius: 50,
+                          //   backgroundColor: Colors.black,
+                          // ),
                         ),
                       )
                   )

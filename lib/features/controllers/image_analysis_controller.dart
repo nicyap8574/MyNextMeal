@@ -27,7 +27,7 @@ class ImageAnalysisController{
   final _auth = FirebaseAuth.instance;
   final repo = Get.put(ImageAnalysisRepository());
 
-  Future<void> pickImage() async{
+  Future<bool> pickImage() async{
     Permission permission;
 
     //storage permission depending on Android version
@@ -38,7 +38,7 @@ class ImageAnalysisController{
         permission = Permission.storage;
       }
 
-      var status = await permission.request();
+    var status = await permission.request();
 
     if(status.isGranted){
       final XFile? image = await picker.pickImage(
@@ -47,14 +47,17 @@ class ImageAnalysisController{
       );
 
       if(image!=null){
-        // File file = File(image.path);
         foodImage.value = image;
         await analyseFoodImage(image);
+        return true;
         }
     }
     }else{
       print("Storage Permission Denied");
+      return false;
     }
+
+    return false;
   }
 
   Future<void> analyseFoodImage(XFile file) async{

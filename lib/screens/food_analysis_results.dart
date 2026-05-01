@@ -147,34 +147,51 @@ class FoodAnalysisResults extends StatelessWidget {
                               Text("Brief Summary"),
                               Text(briefSummary),
 
-                              const SizedBox(height: AppSizes.spaceBtwItems),
+                              const SizedBox(height: AppSizes.spaceBtwSections),
 
-                              //save meal
-                              ElevatedButton(
-                                onPressed: () async {
-                                  // final data = controller.response.value as Map<String,dynamic>;
-                                  final data = jsonDecode(controller.response.value);
-                                  final imageUrl = controller.foodImage.value!.path;
-                                  await controller.saveMealRecord(data, imageUrl, context);
-                                },
-                                child: const Text("Save Meal"),
-                              ),
+                              Center(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children:[
+                                    //save meal
+                                    SizedBox(
+                                      width: double.infinity,
+                                      child: ElevatedButton(
+                                        onPressed: () async {
+                                          // final data = controller.response.value as Map<String,dynamic>;
+                                          final data = jsonDecode(controller.response.value);
+                                          final imageUrl = controller.foodImage.value!.path;
+                                          await controller.saveMealRecord(data, imageUrl, context);
+                                        },
+                                        child: const Text("Save Meal"),
+                                      ),
+                                    ),
 
-                              //cancel meal save
-                              ElevatedButton(
-                                onPressed: () async {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => const ImageAnalysis()),
-                                  );
-                                },
-                                child: const Text("Cancel"),
+                                    const SizedBox(height: AppSizes.spaceBtwItems),
+
+                                    //cancel meal save
+                                    SizedBox(
+                                      width: double.infinity,
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: AppColors.grey,
+                                          foregroundColor: AppColors.black,
+                                        ),
+                                        onPressed: () async {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(builder: (context) => const ImageAnalysis()),
+                                          );
+                                        },
+                                        child: const Text("Cancel"),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ]
                         );
-
-                        //return Text(repo.response.value);
-                      }
+                     }
                     ),
                   ],
                 )

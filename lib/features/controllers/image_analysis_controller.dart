@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,7 +6,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../data/repositories/image_analysis_repository.dart';
@@ -20,6 +18,8 @@ class ImageAnalysisController{
 
 
   late RxString response = "".obs;
+  // final Rxn<Map<String, dynamic>> analysisData = Rxn<Map<String, dynamic>>();
+  final Rxn<String> errorMessage = Rxn<String>();
   final RxBool isLoading = false.obs;
   final ImagePicker picker = ImagePicker();
   final Rxn<XFile> foodImage = Rxn<XFile>();
@@ -63,6 +63,9 @@ class ImageAnalysisController{
   Future<void> analyseFoodImage(XFile file) async{
     try{
       isLoading.value = true;
+      errorMessage.value = null;
+      // analysisData.value = null;
+
       final user = _auth.currentUser;
 
       //text prompt
@@ -83,15 +86,20 @@ class ImageAnalysisController{
         Content.multi([prompt,imagePart])
       ]);
 
-      if(result.text!.contains("error") || result.text!.contains("Overloaded")){
-        response.value = "AI is currently busy. Please try again later.";
+      final text = result.text ?? '';
+
+      if(text.contains("error") || text.contains("Overloaded")){
+        errorMessage.value = "AI is currently busy. Please try again later.";
+        response.value = '';
         return;
       }
 
-      response.value = result.text!;
+      response.value = text;
+      errorMessage.value = null;
 
     }catch(e){
-      response.value = "An error has occurred. Please try again.";
+      errorMessage.value = "An error has occurred. Please try again.";
+      response.value = '';
     }finally{
       isLoading.value = false;
     }

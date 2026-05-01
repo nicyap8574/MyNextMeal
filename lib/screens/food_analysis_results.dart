@@ -64,6 +64,13 @@ class FoodAnalysisResults extends StatelessWidget {
                     //Obx so that it updates when response changes and can get the data from repository
                     Obx((){
 
+                        if(controller.errorMessage.value != null){
+                          return Text(
+                            controller.errorMessage.value!,
+                            style: const TextStyle(color: Colors.red),
+                          );
+                        }
+
                         if (controller.response.value.isEmpty) {
                           return const SizedBox.shrink();
                         }

@@ -48,7 +48,8 @@ class ImageAnalysisController{
 
       if(image!=null){
         foodImage.value = image;
-        await analyseFoodImage(image);
+        // await analyseFoodImage(image);
+        analyseFoodImage(image);
         return true;
         }
     }

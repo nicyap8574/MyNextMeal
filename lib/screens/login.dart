@@ -168,18 +168,16 @@ class LoginScreen extends StatelessWidget {
                   Container(
                     decoration: BoxDecoration(border: Border.all(color: AppColors.grey), borderRadius: BorderRadius.circular(100)),
                     child: IconButton(
-                      onPressed: (){},
-                      icon: const Image(
-                        width: AppSizes.iconMd,
-                        height: AppSizes.iconMd,
-                        image: AssetImage(AppImages.googleLogo),
-                      ),
-
-                    )
-                  )
+                        icon: const Image(
+                          width: AppSizes.iconMd,
+                          height: AppSizes.iconMd,
+                          image: AssetImage(AppImages.googleLogo),
+                        ),
+                        onPressed: () => controller.googleSignIn(context: context),
+                    ),
+                  ),
                 ]
               )
-
             ],
           )
         ),

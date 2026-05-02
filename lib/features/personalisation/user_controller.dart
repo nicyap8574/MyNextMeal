@@ -34,7 +34,7 @@ class UserController extends GetxController {
     }
   }
 
-  //save user record from any registration provider
+  //save user record from Google sign in
   Future<void> saveUserRecord(UserCredential? userCredentials) async {
     try{
       if(userCredentials!=null){

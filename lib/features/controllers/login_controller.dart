@@ -49,6 +49,8 @@ class LoginController extends GetxController {
 
       //save user record
       await userController.saveUserRecord(userCredential);
+      //passes UserCredential data type instead of User data type because it checks for new user
+
       // await userController.fetchUserRecord();
 
       //Redirect

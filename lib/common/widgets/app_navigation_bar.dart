@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 
 import '../../screens/home.dart';
+import '../../screens/image_analysis.dart';
+import '../../screens/meal_history.dart';
 import '../../screens/user_profile.dart';
 import '../../utils/constants/colors.dart';
 import '../../utils/helpers/helper_functions.dart';
@@ -17,11 +21,13 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
 
   final List<Widget> pages = const[
     Home(),
+    MealHistory(),
     UserProfile(),
   ];
 
   final List<String?> appBarTitle = const[
     null,
+    "Meal History",
     "Profile",
   ];
 
@@ -36,6 +42,13 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
       backgroundColor: dark ? AppColors.darkBackground : AppColors.lightBackground,
       body: pages[selectedIndex],
 
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Get.to(() => const ImageAnalysis()),
+        backgroundColor: Color(0xFF226147),
+        foregroundColor: AppColors.celadon100,
+        child: const Icon(Icons.add),
+      ),
+
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index){
           setState((){
@@ -48,6 +61,11 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
             selectedIcon: Icon(Icons.home, color: AppColors.celadon100),
             icon: Icon(Icons.home_outlined),
             label: 'Home',
+          ),
+          NavigationDestination(
+            selectedIcon: Icon(Icons.history, color: AppColors.celadon100),
+            icon: Icon(Icons.history_outlined),
+            label: 'History',
           ),
           NavigationDestination(
             selectedIcon: Icon(Icons.account_circle, color: AppColors.celadon100),

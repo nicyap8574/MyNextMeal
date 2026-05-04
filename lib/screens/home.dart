@@ -12,139 +12,22 @@ import '../utils/constants/colors.dart';
 import '../utils/constants/sizes.dart';
 import 'image_analysis.dart';
 import 'meal_recommendation.dart';
-//
-// class Home extends StatelessWidget {
-//   const Home({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     final dark = AppHelperFunctions.isDarkMode(context);
-//     final controller = Get.put(UserController());
-//     final imageAnalysis = Get.put(ImageAnalysis());
-//
-//     return Scaffold(
-//       backgroundColor: dark ? AppColors.darkBackground : AppColors.lightBackground,
-//       appBar: AppBar(),
-//
-//       body: SingleChildScrollView(
-//         child: Padding(
-//           padding: const EdgeInsets.all(AppSizes.defaultSpace),
-//           child: Column(
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//
-//             children: [
-//               Text("Welcome,",
-//                 style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-//                     color: AppColors.primary,
-//                     fontSize: Theme.of(context).textTheme.headlineMedium!.fontSize! + 5),
-//                   ),
-//
-//               //observe and change state of widget
-//               Obx(() => Text(controller.user.value.username,style: Theme.of(context).textTheme.headlineMedium)),
-//
-//               const SizedBox(height: AppSizes.spaceBtwSections),
-//
-//               Row(
-//                 children: [
-//                   //Gemini button
-//                   Expanded(
-//                     child: AspectRatio(
-//                       aspectRatio: 1,
-//                       child: ElevatedButton(
-//                           onPressed: () => Get.to(() => const ImageAnalysis()),
-//                           child: Column(
-//                             mainAxisAlignment: MainAxisAlignment.center,
-//                             crossAxisAlignment: CrossAxisAlignment.start,
-//                             children: [
-//                               Icon(Icons.lunch_dining, size: 40),
-//                               SizedBox(height: AppSizes.spaceBtwItems),
-//                               Text("Add New Meal", style: TextStyle(fontSize: AppSizes.buttonTextSize)),
-//                             ],
-//                           )
-//                       ),
-//                     ),
-//                   ),
-//
-//                   const SizedBox(width: AppSizes.spaceBtwSections),
-//
-//                   //View past meals button
-//                   Expanded(
-//                     child: AspectRatio(
-//                       aspectRatio: 1,
-//                       child: ElevatedButton(
-//                           onPressed: () => Get.to(() => const MealHistory()),
-//                           child: Column(
-//                             mainAxisAlignment: MainAxisAlignment.center,
-//                             crossAxisAlignment: CrossAxisAlignment.start,
-//                             children:[
-//                               Icon(Icons.history, size: 40),
-//                               SizedBox(height: AppSizes.spaceBtwItems),
-//                               Text("View Past Meals", style: TextStyle(fontSize: AppSizes.buttonTextSize)),
-//                             ],
-//                           )
-//                     ),
-//                   ),
-//                 ),
-//               ],
-//             ),
-//
-//               const SizedBox(height: AppSizes.spaceBtwSections),
-//
-//               //My profile button
-//               SizedBox(
-//                 width: double.infinity,
-//                 child: ElevatedButton(
-//                     onPressed: () => Get.to(() => const MealRecommendation()),
-//                     child: const Text("Meal Recommender")),
-//               ),
-//
-//               const SizedBox(height: AppSizes.spaceBtwSections),
-//
-//               //My profile button
-//               SizedBox(
-//                 width: double.infinity,
-//                 child: ElevatedButton(
-//                     onPressed: () => Get.to(() => const UserProfile()),
-//                     child: const Text("My Profile")),
-//               ),
-//
-//               const SizedBox(height: AppSizes.spaceBtwSections),
-//
-//               //sign out button
-//               SizedBox(
-//                 width: double.infinity,
-//                 child: ElevatedButton(onPressed: () => controller.signOut(), child: const Text("Sign Out")),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
 
-class Home extends StatefulWidget {
+class Home extends StatelessWidget {
   const Home({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
-  int currentPageIndex = 0;
-
-  @override
   Widget build(BuildContext context) {
-
     final dark = AppHelperFunctions.isDarkMode(context);
     final controller = Get.put(UserController());
     final imageAnalysis = Get.put(ImageAnalysis());
 
-    return Scaffold(
-      backgroundColor: dark ? AppColors.darkBackground : AppColors.lightBackground,
-      appBar: AppBar(),
+    // return Scaffold(
+      // backgroundColor: dark ? AppColors.darkBackground : AppColors.lightBackground,
+      // appBar: AppBar(),
 
-      body: SingleChildScrollView(
+      // body: SingleChildScrollView(
+      return SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(AppSizes.defaultSpace),
           child: Column(
@@ -155,7 +38,7 @@ class _HomeState extends State<Home> {
                 style: Theme.of(context).textTheme.headlineMedium!.copyWith(
                     color: AppColors.primary,
                     fontSize: Theme.of(context).textTheme.headlineMedium!.fontSize! + 5),
-              ),
+                  ),
 
               //observe and change state of widget
               Obx(() => Text(controller.user.value.username,style: Theme.of(context).textTheme.headlineMedium)),
@@ -200,11 +83,11 @@ class _HomeState extends State<Home> {
                               Text("View Past Meals", style: TextStyle(fontSize: AppSizes.buttonTextSize)),
                             ],
                           )
-                      ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
+            ),
 
               const SizedBox(height: AppSizes.spaceBtwSections),
 
@@ -236,29 +119,147 @@ class _HomeState extends State<Home> {
             ],
           ),
         ),
-      ),
-
-      bottomNavigationBar: NavigationBar(
-        onDestinationSelected: (int index){
-          setState((){
-            currentPageIndex = index;
-          });
-        },
-        indicatorColor: Colors.amber,
-        selectedIndex: currentPageIndex,
-        destinations: const <Widget>[
-          NavigationDestination(
-              selectedIcon: Icon(Icons.home),
-              icon: Icon(Icons.home_outlined),
-              label: 'Home',
-          ),
-          NavigationDestination(
-              selectedIcon: Icon(Icons.account_circle),
-              icon: Icon(Icons.account_circle_outlined),
-              label: 'Profile',
-          ),
-        ],
-      ),
+      // ),
     );
   }
 }
+//
+// class Home extends StatefulWidget {
+//   const Home({super.key});
+//
+//   @override
+//   State<Home> createState() => _HomeState();
+// }
+//
+// class _HomeState extends State<Home> {
+//   int currentPageIndex = 0;
+//
+//   @override
+//   Widget build(BuildContext context) {
+//
+//     final dark = AppHelperFunctions.isDarkMode(context);
+//     final controller = Get.put(UserController());
+//     final imageAnalysis = Get.put(ImageAnalysis());
+//
+//     return Scaffold(
+//       backgroundColor: dark ? AppColors.darkBackground : AppColors.lightBackground,
+//       appBar: AppBar(),
+//
+//       body: SingleChildScrollView(
+//         child: Padding(
+//           padding: const EdgeInsets.all(AppSizes.defaultSpace),
+//           child: Column(
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//
+//             children: [
+//               Text("Welcome,",
+//                 style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+//                     color: AppColors.primary,
+//                     fontSize: Theme.of(context).textTheme.headlineMedium!.fontSize! + 5),
+//               ),
+//
+//               //observe and change state of widget
+//               Obx(() => Text(controller.user.value.username,style: Theme.of(context).textTheme.headlineMedium)),
+//
+//               const SizedBox(height: AppSizes.spaceBtwSections),
+//
+//               Row(
+//                 children: [
+//                   //Gemini button
+//                   Expanded(
+//                     child: AspectRatio(
+//                       aspectRatio: 1,
+//                       child: ElevatedButton(
+//                           onPressed: () => Get.to(() => const ImageAnalysis()),
+//                           child: Column(
+//                             mainAxisAlignment: MainAxisAlignment.center,
+//                             crossAxisAlignment: CrossAxisAlignment.start,
+//                             children: [
+//                               Icon(Icons.lunch_dining, size: 40),
+//                               SizedBox(height: AppSizes.spaceBtwItems),
+//                               Text("Add New Meal", style: TextStyle(fontSize: AppSizes.buttonTextSize)),
+//                             ],
+//                           )
+//                       ),
+//                     ),
+//                   ),
+//
+//                   const SizedBox(width: AppSizes.spaceBtwSections),
+//
+//                   //View past meals button
+//                   Expanded(
+//                     child: AspectRatio(
+//                       aspectRatio: 1,
+//                       child: ElevatedButton(
+//                           onPressed: () => Get.to(() => const MealHistory()),
+//                           child: Column(
+//                             mainAxisAlignment: MainAxisAlignment.center,
+//                             crossAxisAlignment: CrossAxisAlignment.start,
+//                             children:[
+//                               Icon(Icons.history, size: 40),
+//                               SizedBox(height: AppSizes.spaceBtwItems),
+//                               Text("View Past Meals", style: TextStyle(fontSize: AppSizes.buttonTextSize)),
+//                             ],
+//                           )
+//                       ),
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//
+//               const SizedBox(height: AppSizes.spaceBtwSections),
+//
+//               //My profile button
+//               SizedBox(
+//                 width: double.infinity,
+//                 child: ElevatedButton(
+//                     onPressed: () => Get.to(() => const MealRecommendation()),
+//                     child: const Text("Meal Recommender")),
+//               ),
+//
+//               const SizedBox(height: AppSizes.spaceBtwSections),
+//
+//               //My profile button
+//               SizedBox(
+//                 width: double.infinity,
+//                 child: ElevatedButton(
+//                     onPressed: () => Get.to(() => const UserProfile()),
+//                     child: const Text("My Profile")),
+//               ),
+//
+//               const SizedBox(height: AppSizes.spaceBtwSections),
+//
+//               //sign out button
+//               SizedBox(
+//                 width: double.infinity,
+//                 child: ElevatedButton(onPressed: () => controller.signOut(), child: const Text("Sign Out")),
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//
+//       bottomNavigationBar: NavigationBar(
+//         onDestinationSelected: (int index){
+//           setState((){
+//             currentPageIndex = index;
+//           });
+//         },
+//         indicatorColor: Colors.amber,
+//         selectedIndex: currentPageIndex,
+//         destinations: const <Widget>[
+//           NavigationDestination(
+//               selectedIcon: Icon(Icons.home),
+//               icon: Icon(Icons.home_outlined),
+//               label: 'Home',
+//           ),
+//           NavigationDestination(
+//               selectedIcon: Icon(Icons.account_circle),
+//               icon: Icon(Icons.account_circle_outlined),
+//               label: 'Profile',
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }

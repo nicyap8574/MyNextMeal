@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../screens/home.dart';
 import '../../screens/user_profile.dart';
+import '../../utils/constants/colors.dart';
+import '../../utils/helpers/helper_functions.dart';
 
 class AppNavigationBar extends StatefulWidget {
   const AppNavigationBar({super.key});
@@ -11,7 +13,7 @@ class AppNavigationBar extends StatefulWidget {
 }
 
 class _AppNavigationBarState extends State<AppNavigationBar> {
-  int currentPageIndex = 0;
+  int selectedIndex = 0;
 
   final List<Widget> pages = const[
     Home(),
@@ -20,18 +22,23 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
 
   @override
   Widget build(BuildContext context) {
+    final dark = AppHelperFunctions.isDarkMode(context);
 
     return Scaffold(
-      body: pages[currentPageIndex],
+
+      //appBar
+      appBar: AppBar(),
+      backgroundColor: dark ? AppColors.darkBackground : AppColors.lightBackground,
+      body: pages[selectedIndex],
 
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index){
           setState((){
-            currentPageIndex = index;
+            selectedIndex = index;
           });
         },
         indicatorColor: Colors.amber,
-        selectedIndex: currentPageIndex,
+        selectedIndex: selectedIndex,
         destinations: const <Widget>[
           NavigationDestination(
             selectedIcon: Icon(Icons.home),

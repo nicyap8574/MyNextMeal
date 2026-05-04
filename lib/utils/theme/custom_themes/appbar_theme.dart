@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 class AppAppBarTheme{
 
   static const lightAppBarTheme = AppBarTheme(
-    elevation: 0,
     centerTitle: false,
     scrolledUnderElevation: 0,
     backgroundColor: Colors.transparent,
@@ -16,7 +15,6 @@ class AppAppBarTheme{
   );
 
   static const darkAppBarTheme = AppBarTheme(
-    elevation: 0,
     centerTitle: false,
     scrolledUnderElevation: 0,
     backgroundColor: Colors.transparent,

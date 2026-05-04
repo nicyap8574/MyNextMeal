@@ -42,16 +42,15 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
             selectedIndex = index;
           });
         },
-        indicatorColor: Colors.amber,
         selectedIndex: selectedIndex,
         destinations: const <Widget>[
           NavigationDestination(
-            selectedIcon: Icon(Icons.home),
+            selectedIcon: Icon(Icons.home, color: AppColors.celadon100),
             icon: Icon(Icons.home_outlined),
             label: 'Home',
           ),
           NavigationDestination(
-            selectedIcon: Icon(Icons.account_circle),
+            selectedIcon: Icon(Icons.account_circle, color: AppColors.celadon100),
             icon: Icon(Icons.account_circle_outlined),
             label: 'Profile',
           ),

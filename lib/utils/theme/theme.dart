@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mynextmeal/utils/theme/custom_themes/chip_theme.dart';
+import 'package:mynextmeal/utils/theme/custom_themes/nav_bar_theme.dart';
 import '../constants/colors.dart';
 import 'custom_themes/appbar_theme.dart';
 import 'custom_themes/bottom_sheet_theme.dart';
@@ -28,8 +29,7 @@ class AppTheme{
     inputDecorationTheme: AppTextFieldName.lightInputDecorationTheme,
     checkboxTheme: AppCheckboxTheme.lightCheckboxTheme,
     progressIndicatorTheme: AppProgressIndicatorTheme.lightProgressIndicatorTheme,
-
-    //TODO: Add other themes, such as bottomNavigationBarTheme
+    navigationBarTheme: AppNavBarTheme.lightNavBarTheme,
   );
 
   static ThemeData darkMode = ThemeData(

@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:mynextmeal/common/styles/spacing_styles.dart';
 import 'package:mynextmeal/utils/constants/sizes.dart';
 
 import '../features/controllers/user_profile_controller.dart';
-import '../utils/constants/colors.dart';
-import '../utils/helpers/helper_functions.dart';
-import '../utils/popups/loaders.dart';
 
 class UserProfile extends StatefulWidget {
   const UserProfile({super.key});
@@ -70,15 +66,9 @@ class _UserProfileState extends State<UserProfile> {
 
   @override
   Widget build(BuildContext context) {
-    final dark = AppHelperFunctions.isDarkMode(context);
     final controller = Get.find<UserProfileController>();
 
-    return Scaffold(
-      backgroundColor: dark ? AppColors.darkBackground : AppColors.lightBackground,
-      appBar: AppBar(
-          title: const Text("My Profile"),
-        ),
-        body: SingleChildScrollView(
+        return SingleChildScrollView(
             child: Padding(
               padding: AppSpacingStyle.paddingWithAppBarHeight,
               child: Column(
@@ -185,7 +175,6 @@ class _UserProfileState extends State<UserProfile> {
                 ],
               ),
             ),
-          ),
         );
   }
 }

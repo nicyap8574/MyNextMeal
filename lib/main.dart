@@ -14,7 +14,6 @@ import 'data/repositories/authentication_repository.dart';
 
 Future<void> main() async {
 
-  //Add widgets binding
   final WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
   //Initialise local storage

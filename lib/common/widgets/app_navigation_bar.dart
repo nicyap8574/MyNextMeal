@@ -20,14 +20,19 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
     UserProfile(),
   ];
 
+  final List<String?> appBarTitle = const[
+    null,
+    "Profile",
+  ];
+
   @override
   Widget build(BuildContext context) {
     final dark = AppHelperFunctions.isDarkMode(context);
 
     return Scaffold(
-
-      //appBar
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: appBarTitle[selectedIndex]==null ? null : Text(appBarTitle[selectedIndex]!),
+      ),
       backgroundColor: dark ? AppColors.darkBackground : AppColors.lightBackground,
       body: pages[selectedIndex],
 

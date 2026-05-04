@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class AppAppBarTheme{
   AppAppBarTheme._();
@@ -12,6 +13,7 @@ class AppAppBarTheme{
     iconTheme: IconThemeData(color: Colors.black, size: 24),
     actionsIconTheme: IconThemeData(color: Colors.black, size: 24),
     titleTextStyle: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600, color: Colors.black),
+    systemOverlayStyle: SystemUiOverlayStyle.dark,
   );
 
   static const darkAppBarTheme = AppBarTheme(
@@ -23,5 +25,6 @@ class AppAppBarTheme{
     iconTheme: IconThemeData(color: Colors.black, size: 24),
     actionsIconTheme: IconThemeData(color: Colors.white, size: 24),
     titleTextStyle: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600, color: Colors.white),
+    systemOverlayStyle: SystemUiOverlayStyle.light,
   );
 }

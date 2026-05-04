@@ -3,15 +3,16 @@ import 'package:flutter/material.dart';
 import '../../screens/home.dart';
 import '../../screens/user_profile.dart';
 
-class NavigationBar extends StatefulWidget {
-  const NavigationBar({super.key});
+class AppNavigationBar extends StatefulWidget {
+  const AppNavigationBar({super.key});
 
   @override
-  State<NavigationBar> createState() => _NavigationBarState();
+  State<AppNavigationBar> createState() => _AppNavigationBarState();
 }
 
-class _NavigationBarState extends State<NavigationBar> {
+class _AppNavigationBarState extends State<AppNavigationBar> {
   int currentPageIndex = 0;
+
   final List<Widget> pages = const[
     Home(),
     UserProfile(),
@@ -19,6 +20,7 @@ class _NavigationBarState extends State<NavigationBar> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: pages[currentPageIndex],
 
@@ -43,6 +45,6 @@ class _NavigationBarState extends State<NavigationBar> {
           ),
         ],
       ),
-    ),
+    );
   }
 }

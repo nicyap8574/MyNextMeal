@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../constants/colors.dart';
 
 class AppOutlinedButtonTheme{
-  AppOutlinedButtonTheme._();
 
   //Light theme
   static final lightOutlinedButtonTheme = OutlinedButtonThemeData(

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class AppTextFieldName{
-  AppTextFieldName._();
 
   static InputDecorationTheme lightInputDecorationTheme = InputDecorationTheme(
     errorMaxLines: 3,

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../constants/colors.dart';
 
 class AppChipTheme{
-  AppChipTheme._();
 
   static ChipThemeData lightChipTheme = ChipThemeData(
     disabledColor: Colors.grey.withOpacity(0.4),

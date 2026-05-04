@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../constants/colors.dart';
 
 class AppElevatedButtonTheme{
-  AppElevatedButtonTheme._();
 
   // --- LIGHT THEME ---
 

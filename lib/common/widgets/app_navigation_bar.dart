@@ -28,7 +28,7 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
   final List<String?> appBarTitle = const[
     null,
     "Meal History",
-    "Profile",
+    "My Profile",
   ];
 
   @override

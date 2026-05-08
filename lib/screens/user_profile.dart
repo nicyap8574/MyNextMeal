@@ -38,7 +38,7 @@ class _UserProfileState extends State<UserProfile> {
   void initState(){
     super.initState();
 
-    controller = Get.put(UserProfileController());
+    controller = Get.find<UserProfileController>();
     loadUserData();
   }
 

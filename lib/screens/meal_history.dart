@@ -13,7 +13,7 @@ class MealHistory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(MealHistoryController());
+    final controller = Get.find<MealHistoryController>();
 
     return SingleChildScrollView(
       child: FutureBuilder(

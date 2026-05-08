@@ -10,6 +10,7 @@ class UserProfileController extends GetxController{
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
 
+  Map<String,dynamic>? cachedData;
 
   Future<void> saveChanges({
     required BuildContext context,
@@ -18,9 +19,6 @@ class UserProfileController extends GetxController{
   }) async {
     final user = _auth.currentUser;
 
-    // print("Diet Options: $selectedDietOptions");
-    // print("Diet Focus: $selectedDietaryFocus");
-
     //Save to database
     try{
       await _db.collection('users').doc(user!.uid).set({
@@ -28,7 +26,12 @@ class UserProfileController extends GetxController{
         'dietaryFocus': selectedDietaryFocus,
       }, SetOptions(merge: true));
 
-      //AppLoaders.successSnackBar(title: "Success", message: "Changes Saved!");
+      //add selected options to cachedData so does not read again from db
+      cachedData = {
+        'dietOptions': selectedDietOptions,
+        'dietaryFocus': selectedDietaryFocus,
+      };
+
       AppLoaders.showSnackBar(context, "Changes Saved!");
 
     }catch(e){
@@ -37,13 +40,22 @@ class UserProfileController extends GetxController{
   }
 
   Future<Map<String,dynamic>?> getSelectedPreferences() async{
-    final user = _auth.currentUser;
-    final doc = await _db.collection('users').doc(user!.uid).get(); //loads document of current user
 
-    if(doc.exists){
-      return doc.data();
+    if(cachedData!=null){
+      return cachedData;
+    }else{
+      final user = _auth.currentUser;
+      final doc = await _db
+          .collection('users')
+          .doc(user!.uid)
+          .get(); //loads document of current user
+
+      if(doc.exists){
+        cachedData = doc.data();
+        return doc.data();
+      }
+      return null;
     }
-    return null;
   }
 }
 

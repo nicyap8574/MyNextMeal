@@ -12,16 +12,9 @@ class MealHistoryController {
 
     var mealHistoryQuery = await _db.collection('meals').where('user', isEqualTo: user!.uid).get();
 
-    //load today's date
-    DateTime now = new DateTime.now();
-    DateTime dateToday = new DateTime(now.year, now.month, now.day);
-    DateTime dateTmr = dateToday.subtract(Duration(days: 1));
-
     final meal = await FirebaseFirestore.instance
         .collection('meals')
-        .where('user', isEqualTo: user!.uid)
-        // .where('createdAt', isGreaterThanOrEqualTo: Timestamp.fromDate(dateToday))
-        // .where('createdAt', isLessThan: Timestamp.fromDate(dateTmr))
+        .where('user', isEqualTo: user.uid)
         .get();
 
     for(var x in meal.docs){

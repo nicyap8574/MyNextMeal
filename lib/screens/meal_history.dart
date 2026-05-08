@@ -14,7 +14,6 @@ class MealHistory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(MealHistoryController());
-    final user = FirebaseAuth.instance.currentUser;
 
     return SingleChildScrollView(
       child: FutureBuilder(
@@ -44,6 +43,7 @@ class MealHistory extends StatelessWidget {
                       FutureBuilder(
                           future: controller.displayCurrentUserMeals(),
                           builder: (context, todayMeal){
+                            //todayMeal -> name of snapshot returned by FutureBuilder
 
                             if(todayMeal.connectionState == ConnectionState.waiting){
                               return const Center(child: CircularProgressIndicator());
@@ -59,14 +59,15 @@ class MealHistory extends StatelessWidget {
 
                             final meals = todayMeal.data!.docs;
 
+                            //todayMeal.data -> QuerySnapshot -> All documents inside collection
+                            //.docs -> List<QueryDocumentSnapshot> -> Each document
+
                             return ListView.builder(
                               itemCount: meals.length,
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),
                               itemBuilder: (context,index){
                                 final meal = meals[index].data(); //JSON output from Firestore
-
-                                // print(meal);
 
                                 //format date for output
                                 final timestamp = meal['createdAt'];

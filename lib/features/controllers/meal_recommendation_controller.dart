@@ -34,6 +34,7 @@ class MealRecommendationController {
         .where('createdAt', isGreaterThanOrEqualTo: Timestamp.fromDate(dateToday))
         .where('createdAt', isLessThan: Timestamp.fromDate(dateTmr))
         .get();
+    //data type: QuerySnapshot<Map<String,dynamic>>
 
     //add today's meals into a List
     for(var x in todayMeal.docs){

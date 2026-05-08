@@ -20,7 +20,6 @@ class Home extends StatelessWidget {
     final controller = Get.put(UserController());
     final imageAnalysis = Get.put(ImageAnalysis());
 
-
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(AppSizes.defaultSpace),

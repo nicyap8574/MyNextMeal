@@ -42,12 +42,12 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
       backgroundColor: dark ? AppColors.darkBackground : AppColors.lightBackground,
       body: pages[selectedIndex],
 
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Get.to(() => const ImageAnalysis()),
-        backgroundColor: Color(0xFF226147),
-        foregroundColor: AppColors.celadon100,
-        child: const Icon(Icons.add),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () => Get.to(() => const ImageAnalysis()),
+      //   backgroundColor: Color(0xFF226147),
+      //   foregroundColor: AppColors.celadon100,
+      //   child: const Icon(Icons.add),
+      // ),
 
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index){

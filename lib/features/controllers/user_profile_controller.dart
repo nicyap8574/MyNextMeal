@@ -6,9 +6,11 @@ import 'package:get/get.dart';
 import '../../utils/popups/loaders.dart';
 
 class UserProfileController extends GetxController{
+  //look for existing instance in memory
   static UserProfileController get instance => Get.find();
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
+  late final user = _auth.currentUser;
 
   Map<String,dynamic>? cachedData;
 
@@ -17,7 +19,6 @@ class UserProfileController extends GetxController{
     required List<String> selectedDietOptions,
     required List<String> selectedDietaryFocus,
   }) async {
-    final user = _auth.currentUser;
 
     //Save to database
     try{
@@ -44,7 +45,6 @@ class UserProfileController extends GetxController{
     if(cachedData!=null){
       return cachedData;
     }else{
-      final user = _auth.currentUser;
       final doc = await _db
           .collection('users')
           .doc(user!.uid)

@@ -4,6 +4,8 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:mynextmeal/data/repositories/image_analysis_repository.dart';
+import 'package:mynextmeal/features/controllers/image_analysis_controller.dart';
 import 'package:mynextmeal/features/controllers/meal_history_controller.dart';
 import 'package:mynextmeal/features/controllers/user_profile_controller.dart';
 import 'package:mynextmeal/features/personalisation/user_controller.dart';
@@ -33,6 +35,8 @@ Future<void> main() async {
   Get.put(UserController());
   Get.put(UserProfileController());
   Get.put(MealHistoryController());
+  Get.put(ImageAnalysisRepository());
+  Get.put(ImageAnalysisController());
   Get.put(NetworkManager());
 
   runApp(const App());

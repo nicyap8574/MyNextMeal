@@ -3,9 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class MealHistoryController {
   QuerySnapshot<Map<String, dynamic>>? cachedData;
+  final user = FirebaseAuth.instance.currentUser;
 
   Future<QuerySnapshot<Map<String, dynamic>>> displayCurrentUserMeals() async {
-    final user = FirebaseAuth.instance.currentUser;
 
     if(cachedData!=null){
       return cachedData!;
@@ -20,5 +20,9 @@ class MealHistoryController {
     cachedData = mealHistoryQuery;
 
     return mealHistoryQuery;
+  }
+
+  Future<void> deleteMeals() async{
+    
   }
 }

@@ -16,16 +16,16 @@ import 'gemini_controller.dart';
 class ImageAnalysisController{
   final gemini = GeminiController();
 
-
   late RxString response = "".obs;
-  // final Rxn<Map<String, dynamic>> analysisData = Rxn<Map<String, dynamic>>();
+  final RxString imageUrl = "".obs;
   final Rxn<String> errorMessage = Rxn<String>();
   final RxBool isLoading = false.obs;
   final ImagePicker picker = ImagePicker();
   final Rxn<XFile> foodImage = Rxn<XFile>();
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
-  final repo = Get.put(ImageAnalysisRepository());
+  final repo = Get.find<ImageAnalysisRepository>();
+
 
   Future<bool> pickImage() async{
     Permission permission;
@@ -77,7 +77,7 @@ class ImageAnalysisController{
       final imagePart = InlineDataPart('image/jpeg', image);
 
       //save image to Storage
-      final imageUrl = await repo.uploadImage(
+      imageUrl.value = await repo.uploadImage(
         path: 'meal_images/${user!.uid}/${DateTime.now().millisecondsSinceEpoch}',
         image: file,
       );

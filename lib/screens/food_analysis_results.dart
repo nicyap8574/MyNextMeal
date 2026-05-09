@@ -6,6 +6,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:mynextmeal/common/styles/spacing_styles.dart';
+import 'package:mynextmeal/data/repositories/image_analysis_repository.dart';
 
 import '../features/controllers/image_analysis_controller.dart';
 import '../utils/constants/colors.dart';
@@ -19,7 +20,8 @@ class FoodAnalysisResults extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dark = AppHelperFunctions.isDarkMode(context);
-    final controller = Get.put(ImageAnalysisController());
+    final repo = Get.find<ImageAnalysisRepository>();
+    final controller = Get.find<ImageAnalysisController>();
 
     return Scaffold(
       backgroundColor: dark ? AppColors.darkBackground : AppColors.lightBackground,
@@ -160,7 +162,11 @@ class FoodAnalysisResults extends StatelessWidget {
                                         onPressed: () async {
                                           // final data = controller.response.value as Map<String,dynamic>;
                                           final data = jsonDecode(controller.response.value);
-                                          final imageUrl = controller.foodImage.value!.path;
+
+                                          // final imageUrl = controller.foodImage.value!.path;
+                                          final imageUrl = controller.imageUrl.value;
+                                          print(imageUrl);
+
                                           await controller.saveMealRecord(data, imageUrl, context);
                                         },
                                         child: const Text("Save Meal"),

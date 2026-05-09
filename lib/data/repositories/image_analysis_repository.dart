@@ -10,8 +10,6 @@ class ImageAnalysisRepository extends GetxController{
   static ImageAnalysisRepository get instance => Get.find();
 
   final deviceStorage = GetStorage();
-  final _auth = FirebaseAuth.instance;
-  //final repo = Get.put(ImageAnalysisRepository());
 
   Future<String> uploadImage({required String path, required XFile image}) async{
     try{

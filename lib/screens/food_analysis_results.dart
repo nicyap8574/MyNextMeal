@@ -20,7 +20,6 @@ class FoodAnalysisResults extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dark = AppHelperFunctions.isDarkMode(context);
-    final repo = Get.find<ImageAnalysisRepository>();
     final controller = Get.find<ImageAnalysisController>();
 
     return Scaffold(
@@ -160,10 +159,8 @@ class FoodAnalysisResults extends StatelessWidget {
                                       width: double.infinity,
                                       child: ElevatedButton(
                                         onPressed: () async {
-                                          // final data = controller.response.value as Map<String,dynamic>;
                                           final data = jsonDecode(controller.response.value);
 
-                                          // final imageUrl = controller.foodImage.value!.path;
                                           final imageUrl = controller.imageUrl.value;
                                           print(imageUrl);
 

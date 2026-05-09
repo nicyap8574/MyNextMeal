@@ -1,8 +1,12 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:intl/intl.dart';
+import 'package:mynextmeal/features/controllers/individual_meal_controller.dart';
 
 import '../common/styles/spacing_styles.dart';
 import '../utils/constants/colors.dart';
+import '../utils/constants/sizes.dart';
 import '../utils/helpers/helper_functions.dart';
 
 class IndividualMeal extends StatelessWidget {
@@ -12,9 +16,8 @@ class IndividualMeal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<IndividualMealController>();
     final dark = AppHelperFunctions.isDarkMode(context);
-    print(mealId);
-    print(imageUrl);
 
     return Scaffold(
       backgroundColor: dark ? AppColors.darkBackground : AppColors.lightBackground,
@@ -28,7 +31,112 @@ class IndividualMeal extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Image.network(imageUrl),
+                Image.network(
+                    imageUrl,
+                    height: 300,
+                ),
+
+                const SizedBox(height: AppSizes.spaceBtwSections),
+
+                FutureBuilder(
+                    future: controller.getIndividualMeal(mealId),
+                    builder: (context, meal){
+
+                      if(meal.connectionState == ConnectionState.waiting){
+                        return const Center(child: CircularProgressIndicator());
+                      }
+
+                      if(meal.hasError){
+                        return Center(child: Text(meal.error.toString()));
+                      }
+
+                      if(!meal.hasData || meal.data == null){
+                        return const Center(child: Text("No data found"));
+                      }
+
+                      final nutrients = meal.data!['analysis']['nutrients'][0];
+                      final mealName = nutrients['meal_name'];
+                      final ingredients = nutrients['detected_ingredients'] as List<dynamic>;
+                      final carbsMacro = nutrients['carbs_macro'];
+                      final proteinMacro = nutrients['protein_macro'];
+                      final fatsMacro = nutrients['fats_macro'];
+                      final mealHealthiness = nutrients['meal_healthiness'];
+                      final confidenceLevel = nutrients['confidence_level'];
+                      final briefSummary = nutrients['brief_summary'];
+                      final createdAt = meal.data!['createdAt'].toDate();
+                      final formattedDateTime = DateFormat('dd MMM yyyy, hh:mm a').format(createdAt);
+
+
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Dish Name"),
+                          Chip(
+                            label: Text(mealName),
+                          ),
+
+                          const SizedBox(height: AppSizes.spaceBtwItems),
+
+                          Text("Ingredients"),
+                          Wrap(
+                            spacing: 8,
+                            children: ingredients.map((individual_ingredient){
+                              return Chip(
+                                label: Text(individual_ingredient),
+                              );
+                            }).toList(), //converts Iterable to List<Widget> to be accepted by children
+                          ),
+
+                          const SizedBox(height: AppSizes.spaceBtwItems),
+
+                          Text("Carbs Macro"),
+                          Chip(
+                            label: Text(carbsMacro),
+                          ),
+
+                          const SizedBox(height: AppSizes.spaceBtwItems),
+
+                          Text("Protein Macro"),
+                          Chip(
+                            label: Text(proteinMacro),
+                          ),
+
+                          const SizedBox(height: AppSizes.spaceBtwItems),
+
+                          Text("Fats Macro"),
+                          Chip(
+                            label: Text(fatsMacro),
+                          ),
+
+                          const SizedBox(height: AppSizes.spaceBtwItems),
+
+                          Text("Meal Healthiness"),
+                          Chip(
+                            label: Text(mealHealthiness),
+                          ),
+
+                          const SizedBox(height: AppSizes.spaceBtwItems),
+
+                          Text("Confidence Level"),
+                          Chip(
+                            label: Text(confidenceLevel),
+                          ),
+
+                          const SizedBox(height: AppSizes.spaceBtwItems),
+
+                          Text("Brief Summary"),
+                          Text(briefSummary),
+
+                          const SizedBox(height: AppSizes.spaceBtwItems),
+
+                          Text("Uploaded At"),
+                          Chip(
+                            label: Text(formattedDateTime),
+                          ),
+                        ],
+                      );
+                    }
+                ),
               ],
             )
         )

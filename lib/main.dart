@@ -6,6 +6,7 @@ import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:mynextmeal/data/repositories/image_analysis_repository.dart';
 import 'package:mynextmeal/features/controllers/image_analysis_controller.dart';
+import 'package:mynextmeal/features/controllers/individual_meal_controller.dart';
 import 'package:mynextmeal/features/controllers/meal_history_controller.dart';
 import 'package:mynextmeal/features/controllers/user_profile_controller.dart';
 import 'package:mynextmeal/features/personalisation/user_controller.dart';
@@ -37,6 +38,7 @@ Future<void> main() async {
   Get.put(MealHistoryController());
   Get.put(ImageAnalysisRepository());
   Get.put(ImageAnalysisController());
+  Get.put(IndividualMealController());
   Get.put(NetworkManager());
 
   runApp(const App());

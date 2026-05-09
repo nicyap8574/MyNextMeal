@@ -13,13 +13,13 @@ class ImageAnalysisRepository extends GetxController{
 
   Future<String> uploadImage({required String path, required XFile image}) async{
     try{
-      final ref = FirebaseStorage.instance.ref(path).child(image.name);
-      await ref.putFile(File(image.path));
-      return await ref.getDownloadURL();
+      final storageRef = FirebaseStorage.instance.ref(path);
+      final imageRef = storageRef.child(image.name);
+      await imageRef.putFile(File(image.path));
+      return await imageRef.getDownloadURL();
     }catch (e){
       print("FIREBASE STORAGE ERROR: $e");
-      rethrow;
-    }
+      throw e;
     }
   }
-
+}

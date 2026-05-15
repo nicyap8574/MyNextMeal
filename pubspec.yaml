@@ -60,10 +60,11 @@ flutter_launcher_icons:
 
 flutter_native_splash:
   color: "#366339"
+  ios: true
+  image: "assets/icons/Trans-Bg.png"
   android_12:
     color: "#366339"
-  ios: true
-
+    image: "assets/icons/Trans-Bg.png"
 
 flutter:
   uses-material-design: true

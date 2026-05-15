@@ -12,7 +12,7 @@ import 'package:mynextmeal/data/repositories/authentication_repository.dart';
 import '../../data/repositories/user_repository.dart';
 import '../../screens/login.dart';
 import '../../utils/popups/loaders.dart';
-import '../models/user_model.dart';
+import '../user/user_model.dart';
 
 class SignupController extends GetxController{
 

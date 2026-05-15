@@ -8,7 +8,7 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import '../../data/repositories/authentication_repository.dart';
 import '../../data/repositories/user_repository.dart';
 import '../../utils/popups/loaders.dart';
-import '../models/user_model.dart';
+import 'user_model.dart';
 
 class UserController extends GetxController {
   static UserController get instance => Get.find();
@@ -16,7 +16,6 @@ class UserController extends GetxController {
   Rx<UserModel> user = UserModel.empty().obs; //observing user
   final userRepository = Get.put(UserRepository());
   final _auth = FirebaseAuth.instance;
-
 
   @override
   void onInit() {

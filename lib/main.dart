@@ -9,7 +9,7 @@ import 'package:mynextmeal/features/controllers/image_analysis_controller.dart';
 import 'package:mynextmeal/features/controllers/individual_meal_controller.dart';
 import 'package:mynextmeal/features/controllers/meal_history_controller.dart';
 import 'package:mynextmeal/features/controllers/user_profile_controller.dart';
-import 'package:mynextmeal/features/personalisation/user_controller.dart';
+import 'package:mynextmeal/features/user/user_controller.dart';
 
 import 'data/network/network_manager.dart';
 import 'firebase_options.dart';

@@ -12,11 +12,10 @@ class UserModel {
     required this.email
   });
 
-  //Empty user model
+  //Empty user model (Helper method)
   static UserModel empty(){
     return UserModel(id: '', username: '', email: '');
   }
-
 
   //Convert model to JSON structure
   Map<String, dynamic> toJson(){
@@ -27,12 +26,13 @@ class UserModel {
     };
   }
 
+  //Extracts data from Firestore document
   factory UserModel.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> document){
-    if (document.data() != null){
-      final data = document.data();
+    final data = document.data();
+    if (data != null){
       return UserModel(
         id: document.id,
-        username: data!['username'],
+        username: data['username'],
         email: data['email'],
       );
     }else{

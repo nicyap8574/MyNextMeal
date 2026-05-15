@@ -11,7 +11,7 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:mynextmeal/features/controllers/image_analysis_controller.dart';
 
 import '../common/styles/spacing_styles.dart';
-import '../features/personalisation/user_controller.dart';
+import '../features/user/user_controller.dart';
 import '../utils/constants/colors.dart';
 import '../utils/constants/sizes.dart';
 import '../utils/helpers/helper_functions.dart';

@@ -6,7 +6,7 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:mynextmeal/screens/meal_history_page.dart';
 import 'package:mynextmeal/screens/user_profile_page.dart';
 
-import '../features/personalisation/user_controller.dart';
+import '../features/user/user_controller.dart';
 import '../utils/constants/colors.dart';
 import '../utils/constants/sizes.dart';
 import 'image_analysis.dart';

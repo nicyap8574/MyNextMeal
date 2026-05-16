@@ -53,7 +53,7 @@ class MealRecommendationController {
 
       //check if meal history is empty
       if(todayMeals.isEmpty){
-        final data = await UserProfileController.instance.getSelectedPreferences();
+        final data = await UserProfileController.instance.getUserDetails();
 
         //user selected dietary goals
         List<dynamic>? selectedDietOptions = data?['dietOptions'];
@@ -138,7 +138,7 @@ class MealRecommendationController {
         double proteinRatioRounded = double.parse(proteinRatio.toStringAsFixed(2));
         double fatsRatioRounded = double.parse(fatsRatio.toStringAsFixed(2));
 
-        final data = await UserProfileController.instance.getSelectedPreferences();
+        final data = await UserProfileController.instance.getUserDetails();
 
         //user selected dietary goals
         List<dynamic>? selectedDietOptions = data?['dietOptions'];

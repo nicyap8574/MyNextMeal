@@ -4,8 +4,6 @@ import '../../constants/colors.dart';
 
 class AppElevatedButtonTheme{
 
-  // --- LIGHT THEME ---
-
   static final lightElevatedButtonTheme = ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       elevation: 0,
@@ -19,8 +17,6 @@ class AppElevatedButtonTheme{
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
     ),
   );
-
-  // --- DARK THEME ---
 
   static final darkElevatedButtonTheme = ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(

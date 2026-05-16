@@ -64,7 +64,6 @@ flutter_native_splash:
   image: "assets/icons/Trans-Bg.png"
   android_12:
     color: "#366339"
-    image: "assets/icons/Trans-Bg.png"
 
 flutter:
   uses-material-design: true

@@ -22,4 +22,14 @@ class ImageAnalysisRepository extends GetxController{
       throw e;
     }
   }
+
+  Future<void> deleteImage({required String imageUrl}) async{
+    try{
+      final imageRef = FirebaseStorage.instance.refFromURL(imageUrl);
+      await imageRef.delete();
+    }catch (e){
+      print("FIREBASE STORAGE ERROR: $e");
+      throw e;
+    }
+  }
 }

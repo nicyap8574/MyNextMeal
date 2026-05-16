@@ -3,7 +3,6 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:intl/intl.dart';
 import 'package:mynextmeal/features/controllers/individual_meal_controller.dart';
-
 import '../common/styles/spacing_styles.dart';
 import '../utils/constants/colors.dart';
 import '../utils/constants/sizes.dart';
@@ -54,6 +53,8 @@ class IndividualMeal extends StatelessWidget {
                         return const Center(child: Text("No data found"));
                       }
 
+                      print(mealId);
+
                       final nutrients = meal.data!['analysis']['nutrients'][0];
                       final mealName = nutrients['meal_name'];
                       final ingredients = nutrients['detected_ingredients'] as List<dynamic>;
@@ -65,7 +66,6 @@ class IndividualMeal extends StatelessWidget {
                       final briefSummary = nutrients['brief_summary'];
                       final createdAt = meal.data!['createdAt'].toDate();
                       final formattedDateTime = DateFormat('dd MMM yyyy, hh:mm a').format(createdAt);
-
 
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -133,6 +133,23 @@ class IndividualMeal extends StatelessWidget {
                           Chip(
                             label: Text(formattedDateTime),
                           ),
+
+                          const SizedBox(height: AppSizes.spaceBtwSections),
+
+                          ElevatedButton.icon(
+                            onPressed: () {
+                              controller.deleteMeal(mealId);
+                            },
+                            label: Text("Delete Meal"),
+                            icon: Icon(Icons.delete),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Color(0xFF960018),
+                              padding: EdgeInsets.symmetric(horizontal: 12),
+                              side: const BorderSide(
+                                width: 0,
+                              ),
+                            ),
+                          )
                         ],
                       );
                     }

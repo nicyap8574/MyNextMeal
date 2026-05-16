@@ -18,7 +18,7 @@ class AppTheme{
     useMaterial3: true,
     fontFamily: 'Poppins',
     brightness: Brightness.light,
-    primaryColor: Colors.blue,
+    // primaryColor: Colors.blue,
     scaffoldBackgroundColor: AppColors.lightBackground,
     textTheme: AppTextTheme.lightTextTheme,
     chipTheme: AppChipTheme.lightChipTheme,
@@ -36,7 +36,7 @@ class AppTheme{
     useMaterial3: true,
     fontFamily: 'Poppins',
     brightness: Brightness.dark,
-    primaryColor: Colors.blue,
+    // primaryColor: Colors.blue,
     scaffoldBackgroundColor: AppColors.darkBackground,
     textTheme: AppTextTheme.darkTextTheme,
     chipTheme: AppChipTheme.darkChipTheme,
@@ -47,6 +47,7 @@ class AppTheme{
     inputDecorationTheme: AppTextFieldName.darkInputDecorationTheme,
     checkboxTheme: AppCheckboxTheme.darkCheckboxTheme,
     progressIndicatorTheme: AppProgressIndicatorTheme.darkProgressIndicatorTheme,
+    navigationBarTheme: AppNavBarTheme.darkNavBarTheme,
   );
 
 }

@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
-
 import '../../screens/home.dart';
-import '../../screens/image_analysis.dart';
 import '../../screens/meal_history.dart';
 import '../../screens/user_profile.dart';
 import '../../utils/constants/colors.dart';

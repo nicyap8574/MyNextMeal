@@ -65,7 +65,6 @@ class ImageAnalysisController{
     try{
       isLoading.value = true;
       errorMessage.value = null;
-      // analysisData.value = null;
 
       final user = _auth.currentUser;
 

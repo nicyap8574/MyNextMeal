@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import '../features/controllers/meal_history_controller.dart';
 import '../utils/constants/colors.dart';
 import '../utils/constants/sizes.dart';
+import '../utils/helpers/helper_functions.dart';
 import 'individual_meal.dart';
 
 class MealHistory extends StatelessWidget {
@@ -15,6 +16,7 @@ class MealHistory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dark = AppHelperFunctions.isDarkMode(context);
     final controller = Get.find<MealHistoryController>();
 
     return SingleChildScrollView(
@@ -56,7 +58,8 @@ class MealHistory extends StatelessWidget {
                           margin: const EdgeInsets.symmetric(vertical: AppSizes.spaceBtwItems/2, horizontal: 16),
 
                           decoration: BoxDecoration(
-                            color: AppColors.white,
+                            // color: AppColors.white,
+                            color: dark ? AppColors.celadon800 : AppColors.white,
                             border: Border.all(color: Colors.transparent, width: 0),
                             boxShadow: [
                               BoxShadow(

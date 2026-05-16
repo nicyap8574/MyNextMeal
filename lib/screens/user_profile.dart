@@ -16,6 +16,9 @@ class UserProfile extends StatefulWidget {
 class _UserProfileState extends State<UserProfile> {
   late UserProfileController controller;
 
+  String email = '';
+  String id = '';
+  String username = '';
   Set<int> selectedDietOptions = {}; //stores selected diet options
   Set<int> selectedDietaryFocus = {}; //stores selected dietary focus
 
@@ -44,10 +47,13 @@ class _UserProfileState extends State<UserProfile> {
 
   //Show previously-selected diet and focus options (get from database)
   void loadUserData() async{
-    final data = await controller.getSelectedPreferences();
+    final data = await controller.getUserDetails();
 
     if(data != null){
-      //extract only dietOptions and dietaryFocus from user's document database
+      //extract from user's document database
+      email = data['email'];
+      id = data['id'];
+      username = data['username'];
       final List<dynamic> diet = data['dietOptions'];
       final List<dynamic> focus = data['dietaryFocus'];
 
@@ -74,6 +80,54 @@ class _UserProfileState extends State<UserProfile> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Container(
+                    child: Text(
+                      'Username',
+                      style: TextStyle(
+                        fontSize: AppSizes.fontSizeLg,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(height: AppSizes.spaceBtwItems),
+
+                  Text(username),
+
+                  SizedBox(height: AppSizes.spaceBtwSections),
+
+                  Container(
+                    child: Text(
+                      'Email Address',
+                      style: TextStyle(
+                        fontSize: AppSizes.fontSizeLg,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(height: AppSizes.spaceBtwItems),
+
+                  Text(email),
+
+                  SizedBox(height: AppSizes.spaceBtwSections),
+
+                  Container(
+                    child: Text(
+                      'User ID',
+                      style: TextStyle(
+                        fontSize: AppSizes.fontSizeLg,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(height: AppSizes.spaceBtwItems),
+
+                  Text(id),
+
+                  SizedBox(height: AppSizes.spaceBtwSections),
+
                   Container(
                       child: Text(
                         'Dietary Goals',

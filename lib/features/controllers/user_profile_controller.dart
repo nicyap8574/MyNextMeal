@@ -40,7 +40,7 @@ class UserProfileController extends GetxController{
     }
   }
 
-  Future<Map<String,dynamic>?> getSelectedPreferences() async{
+  Future<Map<String,dynamic>?> getUserDetails() async{
 
     if(cachedData!=null){
       return cachedData;

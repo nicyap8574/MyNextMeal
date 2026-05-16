@@ -94,16 +94,6 @@ class Home extends StatelessWidget {
 
               const SizedBox(height: AppSizes.spaceBtwSections),
 
-              //My profile button
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                    onPressed: () => Get.to(() => const UserProfilePage()),
-                    child: const Text("My Profile")),
-              ),
-
-              const SizedBox(height: AppSizes.spaceBtwSections),
-
               //sign out button
               SizedBox(
                 width: double.infinity,

@@ -10,10 +10,8 @@ import 'package:mynextmeal/features/controllers/individual_meal_controller.dart'
 import 'package:mynextmeal/features/controllers/meal_history_controller.dart';
 import 'package:mynextmeal/features/controllers/user_profile_controller.dart';
 import 'package:mynextmeal/features/user/user_controller.dart';
-
 import 'data/network/network_manager.dart';
 import 'firebase_options.dart';
-
 import 'app.dart';
 import 'data/repositories/authentication_repository.dart';
 

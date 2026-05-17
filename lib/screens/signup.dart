@@ -5,7 +5,6 @@ import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:mynextmeal/screens/login.dart';
 import 'package:mynextmeal/utils/validator/validator.dart';
-
 import '../features/controllers/signup_controller.dart';
 import '../utils/constants/colors.dart';
 import '../utils/constants/image_strings.dart';

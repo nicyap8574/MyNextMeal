@@ -6,7 +6,6 @@ import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:mynextmeal/features/controllers/camera_screen_controller.dart';
 import 'package:mynextmeal/screens/food_analysis_results.dart';
-
 import '../features/controllers/image_analysis_controller.dart';
 import '../utils/constants/colors.dart';
 import '../utils/helpers/helper_functions.dart';

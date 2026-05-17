@@ -1,8 +1,6 @@
 import 'package:firebase_ai/firebase_ai.dart';
 
 class GeminiController{
-
-
   //JSON format for output
   static final analysisJsonSchema = Schema.object(
       properties: {

@@ -5,7 +5,6 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:mynextmeal/features/controllers/user_profile_controller.dart';
-
 import 'gemini_controller.dart';
 
 class MealRecommendationController {

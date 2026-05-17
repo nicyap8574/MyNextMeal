@@ -7,9 +7,7 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mynextmeal/common/widgets/app_navigation_bar.dart';
-
 import '../../screens/login.dart';
-import '../../screens/home.dart';
 import '../../utils/popups/loaders.dart';
 
 class AuthenticationRepository extends GetxController{

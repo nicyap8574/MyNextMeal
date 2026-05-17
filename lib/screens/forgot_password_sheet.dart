@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
-
 import '../common/styles/spacing_styles.dart';
 import '../features/controllers/forgot_password_controller.dart';
 import '../utils/constants/sizes.dart';

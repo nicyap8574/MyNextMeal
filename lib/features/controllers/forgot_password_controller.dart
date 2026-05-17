@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:mynextmeal/data/repositories/authentication_repository.dart';
 import 'package:mynextmeal/screens/forgot_password_sheet.dart';
 import 'package:mynextmeal/utils/popups/loaders.dart';
-
 import '../../data/network/network_manager.dart';
 
 class ForgotPasswordController extends GetxController{

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'meal_history.dart';
 
 class MealHistoryPage extends StatelessWidget {

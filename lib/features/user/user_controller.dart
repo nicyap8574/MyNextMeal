@@ -4,7 +4,6 @@ import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
-
 import '../../data/repositories/authentication_repository.dart';
 import '../../data/repositories/user_repository.dart';
 import '../../utils/popups/loaders.dart';

@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:mynextmeal/features/user/user_model.dart';
-
 import '../../data/repositories/authentication_repository.dart';
 import '../../data/repositories/user_repository.dart';
 import '../../utils/popups/loaders.dart';

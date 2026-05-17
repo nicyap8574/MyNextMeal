@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mynextmeal/data/repositories/authentication_repository.dart';
-
 import '../../data/repositories/user_repository.dart';
 import '../../screens/login.dart';
 import '../../utils/popups/loaders.dart';

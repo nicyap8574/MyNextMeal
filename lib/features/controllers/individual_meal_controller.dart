@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart';
 import 'package:mynextmeal/data/repositories/image_analysis_repository.dart';
 import 'package:mynextmeal/features/controllers/image_analysis_controller.dart';
 

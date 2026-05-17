@@ -3,7 +3,6 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:mynextmeal/common/styles/spacing_styles.dart';
 import 'package:mynextmeal/utils/constants/sizes.dart';
-
 import '../features/controllers/user_profile_controller.dart';
 
 class UserProfile extends StatefulWidget {

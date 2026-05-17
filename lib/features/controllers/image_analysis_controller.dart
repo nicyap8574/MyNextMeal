@@ -2,11 +2,12 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_ai/firebase_ai.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
-import '../../data/repositories/image_analysis_repository.dart';
 import '../../utils/helpers/helper_functions.dart';
 import '../../utils/popups/loaders.dart';
 import 'gemini_controller.dart';
@@ -22,8 +23,30 @@ class ImageAnalysisController{
   final Rxn<XFile> foodImage = Rxn<XFile>();
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
-  final repo = Get.find<ImageAnalysisRepository>();
+  // final repo = Get.find<ImageAnalysisRepository>();
+  final deviceStorage = GetStorage();
 
+  Future<String> uploadImage({required String path, required XFile image}) async{
+    try{
+      final storageRef = FirebaseStorage.instance.ref(path);
+      final imageRef = storageRef.child(image.name);
+      await imageRef.putFile(File(image.path));
+      return await imageRef.getDownloadURL();
+    }catch (e){
+      print("FIREBASE STORAGE ERROR: $e");
+      throw e;
+    }
+  }
+
+  Future<void> deleteImage({required String imageUrl}) async{
+    try{
+      final imageRef = FirebaseStorage.instance.refFromURL(imageUrl);
+      await imageRef.delete();
+    }catch (e){
+      print("FIREBASE STORAGE ERROR: $e");
+      throw e;
+    }
+  }
 
   Future<bool> pickImage() async{
     Permission permission;
@@ -74,7 +97,7 @@ class ImageAnalysisController{
       final imagePart = InlineDataPart('image/jpeg', image);
 
       //save image to Storage
-      imageUrl.value = await repo.uploadImage(
+      imageUrl.value = await uploadImage(
         path: 'meal_images/${user!.uid}/${DateTime.now().millisecondsSinceEpoch}',
         image: file,
       );

@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:mynextmeal/data/repositories/image_analysis_repository.dart';
 import 'package:mynextmeal/features/controllers/image_analysis_controller.dart';
 
 class IndividualMealController extends GetxController{
@@ -10,7 +9,7 @@ class IndividualMealController extends GetxController{
   final _auth = FirebaseAuth.instance;
   late final user = _auth.currentUser;
   final imageAnalysisController = Get.find<ImageAnalysisController>();
-  final repo = Get.find<ImageAnalysisRepository>();
+  final repo = Get.find<ImageAnalysisController>();
 
   Future<Map<String,dynamic>?> getIndividualMeal(mealId) async{
     final meal = await _db

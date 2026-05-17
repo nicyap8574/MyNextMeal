@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mynextmeal/data/repositories/authentication_repository.dart';
+import 'package:mynextmeal/features/controllers/auth_controller.dart';
 import 'package:mynextmeal/screens/forgot_password_sheet.dart';
 import 'package:mynextmeal/utils/popups/loaders.dart';
 import '../../data/network/network_manager.dart';
@@ -30,7 +30,8 @@ class ForgotPasswordController extends GetxController{
       }
 
       //send email to reset password
-      await AuthenticationRepository.instance.forgotPassword(email.text.trim());
+      // await AuthenticationRepository.instance.forgotPassword(email.text.trim());
+      await AuthController.instance.forgotPassword(email.text.trim());
       Get.back();
 
       //show success message

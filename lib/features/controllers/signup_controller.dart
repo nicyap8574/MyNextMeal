@@ -7,8 +7,8 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:mynextmeal/data/repositories/authentication_repository.dart';
-import '../../data/repositories/user_repository.dart';
+import 'package:mynextmeal/features/controllers/auth_controller.dart';
+import '../user/user_repository.dart';
 import '../../screens/login.dart';
 import '../../utils/popups/loaders.dart';
 import '../user/user_model.dart';
@@ -38,7 +38,7 @@ class SignupController extends GetxController{
       }
 
       //Register user in firebase authentication and save user data in firebase
-      final userCredential = await AuthenticationRepository.instance.registerWithEmailAndPassword(email.text.trim(), password.text.trim());
+      final userCredential = await AuthController.instance.registerWithEmailAndPassword(email.text.trim(), password.text.trim());
 
 
       final newUser = UserModel(

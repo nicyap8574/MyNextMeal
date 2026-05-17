@@ -24,10 +24,11 @@ class UserProfileController extends GetxController{
       await _db.collection('users').doc(user!.uid).set({
         'dietOptions': selectedDietOptions,
         'dietaryFocus': selectedDietaryFocus,
-      }, SetOptions(merge: true));
+      }, SetOptions(merge: true)); //merge new dietOptions and dietaryFocus with current document
 
       //add selected options to cachedData so does not read again from db
       cachedData = {
+        ...?cachedData, //merge previous cachedData with new
         'dietOptions': selectedDietOptions,
         'dietaryFocus': selectedDietaryFocus,
       };
@@ -44,8 +45,6 @@ class UserProfileController extends GetxController{
     if(cachedData!=null){
       return cachedData;
     }else{
-      print("READING DATA FROM DATABASE!!");
-
       final doc = await _db
           .collection('users')
           .doc(user!.uid)

@@ -48,6 +48,15 @@ class _UserProfileState extends State<UserProfile> {
   void loadUserData() async{
     final data = await controller.getUserDetails();
 
+    if(data?['id'] != ''){
+      setState((){
+        //extract from user's document database
+        email = data?['email'] ?? "No email set";
+        id = data?['id'] ?? "No ID set";
+        username = data?['username'] ?? "No username set";
+      });
+    }
+
     if(data != null){
 
       final List<dynamic> diet = data['dietOptions'];
@@ -55,11 +64,6 @@ class _UserProfileState extends State<UserProfile> {
 
       //pre-selects ChoiceChip
       setState((){
-        //extract from user's document database
-        email = data['email'];
-        id = data['id'];
-        username = data['username'];
-
         selectedDietOptions = diet.map((item) => dietOptions
             .indexOf(item)) //converts String to index (read by ChoiceChip)
             .toSet(); //converts List to Set

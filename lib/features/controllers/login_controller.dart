@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import '../../data/repositories/authentication_repository.dart';
-import '../../data/repositories/user_repository.dart';
+import 'package:mynextmeal/features/controllers/auth_controller.dart';
+import '../user/user_repository.dart';
 import '../../utils/popups/loaders.dart';
 import '../user/user_controller.dart';
 
@@ -32,10 +32,10 @@ class LoginController extends GetxController {
       }
 
       //Login user
-      final userCredential = await AuthenticationRepository.instance.loginWithEmailAndPassword(email.text.trim(), password.text.trim());
+      await AuthController.instance.loginWithEmailAndPassword(email.text.trim(), password.text.trim());
 
       //Redirect
-      AuthenticationRepository.instance.screenRedirect();
+      AuthController.instance.screenRedirect();
     }catch(e){
       AppLoaders.showSnackBar(context, "Error: $e");
     }
@@ -43,7 +43,7 @@ class LoginController extends GetxController {
 
   Future<void> googleSignIn({required BuildContext context}) async{
     try{
-      final userCredential = await AuthenticationRepository.instance.signInWithGoogle();
+      final userCredential = await AuthController.instance.signInWithGoogle();
 
       //save user record
       await userController.saveUserRecord(userCredential);
@@ -52,7 +52,7 @@ class LoginController extends GetxController {
       // await userController.fetchUserRecord();
 
       //Redirect
-      AuthenticationRepository.instance.screenRedirect();
+      AuthController.instance.screenRedirect();
     }catch(e){
       AppLoaders.showSnackBar(context, "Error: $e");
     }

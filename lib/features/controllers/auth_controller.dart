@@ -10,12 +10,11 @@ import 'package:mynextmeal/common/widgets/app_navigation_bar.dart';
 import '../../screens/login.dart';
 import '../../utils/popups/loaders.dart';
 
-class AuthenticationRepository extends GetxController{
-  static AuthenticationRepository get instance => Get.find();
+class AuthController extends GetxController{
+  static AuthController get instance => Get.find();
 
   final deviceStorage = GetStorage();
   final _auth = FirebaseAuth.instance;
-
 
   @override
   void onReady() {

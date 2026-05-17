@@ -44,6 +44,8 @@ class UserProfileController extends GetxController{
     if(cachedData!=null){
       return cachedData;
     }else{
+      print("READING DATA FROM DATABASE!!");
+
       final doc = await _db
           .collection('users')
           .doc(user!.uid)

@@ -49,15 +49,17 @@ class _UserProfileState extends State<UserProfile> {
     final data = await controller.getUserDetails();
 
     if(data != null){
-      //extract from user's document database
-      email = data['email'];
-      id = data['id'];
-      username = data['username'];
+
       final List<dynamic> diet = data['dietOptions'];
       final List<dynamic> focus = data['dietaryFocus'];
 
       //pre-selects ChoiceChip
       setState((){
+        //extract from user's document database
+        email = data['email'];
+        id = data['id'];
+        username = data['username'];
+
         selectedDietOptions = diet.map((item) => dietOptions
             .indexOf(item)) //converts String to index (read by ChoiceChip)
             .toSet(); //converts List to Set

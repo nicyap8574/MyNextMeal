@@ -10,7 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../utils/helpers/helper_functions.dart';
 import '../../utils/popups/loaders.dart';
-import 'gemini_controller.dart';
+import '../../services/gemini_controller.dart';
 
 class ImageAnalysisController{
   final gemini = GeminiController();

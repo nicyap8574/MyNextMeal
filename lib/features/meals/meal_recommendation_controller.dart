@@ -4,8 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:mynextmeal/features/controllers/user_profile_controller.dart';
-import 'gemini_controller.dart';
+import 'package:mynextmeal/features/user/user_profile_controller.dart';
+import '../../services/gemini_controller.dart';
 
 class MealRecommendationController {
   static MealRecommendationController get instance => Get.find();

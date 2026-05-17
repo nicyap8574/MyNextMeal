@@ -4,13 +4,13 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:mynextmeal/screens/login.dart';
-import 'package:mynextmeal/utils/validator/validator.dart';
-import '../features/controllers/signup_controller.dart';
+import '../features/auth/signup_controller.dart';
 import '../utils/constants/colors.dart';
 import '../utils/constants/image_strings.dart';
 import '../utils/constants/sizes.dart';
 import '../utils/helpers/helper_functions.dart';
 import '../utils/popups/loaders.dart';
+import '../utils/validator/validator.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});

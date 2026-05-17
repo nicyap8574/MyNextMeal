@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:mynextmeal/features/controllers/auth_controller.dart';
+import 'package:mynextmeal/features/auth/auth_controller.dart';
 import '../user/user_repository.dart';
 import '../../utils/popups/loaders.dart';
 import '../user/user_controller.dart';
@@ -15,8 +15,8 @@ class LoginController extends GetxController {
   final password = TextEditingController();
   GlobalKey<FormState> loginFormKey = GlobalKey<FormState>(); //Form validation
   final localStorage = GetStorage();
-  final userRepository = Get.put(UserRepository());
-  final userController = Get.put(UserController());
+  final userRepository = Get.find<UserRepository>();
+  final userController = Get.find<UserController>();
 
   Future<void> signIn({required BuildContext context}) async{
     try{
@@ -34,6 +34,8 @@ class LoginController extends GetxController {
       //Login user
       await AuthController.instance.loginWithEmailAndPassword(email.text.trim(), password.text.trim());
 
+      await userController.fetchUserRecord();
+
       //Redirect
       AuthController.instance.screenRedirect();
     }catch(e){
@@ -49,7 +51,7 @@ class LoginController extends GetxController {
       await userController.saveUserRecord(userCredential);
       //passes UserCredential data type instead of User data type because it checks for new user
 
-      // await userController.fetchUserRecord();
+      await userController.fetchUserRecord();
 
       //Redirect
       AuthController.instance.screenRedirect();

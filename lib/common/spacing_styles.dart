@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-import '../../utils/constants/sizes.dart';
+import '../utils/constants/sizes.dart';
 
 class AppSpacingStyle{
   static const EdgeInsetsGeometry paddingWithAppBarHeight = EdgeInsets.only(

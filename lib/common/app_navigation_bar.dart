@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../screens/home.dart';
-import '../../screens/meal_history.dart';
-import '../../screens/user_profile.dart';
-import '../../utils/constants/colors.dart';
-import '../../utils/helpers/helper_functions.dart';
+import '../screens/home.dart';
+import '../screens/meal_history.dart';
+import '../screens/user_profile.dart';
+import '../utils/constants/colors.dart';
+import '../utils/helpers/helper_functions.dart';
 
 class AppNavigationBar extends StatefulWidget {
   const AppNavigationBar({super.key});

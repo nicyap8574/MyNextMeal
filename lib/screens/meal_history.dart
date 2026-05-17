@@ -33,7 +33,6 @@ class MealHistory extends StatelessWidget {
                 return Center(child: Text(snapshot.error.toString()));
               }
 
-              //query snapshot - documents list (from displayCurrentUserMeals())
               final meals = snapshot.data!.docs;
 
               return ListView.builder(
@@ -56,7 +55,6 @@ class MealHistory extends StatelessWidget {
                           margin: const EdgeInsets.symmetric(vertical: AppSizes.spaceBtwItems/2, horizontal: 16),
 
                           decoration: BoxDecoration(
-                            // color: AppColors.white,
                             color: dark ? AppColors.celadon800 : AppColors.white,
                             border: Border.all(color: Colors.transparent, width: 0),
                             boxShadow: [

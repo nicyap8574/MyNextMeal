@@ -1,13 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
 
-class MealHistoryController {
+class MealHistoryController extends GetxController{
+
   QuerySnapshot<Map<String, dynamic>>? cachedData;
+  bool latestData = true;
   final user = FirebaseAuth.instance.currentUser;
 
   Future<QuerySnapshot<Map<String, dynamic>>> displayCurrentUserMeals() async {
 
-    if(cachedData!=null){
+    if(cachedData!=null && latestData){
+      print("GETTING CACHED DATA");
       return cachedData!;
     }
 
@@ -18,6 +22,8 @@ class MealHistoryController {
         .get();
 
     cachedData = mealHistoryQuery;
+    latestData = true;
+    print("READING FROM DATABASE");
 
     return mealHistoryQuery;
   }

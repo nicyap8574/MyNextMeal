@@ -28,7 +28,6 @@ class AuthController extends GetxController{
     final user = _auth.currentUser;
 
     if(user != null){
-      // Get.offAll(() => const Home());
       Get.offAll(() => const AppNavigationBar());
     }else{
       Get.offAll(() => const LoginScreen());

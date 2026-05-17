@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mynextmeal/features/meals/meal_history_controller.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../utils/helpers/helper_functions.dart';
 import '../../utils/popups/loaders.dart';
@@ -23,8 +24,8 @@ class ImageAnalysisController{
   final Rxn<XFile> foodImage = Rxn<XFile>();
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
-  // final repo = Get.find<ImageAnalysisRepository>();
   final deviceStorage = GetStorage();
+  final mealHistoryController = Get.find<MealHistoryController>();
 
   Future<String> uploadImage({required String path, required XFile image}) async{
     try{
@@ -69,7 +70,6 @@ class ImageAnalysisController{
 
       if(image!=null){
         foodImage.value = image;
-        // await analyseFoodImage(image);
         analyseFoodImage(image);
         return true;
         }
@@ -101,6 +101,8 @@ class ImageAnalysisController{
         path: 'meal_images/${user!.uid}/${DateTime.now().millisecondsSinceEpoch}',
         image: file,
       );
+
+      mealHistoryController.latestData = false;
 
       //generate text output
       final result = await gemini.analysisModel.generateContent([

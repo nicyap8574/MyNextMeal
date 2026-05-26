@@ -138,7 +138,7 @@ class IndividualMeal extends StatelessWidget {
 
                           ElevatedButton.icon(
                             onPressed: () {
-                              controller.deleteMeal(mealId);
+                              controller.deleteMeal(context, mealId);
                             },
                             label: Text("Delete Meal"),
                             icon: Icon(Icons.delete),

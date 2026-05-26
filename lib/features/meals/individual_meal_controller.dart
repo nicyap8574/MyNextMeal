@@ -1,8 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mynextmeal/features/meals/image_analysis_controller.dart';
 import 'package:mynextmeal/features/meals/meal_history_controller.dart';
+import 'package:path/path.dart';
+
+import '../../screens/meal_history.dart';
 
 class IndividualMealController extends GetxController{
   static IndividualMealController get instance => Get.find();
@@ -22,13 +26,40 @@ class IndividualMealController extends GetxController{
     return meal.data();
   }
 
-  Future<void> deleteMeal(mealId) async{
+  Future<void> deleteMeal(BuildContext context, mealId) async{
+
     //delete image from Cloud Storage
     final mealData = await getIndividualMeal(mealId);
     if(mealData != null){
       final imageUrl = mealData['imageUrl'];
+
       if(imageUrl != null){
-        await repo.deleteImage(imageUrl: mealData!['imageUrl']);
+
+        try{
+          await repo.deleteImage(imageUrl: mealData!['imageUrl']);
+        }catch(e){
+          print(e);
+        }finally{
+          mealHistoryController.latestData = false;
+          showDialog(
+              context: context,
+              builder: (BuildContext context){
+                return AlertDialog(
+                  title: const Text("Meal Deleted"),
+                  content: const Text("Meal has been deleted successfully"),
+                  actions: [
+                    TextButton(
+                      onPressed: (){
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                      },
+                      child: const Text("OK"),
+                    )
+                  ],
+                );
+              }
+          );
+        }
       }else{
         print("ERROR DELETING IMAGE");
       }

@@ -6,9 +6,10 @@ class MealHistoryController extends GetxController{
 
   QuerySnapshot<Map<String, dynamic>>? cachedData;
   bool latestData = true;
-  final user = FirebaseAuth.instance.currentUser;
+  final _auth = FirebaseAuth.instance;
 
   Future<QuerySnapshot<Map<String, dynamic>>> displayCurrentUserMeals() async {
+    final user = _auth.currentUser;
 
     if(cachedData!=null && latestData){
       print("GETTING CACHED DATA");

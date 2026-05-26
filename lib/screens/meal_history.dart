@@ -25,12 +25,12 @@ class MealHistory extends StatelessWidget {
                 return const Center(child: CircularProgressIndicator());
               }
 
-              if(!snapshot.hasData || snapshot.data!.docs.isEmpty){
-                return const Center(child: Text("No meals found"));
-              }
-
               if(snapshot.hasError){
                 return Center(child: Text(snapshot.error.toString()));
+              }
+
+              if(!snapshot.hasData || snapshot.data!.docs.isEmpty){
+                return const Center(child: Text("No meals found"));
               }
 
               final meals = snapshot.data!.docs;

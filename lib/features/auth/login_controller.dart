@@ -20,10 +20,6 @@ class LoginController extends GetxController {
   final userController = Get.find<UserController>();
   final mealHistoryController = Get.find<MealHistoryController>();
 
-  void clearCache(){
-    mealHistoryController.latestData = false;
-    mealHistoryController.cachedData = null;
-  }
 
   Future<void> signIn({required BuildContext context}) async{
     try{
@@ -43,8 +39,6 @@ class LoginController extends GetxController {
 
       await userController.fetchUserRecord();
 
-      clearCache();
-
       //Redirect
       AuthController.instance.screenRedirect();
     }catch(e){
@@ -61,8 +55,6 @@ class LoginController extends GetxController {
       //passes UserCredential data type instead of User data type because it checks for new user
 
       await userController.fetchUserRecord();
-
-      clearCache();
 
       //Redirect
       AuthController.instance.screenRedirect();

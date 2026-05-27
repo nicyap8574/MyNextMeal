@@ -4,18 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mynextmeal/features/meals/image_analysis_controller.dart';
 import 'package:mynextmeal/features/meals/meal_history_controller.dart';
-import 'package:path/path.dart';
 
-import '../../screens/meal_history.dart';
 
 class IndividualMealController extends GetxController{
   static IndividualMealController get instance => Get.find();
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
   late final user = _auth.currentUser;
-  final imageAnalysisController = Get.find<ImageAnalysisController>();
   final repo = Get.find<ImageAnalysisController>();
-  final mealHistoryController = Get.find<MealHistoryController>();
 
   Future<Map<String,dynamic>?> getIndividualMeal(mealId) async{
     final meal = await _db
@@ -40,7 +36,6 @@ class IndividualMealController extends GetxController{
         }catch(e){
           print(e);
         }finally{
-          mealHistoryController.latestData = false;
           showDialog(
               context: context,
               builder: (BuildContext context){
@@ -69,7 +64,5 @@ class IndividualMealController extends GetxController{
 
     //delete from Firestore
     await _db.collection('meals').doc(mealId).delete();
-
-    mealHistoryController.latestData = false;
   }
 }

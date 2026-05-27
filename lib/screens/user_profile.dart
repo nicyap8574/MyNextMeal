@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:mynextmeal/common/spacing_styles.dart';
+import 'package:mynextmeal/features/user/user_controller.dart';
 import 'package:mynextmeal/utils/constants/sizes.dart';
 import '../features/user/user_profile_controller.dart';
 
@@ -77,7 +78,8 @@ class _UserProfileState extends State<UserProfile> {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<UserProfileController>();
+    final userProfileController = Get.find<UserProfileController>();
+    final userController = Get.find<UserController>();
 
         return SingleChildScrollView(
             child: Padding(
@@ -222,7 +224,7 @@ class _UserProfileState extends State<UserProfile> {
                             .map((index) => dietaryFocus[index])
                             .toList();
 
-                        controller.saveChanges(
+                        userProfileController.saveChanges(
                           context: context,
                           selectedDietOptions: diet,
                           selectedDietaryFocus: focus,
@@ -230,6 +232,13 @@ class _UserProfileState extends State<UserProfile> {
                       },
                       child: const Text("Save Changes"),
                     ),
+                  ),
+
+                  const SizedBox(height: AppSizes.spaceBtwItems),
+
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(onPressed: () => userController.signOut(), child: const Text("Sign Out")),
                   ),
                 ],
               ),

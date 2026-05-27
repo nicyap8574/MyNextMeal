@@ -4,10 +4,13 @@ import 'package:firebase_ai/firebase_ai.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mynextmeal/features/meals/meal_history_controller.dart';
+import 'package:mynextmeal/screens/meal_history.dart';
+import 'package:mynextmeal/screens/meal_history_page.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../utils/helpers/helper_functions.dart';
 import '../../utils/popups/loaders.dart';
@@ -102,8 +105,6 @@ class ImageAnalysisController{
         image: file,
       );
 
-      mealHistoryController.latestData = false;
-
       //generate text output
       final result = await gemini.analysisModel.generateContent([
         Content.multi([prompt,imagePart])
@@ -143,6 +144,42 @@ class ImageAnalysisController{
       AppLoaders.showSnackBar(context, "Meal Saved Successfully");
     }catch(e){
       print("Error saving meal: $e");
+    }finally{
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(builder: (context) => const MealHistoryPage()),
+      // );
+
+      //TODO: CURRENT ISSUE - BACK BUTTON WILL BRING BACK TO FoodAnalysisResults INSTEAD OF RETURNING TO HOME
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+            builder: (context) => const MealHistoryPage(),
+        ),
+        (route)=>false,
+      );
+
+
+      // showDialog(
+      //     context: context,
+      //     builder: (BuildContext context){
+      //       return AlertDialog(
+      //         title: const Text("Meal Saved"),
+      //         content: const Text("Meal has been saved successfully"),
+      //         actions: [
+      //           TextButton(
+      //             onPressed: (){
+      //               Navigator.push(
+      //                 context,
+      //                 MaterialPageRoute(builder: (context) => const MealHistoryPage()),
+      //               );
+      //             },
+      //             child: const Text("OK"),
+      //           )
+      //         ],
+      //       );
+      //     }
+      // );
     }
   }
 }

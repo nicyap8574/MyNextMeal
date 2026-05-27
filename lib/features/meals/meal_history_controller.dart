@@ -8,25 +8,31 @@ class MealHistoryController extends GetxController{
   bool latestData = true;
   final _auth = FirebaseAuth.instance;
 
-  Future<QuerySnapshot<Map<String, dynamic>>> displayCurrentUserMeals() async {
+  Stream<QuerySnapshot<Map<String, dynamic>>> displayCurrentUserMeals(){
     final user = _auth.currentUser;
+    //
+    // if(cachedData!=null && latestData){
+    //   print("GETTING CACHED DATA");
+    //   return cachedData!;
+    // }
+    //
+    // var mealHistoryQuery = await FirebaseFirestore.instance
+    //     .collection('meals')
+    //     .where('user', isEqualTo: user!.uid)
+    //     .orderBy('createdAt', descending: true)
+    //     .get();
+    //
+    // cachedData = mealHistoryQuery;
+    // latestData = true;
+    // print("READING FROM DATABASE");
+    //
+    // return mealHistoryQuery;
 
-    if(cachedData!=null && latestData){
-      print("GETTING CACHED DATA");
-      return cachedData!;
-    }
-
-    var mealHistoryQuery = await FirebaseFirestore.instance
+    return FirebaseFirestore.instance
         .collection('meals')
         .where('user', isEqualTo: user!.uid)
         .orderBy('createdAt', descending: true)
-        .get();
-
-    cachedData = mealHistoryQuery;
-    latestData = true;
-    print("READING FROM DATABASE");
-
-    return mealHistoryQuery;
+        .snapshots();
   }
 
   Future<void> deleteMeals() async{

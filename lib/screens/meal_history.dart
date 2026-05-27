@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -18,8 +19,8 @@ class MealHistory extends StatelessWidget {
     final controller = Get.find<MealHistoryController>();
 
     return SingleChildScrollView(
-        child: FutureBuilder(
-            future: controller.displayCurrentUserMeals(),
+        child: StreamBuilder<QuerySnapshot<Map<String,dynamic>>>(
+            stream: controller.displayCurrentUserMeals(),
             builder: (context, snapshot){
               if(snapshot.connectionState == ConnectionState.waiting){
                 return const Center(child: CircularProgressIndicator());

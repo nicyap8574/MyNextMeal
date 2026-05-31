@@ -171,7 +171,8 @@ class Home extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Get.to(() => const ImageAnalysis()),
-        backgroundColor: AppColors.apricotCream400,
+        // backgroundColor: AppColors.apricotCream700,
+        backgroundColor: dark ? AppColors.primaryButton : AppColors.apricotCream700,
         foregroundColor: AppColors.apricotCream100,
         child: const Icon(Icons.add),
       ),

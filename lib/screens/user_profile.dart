@@ -5,6 +5,7 @@ import 'package:mynextmeal/common/spacing_styles.dart';
 import 'package:mynextmeal/features/user/user_controller.dart';
 import 'package:mynextmeal/utils/constants/sizes.dart';
 import '../features/user/user_profile_controller.dart';
+import '../utils/constants/colors.dart';
 
 class UserProfile extends StatefulWidget {
   const UserProfile({super.key});
@@ -136,109 +137,157 @@ class _UserProfileState extends State<UserProfile> {
                   SizedBox(height: AppSizes.spaceBtwSections),
 
                   Container(
-                      child: Text(
-                        'Dietary Goals',
-                        style: TextStyle(
-                          fontSize: AppSizes.fontSizeLg,
-                          fontWeight: FontWeight.bold,
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(16),
+
+                    decoration: BoxDecoration(
+                      color: AppColors.apricotCream100,
+                      border: Border.all(color: Colors.transparent, width: 0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.darkerGrey.withOpacity(0.3),
+                          blurRadius: 10,
+                          offset: Offset(0,4),
                         ),
-                      ),
-                  ),
+                      ],
+                      borderRadius: BorderRadius.circular(20),
+                    ),
 
-                  SizedBox(height: AppSizes.spaceBtwItems),
-
-                  Wrap(
-                      spacing: 8.0,
-                      children: List.generate(dietOptions.length, (index){
-                        final isSelected = selectedDietOptions.contains(index);
-
-                        return ChoiceChip(
-                          label: Text(
-                              dietOptions[index],
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children:[
+                        Container(
+                          child: Text(
+                            'Dietary Goals',
+                            style: TextStyle(
+                              fontSize: AppSizes.fontSizeLg,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                          selected: isSelected,
-                          // showCheckmark: false,
-                          onSelected: (bool selected){
-                            setState((){
-                              if (isSelected){
-                                selectedDietOptions.remove(index);
-                              }else{
-                                selectedDietOptions.add(index);
-                              }
-                            });
-                          }
-                        );
-                      }
+                        ),
+
+                        Container(
+                          child: Text(
+                            'Select all that apply',
+                            style: TextStyle(
+                              fontSize: AppSizes.fontSizeSm-1,
+                              fontWeight: FontWeight.normal,
+                              fontStyle: FontStyle.italic,
+                            ),
+                          ),
+                        ),
+
+                        SizedBox(height: AppSizes.spaceBtwItems),
+
+                        Wrap(
+                            spacing: 8.0,
+                            children: List.generate(dietOptions.length, (index){
+                              final isSelected = selectedDietOptions.contains(index);
+
+                              return ChoiceChip(
+                                  label: Text(
+                                    dietOptions[index],
+                                  ),
+                                  selected: isSelected,
+                                  // showCheckmark: false,
+                                  onSelected: (bool selected){
+                                    setState((){
+                                      if (isSelected){
+                                        selectedDietOptions.remove(index);
+                                      }else{
+                                        selectedDietOptions.add(index);
+                                      }
+                                    });
+                                  }
+                              );
+                            }
+                            )
+                        ),
+
+                        const SizedBox(height: AppSizes.spaceBtwSections),
+
+                        Container(
+                          child: Text(
+                            'Dietary Focus',
+                            style: TextStyle(
+                              fontSize: AppSizes.fontSizeLg,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+
+                        Container(
+                          child: Text(
+                            'Select all that apply',
+                            style: TextStyle(
+                              fontSize: AppSizes.fontSizeSm-1,
+                              fontWeight: FontWeight.normal,
+                              fontStyle: FontStyle.italic,
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(height: AppSizes.spaceBtwItems),
+
+                        Wrap(
+                            spacing: 8.0,
+                            children: List.generate(dietaryFocus.length, (index){
+                              final isSelected = selectedDietaryFocus.contains(index);
+
+                              return ChoiceChip(
+                                  label: Text(
+                                    dietaryFocus[index],
+                                  ),
+                                  selected: isSelected,
+                                  onSelected: (bool selected){
+                                    setState((){
+                                      if (isSelected){
+                                        selectedDietaryFocus.remove(index);
+                                      }else{
+                                        selectedDietaryFocus.add(index);
+                                      }
+                                    });
+                                  }
+                              );
+                            }
+                            )
+                        ),
+
+                        const SizedBox(height: AppSizes.spaceBtwSections),
+
+                        //save changes button
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: (){
+                              final diet = selectedDietOptions
+                                  .map((index) => dietOptions[index])
+                                  .toList();
+                              final focus = selectedDietaryFocus
+                                  .map((index) => dietaryFocus[index])
+                                  .toList();
+
+                              userProfileController.saveChanges(
+                                context: context,
+                                selectedDietOptions: diet,
+                                selectedDietaryFocus: focus,
+                              );
+                            },
+                            child: const Text("Save Changes"),
+                          ),
+                        ),
+                      ]
                     )
                   ),
 
                   const SizedBox(height: AppSizes.spaceBtwSections),
 
-                  Container(
-                    child: Text(
-                      'Dietary Focus',
-                      style: TextStyle(
-                        fontSize: AppSizes.fontSizeLg,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: AppSizes.spaceBtwItems),
-
-                  Wrap(
-                      spacing: 8.0,
-                      children: List.generate(dietaryFocus.length, (index){
-                        final isSelected = selectedDietaryFocus.contains(index);
-
-                        return ChoiceChip(
-                            label: Text(
-                                dietaryFocus[index],
-                            ),
-                            selected: isSelected,
-                            onSelected: (bool selected){
-                              setState((){
-                                if (isSelected){
-                                  selectedDietaryFocus.remove(index);
-                                }else{
-                                  selectedDietaryFocus.add(index);
-                                }
-                              });
-                            }
-                        );
-                      }
-                      )
-                  ),
-
-                  const SizedBox(height: AppSizes.spaceBtwSections),
-
-                  //save changes button
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: (){
-                        final diet = selectedDietOptions
-                            .map((index) => dietOptions[index])
-                            .toList();
-                        final focus = selectedDietaryFocus
-                            .map((index) => dietaryFocus[index])
-                            .toList();
-
-                        userProfileController.saveChanges(
-                          context: context,
-                          selectedDietOptions: diet,
-                          selectedDietaryFocus: focus,
-                        );
-                      },
-                      child: const Text("Save Changes"),
-                    ),
-                  ),
-
-                  const SizedBox(height: AppSizes.spaceBtwItems),
-
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(onPressed: () => userController.signOut(), child: const Text("Sign Out")),
+                        onPressed: () => userController.signOut(),
+                        style: ElevatedButton.styleFrom(backgroundColor: AppColors.apricotCream700),
+                        child: const Text("Sign Out")),
                   ),
                 ],
               ),

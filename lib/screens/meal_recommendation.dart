@@ -44,7 +44,7 @@ class _MealRecommendationState extends State<MealRecommendation> {
                   padding: const EdgeInsets.all(16),
 
                   decoration: BoxDecoration(
-                    color: Color(0xFFF8F5D3),
+                    color: AppColors.apricotCream100,
                     border: Border.all(color: Colors.transparent, width: 0),
                     boxShadow: [
                       BoxShadow(

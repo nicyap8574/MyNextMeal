@@ -4,12 +4,12 @@ import '../../constants/colors.dart';
 
 class AppNavBarTheme {
   static final lightNavBarTheme = NavigationBarThemeData(
-    backgroundColor: Color(0xFFf0ecd9),
-    indicatorColor: Color(0xFF226147),
+    backgroundColor: AppColors.apricotCream100,
+    indicatorColor: AppColors.apricotCream700,
   );
 
   static final darkNavBarTheme = NavigationBarThemeData(
     backgroundColor: Color(0xFF211f26),
-    indicatorColor: Color(0xFF244226),
+    indicatorColor: AppColors.apricotCream800,
   );
 }

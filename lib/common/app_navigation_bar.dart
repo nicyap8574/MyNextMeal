@@ -38,13 +38,6 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
       backgroundColor: dark ? AppColors.darkBackground : AppColors.lightBackground,
       body: pages[selectedIndex],
 
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () => Get.to(() => const ImageAnalysis()),
-      //   backgroundColor: Color(0xFF226147),
-      //   foregroundColor: AppColors.celadon100,
-      //   child: const Icon(Icons.add),
-      // ),
-
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index){
           setState((){
@@ -54,17 +47,17 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
         selectedIndex: selectedIndex,
         destinations: const <Widget>[
           NavigationDestination(
-            selectedIcon: Icon(Icons.home, color: AppColors.celadon100),
+            selectedIcon: Icon(Icons.home, color: AppColors.apricotCream100),
             icon: Icon(Icons.home_outlined),
             label: 'Home',
           ),
           NavigationDestination(
-            selectedIcon: Icon(Icons.history, color: AppColors.celadon100),
+            selectedIcon: Icon(Icons.history, color: AppColors.apricotCream100),
             icon: Icon(Icons.history_outlined),
             label: 'History',
           ),
           NavigationDestination(
-            selectedIcon: Icon(Icons.account_circle, color: AppColors.celadon100),
+            selectedIcon: Icon(Icons.account_circle, color: AppColors.apricotCream100),
             icon: Icon(Icons.account_circle_outlined),
             label: 'Profile',
           ),

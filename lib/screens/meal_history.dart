@@ -56,7 +56,7 @@ class MealHistory extends StatelessWidget {
                           margin: const EdgeInsets.symmetric(vertical: AppSizes.spaceBtwItems/2, horizontal: 16),
 
                           decoration: BoxDecoration(
-                            color: dark ? AppColors.celadon800 : AppColors.white,
+                            color: dark ? AppColors.apricotCream800 : AppColors.white,
                             border: Border.all(color: Colors.transparent, width: 0),
                             boxShadow: [
                               BoxShadow(

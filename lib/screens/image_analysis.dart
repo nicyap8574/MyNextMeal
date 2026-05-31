@@ -54,16 +54,10 @@ class ImageAnalysis extends StatelessWidget {
                       }
 
                       Get.to(() => const FoodAnalysisResults());
-
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => const FoodAnalysisResults()),
-                      // );
-
                     },
 
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFFF8F5D3),
+                      backgroundColor: AppColors.apricotCream100,
                       side: BorderSide(color: Colors.transparent, width: 0),
                     ),
                     child: Column(
@@ -106,7 +100,7 @@ class ImageAnalysis extends StatelessWidget {
                       Get.to(() => CameraScreen(camera: firstCamera));
                     },
                     style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFFF8F5D3),
+                      backgroundColor: AppColors.apricotCream100,
                     side: BorderSide(color: Colors.transparent, width: 0),
                   ),
                   child: Column(

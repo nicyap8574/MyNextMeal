@@ -128,7 +128,7 @@ class Home extends StatelessWidget {
                                 margin: const EdgeInsets.symmetric(vertical: AppSizes.spaceBtwItems/2),
 
                                 decoration: BoxDecoration(
-                                  color: dark ? AppColors.celadon800 : AppColors.white,
+                                  color: dark ? AppColors.apricotCream800 : AppColors.white,
                                   border: Border.all(color: Colors.transparent, width: 0),
                                   boxShadow: [
                                     BoxShadow(
@@ -171,8 +171,8 @@ class Home extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Get.to(() => const ImageAnalysis()),
-        backgroundColor: Color(0xFF226147),
-        foregroundColor: AppColors.celadon100,
+        backgroundColor: AppColors.apricotCream400,
+        foregroundColor: AppColors.apricotCream100,
         child: const Icon(Icons.add),
       ),
     );

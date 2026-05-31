@@ -130,17 +130,13 @@ class LoginScreen extends StatelessWidget {
 
                     const SizedBox(height: AppSizes.spaceBtwInputFields),
 
-
                     //create account button
                     SizedBox(
                       width: double.infinity,
                       child: OutlinedButton(onPressed: () => Get.to(() => const SignUpScreen()), child: const Text("Create Account")),
                     ),
 
-
                     const SizedBox(height: AppSizes.spaceBtwSections),
-
-
                   ],
                 ),
               ),

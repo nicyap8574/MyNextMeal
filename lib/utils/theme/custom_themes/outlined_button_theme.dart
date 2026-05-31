@@ -8,6 +8,7 @@ class AppOutlinedButtonTheme{
   static final lightOutlinedButtonTheme = OutlinedButtonThemeData(
     style: OutlinedButton.styleFrom(
       elevation: 0,
+      backgroundColor: AppColors.secondaryButton,
       foregroundColor: Colors.black,
       side: const BorderSide(color: AppColors.primaryButton),
       textStyle: const TextStyle(fontSize: 16, color: Colors.black, fontWeight: FontWeight.w600),

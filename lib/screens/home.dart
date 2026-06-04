@@ -12,6 +12,8 @@ import '../utils/constants/sizes.dart';
 import '../utils/helpers/helper_functions.dart';
 import 'image_analysis.dart';
 import 'individual_meal.dart';
+import 'package:material_symbols_icons/symbols.dart';
+
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -154,7 +156,7 @@ class Home extends StatelessWidget {
                               child: MacroPill(
                                 label: 'Carbs',
                                 value: carbs,
-                                icon: Icons.grain_rounded,
+                                icon: Icons.ramen_dining,
                                 accent: AppColors.apricotCream500,
                                 dark: dark,
                               ),
@@ -166,7 +168,7 @@ class Home extends StatelessWidget {
                               child: MacroPill(
                                 label: 'Protein',
                                 value: protein,
-                                icon: Icons.egg,
+                                icon: Symbols.exercise,
                                 accent: AppColors.celadon500,
                                 dark: dark,
                               ),
@@ -222,8 +224,6 @@ class Home extends StatelessWidget {
                             today,
                           );
                         }).toList();
-
-                        // final meals = snapshot.data!.docs;
 
                         return ListView.builder(
                             itemCount: todayMeals.length > 5 ? 5 : todayMeals.length,

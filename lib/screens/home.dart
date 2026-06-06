@@ -225,6 +225,54 @@ class Home extends StatelessWidget {
                           );
                         }).toList();
 
+                        if(todayMeals.isEmpty){
+                          return Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.symmetric(
+                              vertical: AppSizes.spaceBtwSections,
+                              horizontal: AppSizes.lg,
+                            ),
+                            decoration: BoxDecoration(
+                              color: dark ? AppColors.apricotCream900 : AppColors.white,
+                              borderRadius: BorderRadius.circular(AppSizes.cardRadiusMd),
+                              border: Border.all(
+                                color: dark ? AppColors.apricotCream800 : AppColors.apricotCream100,
+                              ),
+                            ),
+                            child: Column(
+                              children: [
+                                Icon(
+                                  Icons.lunch_dining,
+                                  color: AppColors.primary,
+                                  size: 40,
+                                ),
+                                SizedBox(height: AppSizes.md),
+                                Text(
+                                  'No meals logged today',
+                                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                SizedBox(height: AppSizes.xs),
+                                Text(
+                                  'Tap the + icon to add your first meal',
+                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    color: dark ? AppColors.apricotCream200 : AppColors.textSecondary,
+                                  ),
+                                ),
+                                SizedBox(height: AppSizes.md),
+                                ElevatedButton(
+                                    onPressed: () => Get.to(() => const ImageAnalysis()),
+                                    child: Text('Add my first meal'),
+                                    style: ElevatedButton.styleFrom(
+                                      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                                    ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+
                         return ListView.builder(
                             itemCount: todayMeals.length > 5 ? 5 : todayMeals.length,
                             shrinkWrap: true,

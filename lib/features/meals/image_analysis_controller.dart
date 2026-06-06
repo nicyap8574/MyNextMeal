@@ -53,33 +53,25 @@ class ImageAnalysisController{
   }
 
   Future<bool> pickImage() async{
-    Permission permission;
-
-    //storage permission depending on Android version
-    if(Platform.isAndroid){
-      if(await AppHelperFunctions.isAndroid13OrAbove()){
-        permission = Permission.photos;
-      }else{
-        permission = Permission.storage;
+    if (Platform.isAndroid) {
+      final permission = await AppHelperFunctions.isAndroid13OrAbove()
+          ? Permission.photos
+          : Permission.storage;
+      final status = await permission.request();
+      if (!status.isGranted) {
+        return false;
       }
-
-    var status = await permission.request();
-
-    if(status.isGranted){
-      final XFile? image = await picker.pickImage(
-        source: ImageSource.gallery,
-        imageQuality: 75,
-      );
-
-      if(image!=null){
-        foodImage.value = image;
-        analyseFoodImage(image);
-        return true;
-        }
     }
-    }else{
-      print("Storage Permission Denied");
-      return false;
+
+    final XFile? image = await picker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 75,
+    );
+
+    if (image != null) {
+      foodImage.value = image;
+      analyseFoodImage(image);
+      return true;
     }
 
     return false;
@@ -93,7 +85,14 @@ class ImageAnalysisController{
       final user = _auth.currentUser;
 
       //text prompt
-      final prompt = TextPart("Analyze this meal image. Identify the ingredients and estimate the macronutrient composition (carbs, protein, fat as low/medium/high) and give an overall meal healthiness (unhealthy/moderate/healthy) and confidence level (low/medium/high). Provide a brief summary of the meal's nutritional profile. For anything you're unsure about, just state ""Unknown"".");
+      final prompt = TextPart(
+        'Analyze this meal image. Identify the dish name, list each detected ingredient with an estimated quantity '
+        '(e.g. "150g", "1 cup", "2 slices"), and estimate macronutrient composition (carbs, protein, fat as '
+        'Low/Medium/High). Give overall meal healthiness (Unhealthy/Moderate/Healthy) and confidence level '
+        '(Low/Medium/High). Be honest about uncertainty — use Low confidence when the image is unclear or portions '
+        'are hard to estimate. Provide a brief summary of the meal\'s nutritional profile. For anything you\'re '
+        'unsure about, use "Unknown".',
+      );
 
       //image
       final image = await file.readAsBytes();

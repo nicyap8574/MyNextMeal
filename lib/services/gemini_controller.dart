@@ -9,7 +9,12 @@ class GeminiController{
                 properties: {
                   'meal_name': Schema.string(),
                   'detected_ingredients': Schema.array(
-                    items: Schema.string(),
+                    items: Schema.object(
+                      properties: {
+                        'name': Schema.string(),
+                        'quantity': Schema.string(),
+                      },
+                    ),
                   ),
                   'carbs_macro': Schema.enumString(enumValues: ['Low', 'Medium', 'High', 'Unknown']),
                   'protein_macro': Schema.enumString(enumValues: ['Low', 'Medium', 'High', 'Unknown']),

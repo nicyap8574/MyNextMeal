@@ -7,6 +7,7 @@ import '../common/spacing_styles.dart';
 import '../utils/constants/colors.dart';
 import '../utils/constants/sizes.dart';
 import '../utils/helpers/helper_functions.dart';
+import '../utils/helpers/meal_analysis_helpers.dart';
 
 class IndividualMeal extends StatelessWidget {
   final String mealId;
@@ -57,7 +58,9 @@ class IndividualMeal extends StatelessWidget {
 
                       final nutrients = meal.data!['analysis']['nutrients'][0];
                       final mealName = nutrients['meal_name'];
-                      final ingredients = nutrients['detected_ingredients'] as List<dynamic>;
+                      final ingredients = MealAnalysisHelpers.parseIngredients(
+                        nutrients['detected_ingredients'] as List<dynamic>?,
+                      );
                       final carbsMacro = nutrients['carbs_macro'];
                       final proteinMacro = nutrients['protein_macro'];
                       final fatsMacro = nutrients['fats_macro'];
@@ -80,11 +83,11 @@ class IndividualMeal extends StatelessWidget {
                           Text("Ingredients"),
                           Wrap(
                             spacing: 8,
-                            children: ingredients.map((individual_ingredient){
+                            children: ingredients.map((ingredient) {
                               return Chip(
-                                label: Text(individual_ingredient),
+                                label: Text(ingredient.displayLabel()),
                               );
-                            }).toList(), //converts Iterable to List<Widget> to be accepted by children
+                            }).toList(),
                           ),
 
                           const SizedBox(height: AppSizes.spaceBtwItems),

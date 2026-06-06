@@ -33,7 +33,7 @@ class ImageAnalysis extends StatelessWidget {
 
             children: [
               Container(
-                height: 300,
+                height: 200,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   boxShadow: [
@@ -82,7 +82,7 @@ class ImageAnalysis extends StatelessWidget {
               const SizedBox(height: AppSizes.spaceBtwSections),
 
               Container(
-                height: 300,
+                height: 200,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   boxShadow: [
@@ -94,13 +94,13 @@ class ImageAnalysis extends StatelessWidget {
                   ],
                 ),
                 child: ElevatedButton(
-                    onPressed: () async {
-                      final cameras = await availableCameras();
-                      final firstCamera = cameras.first;
-                      Get.to(() => CameraScreen(camera: firstCamera));
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.apricotCream100,
+                  onPressed: () async {
+                    final cameras = await availableCameras();
+                    final firstCamera = cameras.first;
+                    Get.to(() => CameraScreen(camera: firstCamera));
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.apricotCream100,
                     side: BorderSide(color: Colors.transparent, width: 0),
                   ),
                   child: Column(
@@ -120,6 +120,57 @@ class ImageAnalysis extends StatelessWidget {
                     ],
                   ),
                 ),
+              ),
+
+              const SizedBox(height: AppSizes.spaceBtwSections),
+
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(vertical:15, horizontal:10),
+                decoration: BoxDecoration(
+                  color: AppColors.white,
+                  border: Border.all(
+                      color: AppColors.apricotCream100,
+                      width: 1.0,
+                  ),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Tips for best results',
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
+                      textAlign: TextAlign.start,
+                    ),
+
+                    const SizedBox(height: AppSizes.sm),
+
+                    Text(
+                      '• Center the dish and fill the frame',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                      textAlign: TextAlign.start,
+                    ),
+
+                    const SizedBox(height: AppSizes.sm),
+
+                    Text(
+                      '• Use good lighting and avoid heavy shadows',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                      textAlign: TextAlign.start,
+                    ),
+
+                    const SizedBox(height: AppSizes.sm),
+
+                    Text(
+                      '• Review and correct AI results before saving',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                      textAlign: TextAlign.start,
+                    ),
+                  ],
+                )
               ),
             ]
           ),

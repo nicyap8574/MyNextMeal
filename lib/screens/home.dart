@@ -251,7 +251,7 @@ class Home extends StatelessWidget {
                                 ),
                                 SizedBox(height: AppSizes.xs),
                                 Text(
-                                  'Tap the + icon to add your first meal',
+                                  "Let's get started by adding your first meal!",
                                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                     color: dark ? AppColors.apricotCream200 : AppColors.textSecondary,
                                   ),

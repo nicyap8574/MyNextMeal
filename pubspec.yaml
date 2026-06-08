@@ -56,15 +56,17 @@ dev_dependencies:
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  adaptive_icon_foreground: "assets/icons/play_store_512.png"
-  adaptive_icon_background: "#366339"
+  image_path: "assets/icons/OrangeLogo.png"
+  adaptive_icon_foreground: "assets/icons/Trans-Bg.png"
+  adaptive_icon_background: "#FF9D00"
+  adaptive_icon_foreground_inset: 28
 
 flutter_native_splash:
-  color: "#366339"
+  color: "#FF9D00"
   ios: true
   image: "assets/icons/Trans-Bg.png"
   android_12:
-    color: "#366339"
+    color: "#FF9D00"
 
 flutter:
   uses-material-design: true

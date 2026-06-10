@@ -45,10 +45,13 @@ class FoodAnalysisResults extends StatelessWidget {
                       if(controller.isLoading.value != true && imageFile != null){
                         return Column(
                           children: [
-                            Image.file(
-                                File(imageFile.path), //converts XFile to File -> directory to image in device
-                                height: 300,
-                                fit: BoxFit.cover
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(AppSizes.cardRadiusMd),
+                              child: Image.file(
+                                  File(imageFile.path), //converts XFile to File -> directory to image in device
+                                  height: 300,
+                                  fit: BoxFit.cover
+                              ),
                             ),
                           ],
                         );
@@ -91,6 +94,18 @@ class FoodAnalysisResults extends StatelessWidget {
                               Text("Dish Name"),
                               Chip(
                                 label: Text(mealName),
+                              ),
+
+                              Text("Detected Dish",
+                              style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                                fontWeight: FontWeight.w700,
+                              ),
+                              ),
+
+                              const SizedBox(height: AppSizes.sm),
+
+                              TextField(
+                                controller: controller.mealNameController,
                               ),
 
                               const SizedBox(height: AppSizes.spaceBtwItems),

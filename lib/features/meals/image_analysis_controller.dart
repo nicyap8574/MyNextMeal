@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_ai/firebase_ai.dart';
@@ -9,7 +10,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mynextmeal/features/meals/meal_history_controller.dart';
-import 'package:mynextmeal/screens/meal_history.dart';
 import 'package:mynextmeal/screens/meal_history_page.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../utils/helpers/helper_functions.dart';
@@ -29,6 +29,11 @@ class ImageAnalysisController{
   final _auth = FirebaseAuth.instance;
   final deviceStorage = GetStorage();
   final mealHistoryController = Get.find<MealHistoryController>();
+  String originalMealName = "";
+
+  final mealNameController = TextEditingController();
+  bool _hasSetMealName = false;
+  bool _hasEditedMealName = false;
 
   Future<String> uploadImage({required String path, required XFile image}) async{
     try{
@@ -73,6 +78,10 @@ class ImageAnalysisController{
 
       if(image!=null){
         foodImage.value = image;
+
+        _hasSetMealName = false;
+        mealNameController.clear();
+
         analyseFoodImage(image);
         return true;
         }
@@ -119,6 +128,23 @@ class ImageAnalysisController{
       }
 
       response.value = text;
+
+      //add detected meal name to mealNameController.text (so that will be editable later)
+      try{
+        final data = jsonDecode(text);
+        final nutrients = data['nutrients'] as List<dynamic>;
+        final meal = nutrients[0] as Map<String,dynamic>;
+
+        originalMealName = meal['meal_name'] ?? '';
+
+        if(!_hasSetMealName){
+          mealNameController.text = originalMealName;
+          _hasSetMealName = true;
+        }
+      }catch(e){
+        print(e);
+      }
+
       errorMessage.value = null;
 
     }catch(e){
@@ -132,6 +158,15 @@ class ImageAnalysisController{
   //Map<String,dynamic> --> every key is a String, every value is dynamic
   Future<void> saveMealRecord(Map<String, dynamic> json, String imageUrl, BuildContext context) async{
     final user = _auth.currentUser;
+
+    //Save edited meal name
+    if(originalMealName != mealNameController.text){
+      _hasEditedMealName = true;
+      final nutrients = json['nutrients'] as List<dynamic>;
+      final meal = nutrients[0] as Map<String,dynamic>;
+
+      meal['meal_name'] = mealNameController.text;
+    }
 
     try{
       await _db.collection('meals').add({

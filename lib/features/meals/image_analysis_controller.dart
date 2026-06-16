@@ -30,10 +30,25 @@ class ImageAnalysisController{
   final deviceStorage = GetStorage();
   final mealHistoryController = Get.find<MealHistoryController>();
   String originalMealName = "";
+  String originalCarbsCount = "";
+  String originalProteinCount = "";
+  String originalFatsCount = "";
 
   final mealNameController = TextEditingController();
   bool _hasSetMealName = false;
+  bool _hasSetCarbs = false;
+  bool _hasSetProtein = false;
+  bool _hasSetFats = false;
   bool _hasEditedMealName = false;
+  bool _hasEditedCarbs = false;
+  bool _hasEditedProtein = false;
+  bool _hasEditedFats = false;
+
+  var carbsMacro = ''.obs;
+  var proteinMacro = ''.obs;
+  var fatMacro = ''.obs;
+
+  final macroOptions = ['Low','Moderate','High','Unknown'];
 
   Future<String> uploadImage({required String path, required XFile image}) async{
     try{
@@ -136,11 +151,29 @@ class ImageAnalysisController{
         final meal = nutrients[0] as Map<String,dynamic>;
 
         originalMealName = meal['meal_name'] ?? '';
+        originalCarbsCount = meal['carbs_macro'] ?? '';
+        originalProteinCount = meal['protein_macro'] ?? '';
+        originalFatsCount = meal['fats_macro'] ?? '';
 
         if(!_hasSetMealName){
           mealNameController.text = originalMealName;
           _hasSetMealName = true;
         }
+        if(!_hasSetCarbs){
+          carbsMacro.value = originalCarbsCount;
+          _hasSetCarbs = true;
+        }
+        if(!_hasSetProtein){
+          proteinMacro.value = originalProteinCount;
+          _hasSetProtein = true;
+        }
+        if(!_hasSetFats){
+          fatMacro.value = originalFatsCount;
+          _hasSetFats = true;
+        }
+
+        //TODO: stopped here
+
       }catch(e){
         print(e);
       }
@@ -167,6 +200,8 @@ class ImageAnalysisController{
 
       meal['meal_name'] = mealNameController.text;
     }
+
+
 
     try{
       await _db.collection('meals').add({

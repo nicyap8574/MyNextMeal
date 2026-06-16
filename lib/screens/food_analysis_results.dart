@@ -88,6 +88,12 @@ class FoodAnalysisResults extends StatelessWidget {
                         final confidenceLevel = meal['confidence_level'];
                         final briefSummary = meal['brief_summary'];
 
+                        if(controller.carbsMacro.value.isEmpty||controller.proteinMacro.value.isEmpty||controller.fatMacro.value.isEmpty){
+                          controller.carbsMacro.value = carbsMacro;
+                          controller.proteinMacro.value = proteinMacro;
+                          controller.fatMacro.value = fatsMacro;
+                        }
+
                         return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -118,8 +124,28 @@ class FoodAnalysisResults extends StatelessWidget {
                               const SizedBox(height: AppSizes.spaceBtwItems),
 
                               Text("Carbs Macro"),
-                              Chip(
-                                label: Text(carbsMacro),
+                              // Chip(
+                              //   label: Text(carbsMacro),
+                              // ),
+
+                              Wrap(
+                                  spacing: 8.0,
+                                  children: List.generate(controller.macroOptions.length, (index){
+                                    return ChoiceChip(
+                                        label: Text(
+                                          controller.macroOptions[index],
+                                        ),
+                                        //TODO: Understand this
+                                        selected: controller.carbsMacro.value == controller.macroOptions[index],
+                                        showCheckmark: false,
+                                        onSelected: (bool selected){
+                                          if(selected){
+                                            controller.carbsMacro.value = controller.macroOptions[index];
+                                          }
+                                        }
+                                    );
+                                  }
+                                  )
                               ),
 
                               const SizedBox(height: AppSizes.spaceBtwItems),

@@ -91,11 +91,6 @@ class FoodAnalysisResults extends StatelessWidget {
                         return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Dish Name"),
-                              Chip(
-                                label: Text(mealName),
-                              ),
-
                               Text("Detected Dish",
                               style: Theme.of(context).textTheme.titleSmall?.copyWith(
                                 fontWeight: FontWeight.w700,

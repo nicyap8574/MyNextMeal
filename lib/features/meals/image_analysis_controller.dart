@@ -172,8 +172,6 @@ class ImageAnalysisController{
           _hasSetFats = true;
         }
 
-        //TODO: stopped here
-
       }catch(e){
         print(e);
       }
@@ -201,6 +199,30 @@ class ImageAnalysisController{
       meal['meal_name'] = mealNameController.text;
     }
 
+    if(originalCarbsCount != carbsMacro){
+      _hasEditedCarbs = true;
+      final nutrients = json['nutrients'] as List<dynamic>;
+      final meal = nutrients[0] as Map<String,dynamic>;
+
+      meal['carbs_macro'] = carbsMacro.value;
+    }
+
+    if(originalProteinCount != proteinMacro){
+      _hasEditedProtein = true;
+      final nutrients = json['nutrients'] as List<dynamic>;
+      final meal = nutrients[0] as Map<String,dynamic>;
+
+      meal['protein_macro'] = proteinMacro.value;
+    }
+
+    if(originalFatsCount != fatMacro){
+      _hasEditedFats = true;
+      final nutrients = json['nutrients'] as List<dynamic>;
+      final meal = nutrients[0] as Map<String,dynamic>;
+
+      meal['fats_macro'] = fatMacro.value;
+    }
+
     try{
       await _db.collection('meals').add({
         'analysis': json,
@@ -213,43 +235,13 @@ class ImageAnalysisController{
     }catch(e){
       print("Error saving meal: $e");
     }finally{
-      // Navigator.push(
-      //   context,
-      //   MaterialPageRoute(builder: (context) => const MealHistoryPage()),
-      // );
-
-      //TODO: CURRENT ISSUE - BACK BUTTON WILL BRING BACK TO FoodAnalysisResults INSTEAD OF RETURNING TO HOME
-      Navigator.pushAndRemoveUntil(
+            Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
             builder: (context) => const MealHistoryPage(),
         ),
-        // (route)=>false,
-        // ModalRoute.withName('/home'),
         (route)=> route.isFirst,
       );
-
-
-      // showDialog(
-      //     context: context,
-      //     builder: (BuildContext context){
-      //       return AlertDialog(
-      //         title: const Text("Meal Saved"),
-      //         content: const Text("Meal has been saved successfully"),
-      //         actions: [
-      //           TextButton(
-      //             onPressed: (){
-      //               Navigator.push(
-      //                 context,
-      //                 MaterialPageRoute(builder: (context) => const MealHistoryPage()),
-      //               );
-      //             },
-      //             child: const Text("OK"),
-      //           )
-      //         ],
-      //       );
-      //     }
-      // );
     }
   }
 }

@@ -224,7 +224,9 @@ class ImageAnalysisController{
         MaterialPageRoute(
             builder: (context) => const MealHistoryPage(),
         ),
-        (route)=>false,
+        // (route)=>false,
+        // ModalRoute.withName('/home'),
+        (route)=> route.isFirst,
       );
 
 

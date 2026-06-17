@@ -48,7 +48,7 @@ class ImageAnalysisController{
   var proteinMacro = ''.obs;
   var fatMacro = ''.obs;
 
-  final macroOptions = ['Low','Moderate','High','Unknown'];
+  final macroOptions = ['Low','Medium','High','Unknown'];
 
   Future<String> uploadImage({required String path, required XFile image}) async{
     try{
@@ -200,8 +200,6 @@ class ImageAnalysisController{
 
       meal['meal_name'] = mealNameController.text;
     }
-
-
 
     try{
       await _db.collection('meals').add({

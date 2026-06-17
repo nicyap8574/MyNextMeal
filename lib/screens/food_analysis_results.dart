@@ -124,9 +124,6 @@ class FoodAnalysisResults extends StatelessWidget {
                               const SizedBox(height: AppSizes.spaceBtwItems),
 
                               Text("Carbs Macro"),
-                              // Chip(
-                              //   label: Text(carbsMacro),
-                              // ),
 
                               Wrap(
                                   spacing: 8.0,
@@ -135,7 +132,6 @@ class FoodAnalysisResults extends StatelessWidget {
                                         label: Text(
                                           controller.macroOptions[index],
                                         ),
-                                        //TODO: Understand this
                                         selected: controller.carbsMacro.value == controller.macroOptions[index],
                                         showCheckmark: false,
                                         onSelected: (bool selected){
@@ -151,15 +147,47 @@ class FoodAnalysisResults extends StatelessWidget {
                               const SizedBox(height: AppSizes.spaceBtwItems),
 
                               Text("Protein Macro"),
-                              Chip(
-                                label: Text(proteinMacro),
+
+                              Wrap(
+                                  spacing: 8.0,
+                                  children: List.generate(controller.macroOptions.length, (index){
+                                    return ChoiceChip(
+                                        label: Text(
+                                          controller.macroOptions[index],
+                                        ),
+                                        selected: controller.proteinMacro.value == controller.macroOptions[index],
+                                        showCheckmark: false,
+                                        onSelected: (bool selected){
+                                          if(selected){
+                                            controller.proteinMacro.value = controller.macroOptions[index];
+                                          }
+                                        }
+                                    );
+                                  }
+                                  )
                               ),
 
                               const SizedBox(height: AppSizes.spaceBtwItems),
 
                               Text("Fats Macro"),
-                              Chip(
-                                label: Text(fatsMacro),
+
+                              Wrap(
+                                  spacing: 8.0,
+                                  children: List.generate(controller.macroOptions.length, (index){
+                                    return ChoiceChip(
+                                        label: Text(
+                                          controller.macroOptions[index],
+                                        ),
+                                        selected: controller.fatMacro.value == controller.macroOptions[index],
+                                        showCheckmark: false,
+                                        onSelected: (bool selected){
+                                          if(selected){
+                                            controller.fatMacro.value = controller.macroOptions[index];
+                                          }
+                                        }
+                                    );
+                                  }
+                                  )
                               ),
 
                               const SizedBox(height: AppSizes.spaceBtwItems),
@@ -210,7 +238,7 @@ class FoodAnalysisResults extends StatelessWidget {
                                       width: double.infinity,
                                       child: ElevatedButton(
                                         style: ElevatedButton.styleFrom(
-                                          backgroundColor: AppColors.grey,
+                                          backgroundColor: AppColors.apricotCream100,
                                           foregroundColor: AppColors.black,
                                         ),
                                         onPressed: () async {

@@ -66,6 +66,7 @@ class IndividualMeal extends StatelessWidget {
                       final briefSummary = nutrients['brief_summary'];
                       final createdAt = meal.data!['createdAt'].toDate();
                       final formattedDateTime = DateFormat('dd MMM yyyy, hh:mm a').format(createdAt);
+                      final sentiment = meal.data!['sentiment'];
 
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,10 +130,13 @@ class IndividualMeal extends StatelessWidget {
 
                           const SizedBox(height: AppSizes.spaceBtwItems),
 
+                          Text("Sentiment"),
+                          Text(sentiment),
+
+                          const SizedBox(height: AppSizes.spaceBtwItems),
+
                           Text("Uploaded At"),
-                          Chip(
-                            label: Text(formattedDateTime),
-                          ),
+                          Text(formattedDateTime),
 
                           const SizedBox(height: AppSizes.spaceBtwSections),
 

@@ -111,7 +111,13 @@ class FoodAnalysisResults extends StatelessWidget {
 
                               const SizedBox(height: AppSizes.spaceBtwItems),
 
-                              Text("Ingredients"),
+                              Text(
+                                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                  "Ingredients"
+                              ),
+
                               Wrap(
                                 spacing: 8,
                                 children: ingredients.map((individual_ingredient){
@@ -123,7 +129,12 @@ class FoodAnalysisResults extends StatelessWidget {
 
                               const SizedBox(height: AppSizes.spaceBtwItems),
 
-                              Text("Carbs Macro"),
+                              Text(
+                                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                  "Carbs Macro"
+                              ),
 
                               Wrap(
                                   spacing: 8.0,
@@ -146,7 +157,12 @@ class FoodAnalysisResults extends StatelessWidget {
 
                               const SizedBox(height: AppSizes.spaceBtwItems),
 
-                              Text("Protein Macro"),
+                              Text(
+                                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                  "Protein Macro"
+                              ),
 
                               Wrap(
                                   spacing: 8.0,
@@ -169,7 +185,12 @@ class FoodAnalysisResults extends StatelessWidget {
 
                               const SizedBox(height: AppSizes.spaceBtwItems),
 
-                              Text("Fats Macro"),
+                              Text(
+                                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                  "Fats Macro"
+                              ),
 
                               Wrap(
                                   spacing: 8.0,
@@ -192,22 +213,58 @@ class FoodAnalysisResults extends StatelessWidget {
 
                               const SizedBox(height: AppSizes.spaceBtwItems),
 
-                              Text("Meal Healthiness"),
+                              Text(
+                                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                  "Meal Healthiness"
+                              ),
+
                               Chip(
                                 label: Text(mealHealthiness),
                               ),
 
                               const SizedBox(height: AppSizes.spaceBtwItems),
 
-                              Text("Confidence Level"),
+                              Text(
+                                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                  "Confidence Level"
+                              ),
+
                               Chip(
                                 label: Text(confidenceLevel),
                               ),
 
                               const SizedBox(height: AppSizes.spaceBtwItems),
 
-                              Text("Brief Summary"),
+                              Text(
+                                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                  "Brief Summary"
+                              ),
+
                               Text(briefSummary),
+
+                              const SizedBox(height: AppSizes.spaceBtwItems),
+
+                              Text(
+                                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                  "How did you feel after this meal?"),
+
+                              const SizedBox(height: AppSizes.sm),
+
+                              TextField(
+                                decoration: InputDecoration(
+                                  hintText: 'E.g., I feel so sluggish after this meal.',
+                                  border: OutlineInputBorder(),
+                                ),
+                                controller: controller.sentimentController,
+                              ),
 
                               const SizedBox(height: AppSizes.spaceBtwSections),
 

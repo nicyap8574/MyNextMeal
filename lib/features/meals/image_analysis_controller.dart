@@ -35,6 +35,7 @@ class ImageAnalysisController{
   String originalFatsCount = "";
 
   final mealNameController = TextEditingController();
+  final sentimentController = TextEditingController();
   bool _hasSetMealName = false;
   bool _hasSetCarbs = false;
   bool _hasSetProtein = false;
@@ -96,6 +97,7 @@ class ImageAnalysisController{
 
         _hasSetMealName = false;
         mealNameController.clear();
+        sentimentController.clear();
 
         analyseFoodImage(image);
         return true;
@@ -226,6 +228,7 @@ class ImageAnalysisController{
     try{
       await _db.collection('meals').add({
         'analysis': json,
+        'sentiment': sentimentController.text,
         'imageUrl': imageUrl,
         'createdAt': FieldValue.serverTimestamp(),
         'user': user!.uid,

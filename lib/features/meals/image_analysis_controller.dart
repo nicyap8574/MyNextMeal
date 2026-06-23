@@ -35,6 +35,7 @@ class ImageAnalysisController{
   String originalCarbsCount = "";
   String originalProteinCount = "";
   String originalFatsCount = "";
+  String originalCategory = "";
 
   final mealNameController = TextEditingController();
   final sentimentController = TextEditingController();
@@ -42,16 +43,21 @@ class ImageAnalysisController{
   bool _hasSetCarbs = false;
   bool _hasSetProtein = false;
   bool _hasSetFats = false;
+  bool _hasSetCategory = false;
+
   bool _hasEditedMealName = false;
   bool _hasEditedCarbs = false;
   bool _hasEditedProtein = false;
   bool _hasEditedFats = false;
+  bool _hasEditedCategory = false;
 
   var carbsMacro = ''.obs;
   var proteinMacro = ''.obs;
   var fatMacro = ''.obs;
+  var category = ''.obs;
 
   final macroOptions = ['Low','Medium','High','Unknown'];
+  final categoryOptions = ['Fried','Grilled','Steamed','Vegetarian','Healthy','Spicy','Fast Food','Dessert'];
 
   Future<String> uploadImage({required String path, required XFile image}) async{
     try{
@@ -121,7 +127,7 @@ class ImageAnalysisController{
       final user = _auth.currentUser;
 
       //text prompt
-      final prompt = TextPart("Analyze this meal image. Identify the ingredients and estimate the macronutrient composition (carbs, protein, fat as low/medium/high) and give an overall meal healthiness (unhealthy/moderate/healthy) and confidence level (low/medium/high). Provide a brief summary of the meal's nutritional profile. For anything you're unsure about, just state ""Unknown"".");
+      final prompt = TextPart("Analyze this meal image. Identify the ingredients and estimate the macronutrient composition (carbs, protein, fat as low/medium/high) and give an overall meal healthiness (unhealthy/moderate/healthy) and confidence level (low/medium/high) and give category of meal (fried/healthy/spicy). Provide a brief summary of the meal's nutritional profile. For anything you're unsure about, just state ""Unknown"".");
 
       //image
       final image = await file.readAsBytes();
@@ -158,6 +164,7 @@ class ImageAnalysisController{
         originalCarbsCount = meal['carbs_macro'] ?? '';
         originalProteinCount = meal['protein_macro'] ?? '';
         originalFatsCount = meal['fats_macro'] ?? '';
+        originalCategory = meal['category'] ?? '';
 
         if(!_hasSetMealName){
           mealNameController.text = originalMealName;
@@ -175,7 +182,10 @@ class ImageAnalysisController{
           fatMacro.value = originalFatsCount;
           _hasSetFats = true;
         }
-
+        if(!_hasSetCategory){
+          category.value = originalCategory;
+          _hasSetCategory = true;
+        }
       }catch(e){
         print(e);
       }
@@ -225,6 +235,14 @@ class ImageAnalysisController{
       final meal = nutrients[0] as Map<String,dynamic>;
 
       meal['fats_macro'] = fatMacro.value;
+    }
+
+    if(originalCategory != category){
+      _hasEditedCategory = true;
+      final nutrients = json['nutrients'] as List<dynamic>;
+      final meal = nutrients[0] as Map<String,dynamic>;
+
+      meal['category'] = category.value;
     }
 
     SentimentResult? sentiment;

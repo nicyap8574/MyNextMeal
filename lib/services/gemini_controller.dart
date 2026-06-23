@@ -14,6 +14,7 @@ class GeminiController{
                   'carbs_macro': Schema.enumString(enumValues: ['Low', 'Medium', 'High', 'Unknown']),
                   'protein_macro': Schema.enumString(enumValues: ['Low', 'Medium', 'High', 'Unknown']),
                   'fats_macro': Schema.enumString(enumValues: ['Low', 'Medium', 'High', 'Unknown']),
+                  'category': Schema.enumString(enumValues: ['Fried','Grilled','Steamed','Vegetarian','Healthy','Spicy','Fast Food','Dessert']),
                   'meal_healthiness': Schema.enumString(enumValues: ['Unhealthy', 'Moderate', 'Healthy', 'Unknown']),
                   'confidence_level': Schema.enumString(enumValues: ['Low', 'Medium', 'High']),
                   'brief_summary': Schema.string(),

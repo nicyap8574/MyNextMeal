@@ -84,6 +84,7 @@ class FoodAnalysisResults extends StatelessWidget {
                         final carbsMacro = meal['carbs_macro'];
                         final proteinMacro = meal['protein_macro'];
                         final fatsMacro = meal['fats_macro'];
+                        final mealCategory = meal['category'];
                         final mealHealthiness = meal['meal_healthiness'];
                         final confidenceLevel = meal['confidence_level'];
                         final briefSummary = meal['brief_summary'];
@@ -110,6 +111,36 @@ class FoodAnalysisResults extends StatelessWidget {
                               ),
 
                               const SizedBox(height: AppSizes.spaceBtwItems),
+
+
+                              Text(
+                                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                  "Category"
+                              ),
+
+                              Wrap(
+                                  spacing: 8.0,
+                                  children: List.generate(controller.categoryOptions.length, (index){
+                                    return ChoiceChip(
+                                        label: Text(
+                                          controller.categoryOptions[index],
+                                        ),
+                                        selected: controller.category.value == controller.categoryOptions[index],
+                                        showCheckmark: false,
+                                        onSelected: (bool selected){
+                                          if(selected){
+                                            controller.category.value = controller.categoryOptions[index];
+                                          }
+                                        }
+                                    );
+                                  }
+                                  )
+                              ),
+
+                              const SizedBox(height: AppSizes.spaceBtwItems),
+
 
                               Text(
                                   style: Theme.of(context).textTheme.titleSmall?.copyWith(

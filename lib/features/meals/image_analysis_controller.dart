@@ -203,45 +203,32 @@ class ImageAnalysisController{
   //Map<String,dynamic> --> every key is a String, every value is dynamic
   Future<void> saveMealRecord(Map<String, dynamic> json, String imageUrl, BuildContext context) async{
     final user = _auth.currentUser;
+    final nutrients = json['nutrients'] as List<dynamic>;
+    final meal = nutrients[0] as Map<String,dynamic>;
 
     //Save edited meal name
     if(originalMealName != mealNameController.text){
       _hasEditedMealName = true;
-      final nutrients = json['nutrients'] as List<dynamic>;
-      final meal = nutrients[0] as Map<String,dynamic>;
-
       meal['meal_name'] = mealNameController.text;
     }
 
     if(originalCarbsCount != carbsMacro){
       _hasEditedCarbs = true;
-      final nutrients = json['nutrients'] as List<dynamic>;
-      final meal = nutrients[0] as Map<String,dynamic>;
-
       meal['carbs_macro'] = carbsMacro.value;
     }
 
     if(originalProteinCount != proteinMacro){
       _hasEditedProtein = true;
-      final nutrients = json['nutrients'] as List<dynamic>;
-      final meal = nutrients[0] as Map<String,dynamic>;
-
       meal['protein_macro'] = proteinMacro.value;
     }
 
     if(originalFatsCount != fatMacro){
       _hasEditedFats = true;
-      final nutrients = json['nutrients'] as List<dynamic>;
-      final meal = nutrients[0] as Map<String,dynamic>;
-
       meal['fats_macro'] = fatMacro.value;
     }
 
     if(originalCategory != category){
       _hasEditedCategory = true;
-      final nutrients = json['nutrients'] as List<dynamic>;
-      final meal = nutrients[0] as Map<String,dynamic>;
-
       meal['category'] = category.value;
     }
 
@@ -265,6 +252,15 @@ class ImageAnalysisController{
           'sentimentScore': sentiment.score,
         }
       });
+
+      final userRef = await _db.collection('users').doc(user!.uid);
+      final categoryValue = (meal['category'] ?? 'unknown').toLowerCase();
+      final sentimentLabel = (sentiment?.label ?? 'neutral').toLowerCase();
+
+      await userRef.set({
+        'categoryStats.$categoryValue.$sentimentLabel': FieldValue.increment(1),
+      }, SetOptions(merge: true));
+      //SetOptions - don't overwrite document
 
       AppLoaders.showSnackBar(context, "Meal Saved Successfully");
     }catch(e){

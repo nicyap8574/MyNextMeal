@@ -6,6 +6,7 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:intl/intl.dart';
 import 'package:mynextmeal/features/meals/meal_history_controller.dart';
+import 'package:mynextmeal/screens/meal_recommendation.dart';
 import '../features/user/user_controller.dart';
 import '../utils/constants/colors.dart';
 import '../utils/constants/sizes.dart';
@@ -188,6 +189,24 @@ class Home extends StatelessWidget {
                           ],
                         );
                       },
+                  ),
+
+                  const SizedBox(height: AppSizes.spaceBtwSections),
+
+                  Material(
+                    color: dark ? AppColors.apricotCream900 : AppColors.white,
+                    borderRadius: BorderRadius.circular(AppSizes.cardRadiusMd),
+                    child: Container(
+                      width: double.infinity,
+                      margin: const EdgeInsets.symmetric(vertical: AppSizes.spaceBtwItems/2),
+                      child: ElevatedButton(
+                        onPressed: () => Get.to(() => const MealRecommendation()),
+                        child: Text('Get meal recommendations'),
+                        // style: ElevatedButton.styleFrom(
+                        //   padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                        // ),
+                      ),
+                    ),
                   ),
 
                   const SizedBox(height: AppSizes.spaceBtwSections),

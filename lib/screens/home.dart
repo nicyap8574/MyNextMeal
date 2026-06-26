@@ -9,6 +9,7 @@ import '../utils/constants/sizes.dart';
 import '../utils/helpers/helper_functions.dart';
 import 'image_analysis.dart';
 import 'individual_meal.dart';
+import 'meal_recommendation.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -209,6 +210,11 @@ class Home extends StatelessWidget {
                     },
                   ),
                   const SizedBox(height: AppSizes.spaceBtwSections),
+                  _RecommendationCard(
+                    dark: dark,
+                    onTap: () => Get.to(() => const MealRecommendation()),
+                  ),
+                  const SizedBox(height: AppSizes.spaceBtwSections),
                   Text(
                     "Today's meals",
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
@@ -340,6 +346,93 @@ class Home extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _RecommendationCard extends StatelessWidget {
+  const _RecommendationCard({
+    required this.dark,
+    required this.onTap,
+  });
+
+  final bool dark;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final surface = dark ? AppColors.apricotCream900 : AppColors.white;
+    final accent = AppColors.celadon500;
+
+    return Material(
+      color: surface,
+      elevation: 0,
+      borderRadius: BorderRadius.circular(AppSizes.cardRadiusMd),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(AppSizes.cardRadiusMd),
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(AppSizes.md),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(AppSizes.cardRadiusMd),
+            border: Border.all(
+              color: accent.withOpacity(dark ? 0.45 : 0.35),
+              width: 1.2,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: accent.withOpacity(0.12),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(AppSizes.sm),
+                decoration: BoxDecoration(
+                  color: accent.withOpacity(dark ? 0.2 : 0.12),
+                  borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
+                ),
+                child: Icon(
+                  Icons.restaurant_menu_rounded,
+                  color: dark ? AppColors.celadon400 : AppColors.celadon600,
+                  size: 28,
+                ),
+              ),
+              const SizedBox(width: AppSizes.md),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Get meal recommendations',
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
+                    ),
+                    const SizedBox(height: AppSizes.xs),
+                    Text(
+                      'Personalized ideas based on your macros and diet',
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: dark
+                                ? AppColors.apricotCream200
+                                : AppColors.textSecondary,
+                          ),
+                    ),
+                  ],
+                ),
+              ),
+              Icon(
+                Icons.chevron_right_rounded,
+                color: dark ? AppColors.apricotCream300 : AppColors.textSecondary,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

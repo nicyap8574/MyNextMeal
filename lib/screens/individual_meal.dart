@@ -29,10 +29,15 @@ class IndividualMeal extends StatelessWidget {
             padding: AppSpacingStyle.paddingWithAppBarHeight,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
               children: [
-                Image.network(
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(AppSizes.cardRadiusLg),
+                  child: Image.network(
                     imageUrl,
                     height: 300,
+                    fit: BoxFit.cover
+                  ),
                 ),
 
                 const SizedBox(height: AppSizes.spaceBtwSections),
@@ -68,18 +73,46 @@ class IndividualMeal extends StatelessWidget {
                       final formattedDateTime = DateFormat('dd MMM yyyy, hh:mm a').format(createdAt);
                       final sentiment = meal.data!['sentiment'];
                       final sentimentLabel = meal.data!['sentimentLabel'];
+                      final mealCategory = nutrients['category'];
 
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Dish Name"),
+                          Text(
+                            "Dish Name",
+                            style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+
+                          const SizedBox(height: AppSizes.sm),
+
                           Chip(
                             label: Text(mealName),
                           ),
 
                           const SizedBox(height: AppSizes.spaceBtwItems),
 
-                          Text("Ingredients"),
+                          Text(
+                              style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                                fontWeight: FontWeight.w700,
+                              ),
+                              "Category"
+                          ),
+
+                          Chip(
+                            label: Text(mealCategory),
+                          ),
+
+                          const SizedBox(height: AppSizes.spaceBtwItems),
+
+                          Text(
+                            "Ingredients",
+                            style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+
                           Wrap(
                             spacing: 8,
                             children: ingredients.map((individual_ingredient){
@@ -91,57 +124,104 @@ class IndividualMeal extends StatelessWidget {
 
                           const SizedBox(height: AppSizes.spaceBtwItems),
 
-                          Text("Carbs Macro"),
+                          Text(
+                            "Carbs Macro",
+                            style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+
                           Chip(
                             label: Text(carbsMacro),
                           ),
 
                           const SizedBox(height: AppSizes.spaceBtwItems),
 
-                          Text("Protein Macro"),
+                          Text(
+                            "Protein Macro",
+                            style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
                           Chip(
                             label: Text(proteinMacro),
                           ),
 
                           const SizedBox(height: AppSizes.spaceBtwItems),
 
-                          Text("Fats Macro"),
+                          Text(
+                            "Fats Macro",
+                            style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
                           Chip(
                             label: Text(fatsMacro),
                           ),
 
                           const SizedBox(height: AppSizes.spaceBtwItems),
 
-                          Text("Meal Healthiness"),
+                          Text(
+                            "Meal Healthiness",
+                            style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+
                           Chip(
                             label: Text(mealHealthiness),
                           ),
 
                           const SizedBox(height: AppSizes.spaceBtwItems),
 
-                          Text("Confidence Level"),
+                          Text(
+                            "Confidence Level",
+                            style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
                           Chip(
                             label: Text(confidenceLevel),
                           ),
 
                           const SizedBox(height: AppSizes.spaceBtwItems),
 
-                          Text("Brief Summary"),
+                          Text(
+                            "Brief Summary",
+                            style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
                           Text(briefSummary),
 
                           const SizedBox(height: AppSizes.spaceBtwItems),
 
-                          Text("Sentiment"),
+                          Text(
+                            "Sentiment",
+                            style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
                           Text(sentiment),
 
                           const SizedBox(height: AppSizes.spaceBtwItems),
 
-                          Text("Sentiment Label"),
+                          Text(
+                            "Sentiment Label",
+                            style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
                           Text(sentimentLabel),
 
                           const SizedBox(height: AppSizes.spaceBtwItems),
 
-                          Text("Uploaded At"),
+                          Text(
+                            "Uploaded At",
+                            style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
                           Text(formattedDateTime),
 
                           const SizedBox(height: AppSizes.spaceBtwSections),

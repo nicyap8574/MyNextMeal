@@ -193,18 +193,29 @@ class Home extends StatelessWidget {
 
                   const SizedBox(height: AppSizes.spaceBtwSections),
 
-                  Material(
-                    color: dark ? AppColors.apricotCream900 : AppColors.white,
-                    borderRadius: BorderRadius.circular(AppSizes.cardRadiusMd),
-                    child: Container(
-                      width: double.infinity,
-                      margin: const EdgeInsets.symmetric(vertical: AppSizes.spaceBtwItems/2),
-                      child: ElevatedButton(
-                        onPressed: () => Get.to(() => const MealRecommendation()),
-                        child: Text('Get meal recommendations'),
-                        // style: ElevatedButton.styleFrom(
-                        //   padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                        // ),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: dark ? AppColors.apricotCream900 : AppColors.white,
+                      borderRadius: BorderRadius.circular(AppSizes.cardRadiusMd),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.darkerGrey.withOpacity(0.12),
+                          blurRadius: 8,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    width: double.infinity,
+                    margin: const EdgeInsets.symmetric(vertical: AppSizes.spaceBtwItems/2),
+                    child: ElevatedButton.icon(
+                      onPressed: () => Get.to(() => const MealRecommendation()),
+                      icon: const Icon(
+                        Icons.restaurant_menu_rounded,
+                        size: 22,
+                      ),
+                      label: const Text(
+                        'Get meal recommendations',
+                        style: TextStyle(fontWeight: FontWeight.w600),
                       ),
                     ),
                   ),

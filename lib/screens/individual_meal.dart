@@ -67,6 +67,7 @@ class IndividualMeal extends StatelessWidget {
                       final createdAt = meal.data!['createdAt'].toDate();
                       final formattedDateTime = DateFormat('dd MMM yyyy, hh:mm a').format(createdAt);
                       final sentiment = meal.data!['sentiment'];
+                      final sentimentLabel = meal.data!['sentimentLabel'];
 
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -132,6 +133,11 @@ class IndividualMeal extends StatelessWidget {
 
                           Text("Sentiment"),
                           Text(sentiment),
+
+                          const SizedBox(height: AppSizes.spaceBtwItems),
+
+                          Text("Sentiment Label"),
+                          Text(sentimentLabel),
 
                           const SizedBox(height: AppSizes.spaceBtwItems),
 

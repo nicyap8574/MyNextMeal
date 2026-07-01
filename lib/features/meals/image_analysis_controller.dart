@@ -57,7 +57,7 @@ class ImageAnalysisController{
   var category = ''.obs;
 
   final macroOptions = ['Low','Medium','High','Unknown'];
-  final categoryOptions = ['Fried','Grilled','Steamed','Vegetarian','Healthy','Spicy','Fast Food','Dessert'];
+  final categoryOptions = ['Fried','Grilled','Steamed','Vegetarian','Healthy','Spicy','Fast Food','Dessert','Unknown'];
 
   Future<String> uploadImage({required String path, required XFile image}) async{
     try{
@@ -258,7 +258,12 @@ class ImageAnalysisController{
       final sentimentLabel = (sentiment?.label ?? 'neutral').toLowerCase();
 
       await userRef.set({
-        'categoryStats.$categoryValue.$sentimentLabel': FieldValue.increment(1),
+        // 'categoryStats.$categoryValue.$sentimentLabel': FieldValue.increment(1),
+        "categoryStats":{
+          categoryValue: {
+            sentimentLabel: FieldValue.increment(1),
+          },
+        },
       }, SetOptions(merge: true));
       //SetOptions - don't overwrite document
 

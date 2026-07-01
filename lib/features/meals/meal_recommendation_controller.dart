@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_ai/firebase_ai.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
@@ -16,6 +17,8 @@ class MealRecommendationController {
   final RxBool isLoading = false.obs;
   final gemini = GeminiController();
   late RxString response = "".obs;
+  List<String> preferredCategories = [];
+  List<String> avoidCategories = [];
 
 
   Future<QuerySnapshot<Map<String, dynamic>>> displayTodayMeals() async{
@@ -42,6 +45,33 @@ class MealRecommendationController {
     return todayMeal;
   }
 
+  void userMealPreferences() async{
+    final data = await userProfile.getUserDetails();
+
+    preferredCategories = [];
+    avoidCategories = [];
+
+    Map<String,dynamic> categoryStats = data?['categoryStats'] ?? {};
+
+    categoryStats.forEach((category,data){
+      if(category == "unknown"){
+        return;
+      }
+
+      int positive = data["positive"] ?? 0;
+      int negative = data["negative"] ?? 0;
+
+      int score = positive-negative;
+
+      if(score >= 2){
+        preferredCategories.add(category);
+      }else if(score <= -2){
+        avoidCategories.add(category);
+      }
+    },
+    );
+  }
+
   Future<void> generateMealRecs() async{
     var result;
 
@@ -52,11 +82,12 @@ class MealRecommendationController {
 
       //check if meal history is empty
       if(todayMeals.isEmpty){
-        final data = await UserProfileController.instance.getUserDetails();
+        final data = await userProfile.getUserDetails();
 
         //user selected dietary goals
         List<dynamic>? selectedDietOptions = data?['dietOptions'];
         List<dynamic>? selectedDietaryFocus = data?['dietaryFocus'];
+
 
         prompt = TextPart("""
           No previous meals have been recorded.
@@ -64,10 +95,13 @@ class MealRecommendationController {
           User dietary goals and preferences include:
           Diet Options: $selectedDietOptions
           Dietary Focus: $selectedDietaryFocus
+          Preferred categories: $preferredCategories
+          Avoid categories: $avoidCategories
           
-          Generate the following
-          - 3 meal recommendations to maintain a healthy diet, while following diet options and dietary focus
-          - Keep it simple
+          Return 4 simple, healthy meal recommendations that:
+          - match the diet and focus
+          - prioritize preferred categories
+          - exclude avoided categories
           """);
 
         //generate text output
@@ -123,9 +157,6 @@ class MealRecommendationController {
               fatsCount+=0;
           }
         }
-        // print("Carbs Index: $carbsCount");
-        // print("Protein Index: $proteinCount");
-        // print("Fats Index: $fatsCount");
 
         //Calculate nutrition ratio
         double carbsRatio = carbsCount / (todayMeals.length * 3);
@@ -152,11 +183,13 @@ class MealRecommendationController {
           User dietary goals and preferences include:
           Diet Options: $selectedDietOptions
           Dietary Focus: $selectedDietaryFocus
+          Preferred categories: $preferredCategories
+          Avoid categories: $avoidCategories
           
-          Generate the following
-          - Explain what is imbalanced
-          - 3 meal recommendations to maintain a healthy diet, while following diet options and dietary focus
-          - Keep it simple
+          Return 4 simple, healthy meal recommendations that:
+          - match the diet and focus
+          - prioritize preferred categories
+          - exclude avoided categories
           """);
 
         //generate text output
@@ -170,10 +203,9 @@ class MealRecommendationController {
         return;
       }
 
+      debugPrint(result.text!, wrapWidth: 1024);
       response.value = result.text!;
 
-      // print("===== MEAL RECOMMENDATIONS =====");
-      // print(todayMeals);
     }catch(e){
       print(e);
     }finally{

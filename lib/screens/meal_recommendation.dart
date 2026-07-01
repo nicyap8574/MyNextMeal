@@ -57,12 +57,12 @@ class _MealRecommendationState extends State<MealRecommendation> {
                   ),
                   
                   child: Column(
-                    // crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                          "Today's Meals",
-                          style: TextStyle(fontSize: AppSizes.md, fontWeight: FontWeight.bold)),
+                          "Today's Meal History",
+                          style: TextStyle(fontSize: AppSizes.md, fontWeight: FontWeight.bold)
+                      ),
 
                       SizedBox(height: AppSizes.spaceBtwItems),
 
@@ -135,17 +135,20 @@ class _MealRecommendationState extends State<MealRecommendation> {
                     final data = jsonDecode(controller.response.value);
                     final recommendations = data['recommendations'] as List<dynamic>;
                     final meal = recommendations[0] as Map<String, dynamic>;
-                    final mealName = meal['meal_name'];
-                    final description = meal['description'];
-                    // if(todayMeals.isNotEmpty){
-                    //   final imbalanced_explanation = meal['imbalanced_explanation'];
-                    // }
-                    final mainIngredients = meal['main_ingredients'] as List<dynamic>;
-                    final suitableFor = meal['suitable_for'] as List<dynamic>;
+                    // final mealName = meal['meal_name'];
+                    // final description = meal['description'];
+                    // final mainIngredients = meal['main_ingredients'] as List<dynamic>;
+                    // final suitableFor = meal['suitable_for'] as List<dynamic>;
 
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children:[
+                        if(todayMeals.isNotEmpty)
+                          Text("Reasoning"),
+                          Text(meal['imbalanced_food_explanation'] ?? "No reasoning available"),
+
+                        const SizedBox(height: AppSizes.spaceBtwItems),
+
                         for (var meal in recommendations)
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -162,11 +165,7 @@ class _MealRecommendationState extends State<MealRecommendation> {
 
                               const SizedBox(height: AppSizes.spaceBtwItems),
 
-                              if(todayMeals.isNotEmpty)
-                                Text("Reasoning"),
-                                Text(meal['imbalanced_explanation'] ?? "No reasoning available") ,
 
-                              const SizedBox(height: AppSizes.spaceBtwItems),
 
                               Text("Main Ingredients"),
                               Wrap(

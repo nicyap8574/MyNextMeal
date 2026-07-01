@@ -1,7 +1,8 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_ai/firebase_ai.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
@@ -203,13 +204,35 @@ class MealRecommendationController {
         return;
       }
 
-      debugPrint(result.text!, wrapWidth: 1024);
       response.value = result.text!;
 
     }catch(e){
       print(e);
     }finally{
       isLoading.value = false;
+
+      try{
+        final data = jsonDecode(response.value);
+        await saveMealRecommendations(data);
+      }catch(e){
+        print("JSON decode failed: $e");
+      }
+
+    }
+  }
+
+  Future<void> saveMealRecommendations(Map<String,dynamic> json) async{
+    final user = _auth.currentUser;
+    // final recommendations = json['recommendations'] as List<dynamic>;
+
+    try{
+      await _db.collection('recommendations').add({
+        'generatedMeals': json,
+        'createdAt': FieldValue.serverTimestamp(),
+        'user': user!.uid,
+      });
+    }catch(e){
+      print("Error saving recommended meal: $e");
     }
   }
 }

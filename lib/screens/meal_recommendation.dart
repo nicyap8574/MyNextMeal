@@ -145,7 +145,7 @@ class _MealRecommendationState extends State<MealRecommendation> {
                       children:[
                         if(todayMeals.isNotEmpty)
                           Text("Reasoning"),
-                          Text(meal['imbalanced_food_explanation'] ?? "No reasoning available"),
+                          Text(data['imbalanced_food_explanation'] ?? "No reasoning available"),
 
                         const SizedBox(height: AppSizes.spaceBtwItems),
 

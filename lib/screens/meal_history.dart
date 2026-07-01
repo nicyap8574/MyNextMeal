@@ -82,50 +82,74 @@ class MealHistory extends StatelessWidget {
 
               final meals = snapshot.data!.docs;
 
-              return ListView.builder(
-                  itemCount: meals.length,
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (context,index){
-                    final meal = meals[index].data(); //JSON output from Firestore
-                    final mealId = meals[index].id;
+              return Column(
+                children:[
+                  ListView.builder(
+                      itemCount: meals.length,
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (context,index){
+                        final meal = meals[index].data(); //JSON output from Firestore
+                        final mealId = meals[index].id;
 
-                    //format date for output
-                    final timestamp = meal['createdAt'];
-                    final date = timestamp.toDate();
-                    final formattedDateTime = DateFormat('dd MMM yyyy, hh:mm a').format(date);
+                        //format date for output
+                        final timestamp = meal['createdAt'];
+                        final date = timestamp.toDate();
+                        final formattedDateTime = DateFormat('dd MMM yyyy, hh:mm a').format(date);
 
-                    return GestureDetector(
-                      onTap: () => Get.to(() => IndividualMeal(mealId, meal['imageUrl'])),
-                      child: Container(
-                          width: double.infinity,
-                          margin: const EdgeInsets.symmetric(vertical: AppSizes.spaceBtwItems/2, horizontal: 16),
+                        return Column(
+                          children: [
+                            GestureDetector(
+                              onTap: () => Get.to(() => IndividualMeal(mealId, meal['imageUrl'])),
+                              child: Container(
+                                  width: double.infinity,
+                                  margin: const EdgeInsets.symmetric(vertical: AppSizes.spaceBtwItems/2, horizontal: 16),
 
-                          decoration: BoxDecoration(
-                            color: dark ? AppColors.apricotCream800 : AppColors.white,
-                            border: Border.all(color: Colors.transparent, width: 0),
-                            boxShadow: [
-                              BoxShadow(
-                                color: AppColors.darkerGrey.withOpacity(0.1),
-                                blurRadius: 10,
-                                offset: Offset(0,4),
+                                  decoration: BoxDecoration(
+                                    color: dark ? AppColors.apricotCream800 : AppColors.white,
+                                    border: Border.all(color: Colors.transparent, width: 0),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: AppColors.darkerGrey.withOpacity(0.1),
+                                        blurRadius: 10,
+                                        offset: Offset(0,4),
+                                      ),
+                                    ],
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+
+                                  child: ListTile(
+                                    title: Text(
+                                        meal['analysis']['nutrients'][0]['meal_name'] ?? 'No name',
+                                        style: TextStyle(fontWeight: FontWeight.bold)
+                                    ),
+                                    subtitle: Text(
+                                        "Carbs: ${meal['analysis']['nutrients'][0]['carbs_macro']} | Protein: ${meal['analysis']['nutrients'][0]['protein_macro']} | Fats: ${meal['analysis']['nutrients'][0]['fats_macro']} \n"
+                                            "Uploaded At: $formattedDateTime"),
+                                  )
                               ),
-                            ],
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-
-                          child: ListTile(
-                            title: Text(
-                                meal['analysis']['nutrients'][0]['meal_name'] ?? 'No name',
-                                style: TextStyle(fontWeight: FontWeight.bold)
                             ),
-                            subtitle: Text(
-                                "Carbs: ${meal['analysis']['nutrients'][0]['carbs_macro']} | Protein: ${meal['analysis']['nutrients'][0]['protein_macro']} | Fats: ${meal['analysis']['nutrients'][0]['fats_macro']} \n"
-                                    "Uploaded At: $formattedDateTime"),
-                          )
+                          ],
+                        );
+                      }
+                  ),
+
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      controller.deleteAllMeals();
+                    },
+                    label: Text("Delete Meal History"),
+                    icon: Icon(Icons.delete),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xFF960018),
+                      padding: EdgeInsets.symmetric(horizontal: 12),
+                      side: const BorderSide(
+                        width: 0,
                       ),
-                    );
-                  }
+                    ),
+                  )
+                ],
+
               );
             }
         )

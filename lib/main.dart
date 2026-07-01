@@ -32,10 +32,14 @@ Future<void> main() async {
   Get.put(AuthController());
   Get.put(UserController());
   Get.put(UserProfileController());
-  Get.put(MealHistoryController());
-  Get.put(ImageAnalysisController());
-  Get.put(IndividualMealController());
   Get.put(NetworkManager());
+  Get.put(ImageAnalysisController());
+  Get.put(MealHistoryController());
+  Get.put(IndividualMealController());
+  //
+  // Get.lazyPut(() => ImageAnalysisController());
+  // Get.lazyPut(() => IndividualMealController());
+  // Get.lazyPut(() => MealHistoryController());
 
   runApp(const App());
 }

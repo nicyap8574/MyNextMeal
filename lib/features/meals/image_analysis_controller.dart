@@ -30,7 +30,6 @@ class ImageAnalysisController{
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
   final deviceStorage = GetStorage();
-  final mealHistoryController = Get.find<MealHistoryController>();
   String originalMealName = "";
   String originalCarbsCount = "";
   String originalProteinCount = "";

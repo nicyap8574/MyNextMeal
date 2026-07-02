@@ -201,7 +201,7 @@ class _MealRecommendationState extends State<MealRecommendation> {
 
                     final data = jsonDecode(controller.response.value);
                     final recommendations = data['recommendations'] as List<dynamic>;
-                    final meal = recommendations[0] as Map<String, dynamic>;
+                    // final meal = recommendations[0] as Map<String, dynamic>;
                     // final mealName = meal['meal_name'];
                     // final description = meal['description'];
                     // final mainIngredients = meal['main_ingredients'] as List<dynamic>;

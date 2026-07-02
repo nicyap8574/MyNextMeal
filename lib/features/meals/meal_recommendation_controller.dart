@@ -1,11 +1,45 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_ai/firebase_ai.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:mynextmeal/features/user/user_profile_controller.dart';
 import '../../services/gemini_controller.dart';
+
+enum MealType { breakfast, lunch, dinner }
+
+extension MealTypeX on MealType {
+  String get label {
+    switch (this) {
+      case MealType.breakfast:
+        return 'Breakfast';
+      case MealType.lunch:
+        return 'Lunch';
+      case MealType.dinner:
+        return 'Dinner';
+    }
+  }
+
+  IconData get icon {
+    switch (this) {
+      case MealType.breakfast:
+        return Icons.free_breakfast_rounded;
+      case MealType.lunch:
+        return Icons.lunch_dining_rounded;
+      case MealType.dinner:
+        return Icons.dinner_dining_rounded;
+    }
+  }
+
+  static MealType defaultForTimeOfDay() {
+    final hour = DateTime.now().hour;
+    if (hour < 11) return MealType.breakfast;
+    if (hour < 16) return MealType.lunch;
+    return MealType.dinner;
+  }
+}
 
 class MealRecommendationController {
   static MealRecommendationController get instance => Get.find();
@@ -14,8 +48,14 @@ class MealRecommendationController {
   final _auth = FirebaseAuth.instance;
   List<Map<String, dynamic>> todayMeals = [];
   final RxBool isLoading = false.obs;
+  final Rx<MealType> selectedMealType =
+      MealTypeX.defaultForTimeOfDay().obs;
   final gemini = GeminiController();
   late RxString response = "".obs;
+
+  void selectMealType(MealType type) {
+    selectedMealType.value = type;
+  }
 
 
   Future<QuerySnapshot<Map<String, dynamic>>> displayTodayMeals() async{
@@ -58,6 +98,8 @@ class MealRecommendationController {
         List<dynamic>? selectedDietOptions = data?['dietOptions'];
         List<dynamic>? selectedDietaryFocus = data?['dietaryFocus'];
 
+        final mealType = selectedMealType.value.label;
+
         prompt = TextPart("""
           No previous meals have been recorded.
           
@@ -66,7 +108,8 @@ class MealRecommendationController {
           Dietary Focus: $selectedDietaryFocus
           
           Generate the following
-          - 3 meal recommendations to maintain a healthy diet, while following diet options and dietary focus
+          - 3 $mealType recommendations to maintain a healthy diet, while following diet options and dietary focus
+          - Each recommendation should be appropriate for $mealType
           - Keep it simple
           """);
 
@@ -143,6 +186,8 @@ class MealRecommendationController {
         List<dynamic>? selectedDietOptions = data?['dietOptions'];
         List<dynamic>? selectedDietaryFocus = data?['dietaryFocus'];
 
+        final mealType = selectedMealType.value.label;
+
         prompt = TextPart("""
           User nutrition summary for today:
           Carbs: $carbsRatioRounded
@@ -155,7 +200,8 @@ class MealRecommendationController {
           
           Generate the following
           - Explain what is imbalanced
-          - 3 meal recommendations to maintain a healthy diet, while following diet options and dietary focus
+          - 3 $mealType recommendations to maintain a healthy diet, while following diet options and dietary focus
+          - Each recommendation should be appropriate for $mealType
           - Keep it simple
           """);
 

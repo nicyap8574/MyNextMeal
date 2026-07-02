@@ -199,8 +199,6 @@ class _MealRecommendationState extends State<MealRecommendation> {
 
                               const SizedBox(height: AppSizes.spaceBtwItems),
 
-
-
                               Text("Main Ingredients"),
                               Wrap(
                                 spacing: 8,
@@ -210,8 +208,6 @@ class _MealRecommendationState extends State<MealRecommendation> {
                                   );
                                 }).toList(),
                               ),
-
-                              const SizedBox(height: AppSizes.spaceBtwItems),
 
                               Text("Suitable For"),
                               Wrap(

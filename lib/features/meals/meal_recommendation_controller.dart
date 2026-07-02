@@ -25,6 +25,7 @@ class MealRecommendationController {
   Future<QuerySnapshot<Map<String, dynamic>>> displayTodayMeals() async{
     //retrieves details of current user
     final user = _auth.currentUser;
+    await userMealPreferences();
 
     //load today's date
     DateTime now = new DateTime.now();
@@ -76,7 +77,6 @@ class MealRecommendationController {
 
   Future<void> generateMealRecs() async{
     var result;
-    await userMealPreferences();
 
     try{
       isLoading.value = true;
@@ -161,10 +161,12 @@ class MealRecommendationController {
           }
         }
 
+        int totalMacroCount = carbsCount + proteinCount + fatsCount;
+
         //Calculate nutrition ratio
-        double carbsRatio = carbsCount / (todayMeals.length * 3);
-        double proteinRatio = proteinCount / (todayMeals.length * 3);
-        double fatsRatio = fatsCount / (todayMeals.length * 3);
+        double carbsRatio = carbsCount / totalMacroCount;
+        double proteinRatio = proteinCount / totalMacroCount;
+        double fatsRatio = fatsCount / totalMacroCount;
 
         //round to 2dp
         double carbsRatioRounded = double.parse(carbsRatio.toStringAsFixed(2));

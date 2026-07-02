@@ -33,9 +33,8 @@ class GeminiController{
                 properties: {
                   'meal_name': Schema.string(),
                   'description': Schema.string(),
-                  'main_ingredients': Schema.array(
-                    items: Schema.string(),
-                  ),
+                  'main_ingredients': Schema.array(items: Schema.string(),),
+                  'meal_category': Schema.enumString(enumValues: ['Fried','Grilled','Steamed','Vegetarian','Healthy','Spicy','Fast Food','Dessert','Unknown']),
                   'suitable_for': Schema.array(
                     items: Schema.enumString(enumValues: [
                       'Type-2 Diabetes',
@@ -59,9 +58,8 @@ class GeminiController{
                 properties: {
                   'meal_name': Schema.string(),
                   'description': Schema.string(),
-                  'main_ingredients': Schema.array(
-                    items: Schema.string(),
-                  ),
+                  'main_ingredients': Schema.array(items: Schema.string(),),
+                  'meal_category': Schema.enumString(enumValues: ['Fried','Grilled','Steamed','Vegetarian','Healthy','Spicy','Fast Food','Dessert','Unknown']),
                   'suitable_for': Schema.array(
                     items: Schema.enumString(enumValues: [
                       'Type-2 Diabetes',

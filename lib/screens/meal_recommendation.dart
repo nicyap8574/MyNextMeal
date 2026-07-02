@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -17,13 +18,25 @@ class MealRecommendation extends StatefulWidget {
 }
 
 class _MealRecommendationState extends State<MealRecommendation> {
+  final List<String> mealType = ['Breakfast','Lunch','Dinner','Supper','Snack'];
+  String selectedMealType = '';
+  late Future<QuerySnapshot<Map<String,dynamic>>> todayMeals;
 
+  @override
+  void initState(){
+    super.initState();
+
+    final controller = Get.put(MealRecommendationController());
+    todayMeals = controller.displayTodayMeals();
+  }
 
   @override
   Widget build(BuildContext context) {
     final dark = AppHelperFunctions.isDarkMode(context);
     final controller = Get.put(MealRecommendationController());
-    final todayMeals = controller.todayMeals;
+    // final todayMeals = controller.todayMeals;
+    // var mealType = controller.mealType;
+
 
     return Scaffold(
         backgroundColor: dark ? AppColors.darkBackground : AppColors.lightBackground,
@@ -67,7 +80,7 @@ class _MealRecommendationState extends State<MealRecommendation> {
                       SizedBox(height: AppSizes.spaceBtwItems),
 
                       FutureBuilder(
-                        future: controller.displayTodayMeals(),
+                        future: todayMeals,
                         builder: (context, todayMeal){
 
                           if(todayMeal.connectionState == ConnectionState.waiting){
@@ -104,6 +117,26 @@ class _MealRecommendationState extends State<MealRecommendation> {
                 ),
 
                 const SizedBox(height: AppSizes.spaceBtwSections),
+
+                Wrap(
+                    spacing: 8.0,
+                    children: List.generate(mealType.length, (index){
+                      final type = mealType[index];
+                      final isSelected = selectedMealType == type;
+
+                      return ChoiceChip(
+                          label: Text(type),
+                          selected: isSelected,
+                          // showCheckmark: false,
+                          onSelected: (bool selected){
+                            setState((){
+                              selectedMealType = selected ? type : '';
+                            });
+                          }
+                      );
+                    }
+                    )
+                ),
 
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -177,9 +210,11 @@ class _MealRecommendationState extends State<MealRecommendation> {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children:[
-                        if(todayMeals.isNotEmpty)
-                          Text("Reasoning"),
-                          Text(data['imbalanced_food_explanation'] ?? "No reasoning available"),
+                        Text("Meal Type"),
+                        Text(data['meal_type']),
+
+                        Text("Reasoning"),
+                        Text(data['imbalanced_food_explanation'] ?? "No reasoning available"),
 
                         const SizedBox(height: AppSizes.spaceBtwItems),
 

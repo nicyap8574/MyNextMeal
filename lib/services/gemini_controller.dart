@@ -28,6 +28,7 @@ class GeminiController{
   static final recommendationJsonSchema_PreviousMeals = Schema.object(
       properties:{
         'imbalanced_food_explanation': Schema.string(),
+        'meal_type': Schema.string(),
         'recommendations': Schema.array(
             items: Schema.object(
                 properties: {
@@ -53,6 +54,7 @@ class GeminiController{
   //JSON format for output
   static final recommendationJsonSchema_NoPreviousMeals = Schema.object(
       properties:{
+        'meal_type': Schema.string(),
         'recommendations': Schema.array(
             items: Schema.object(
                 properties: {

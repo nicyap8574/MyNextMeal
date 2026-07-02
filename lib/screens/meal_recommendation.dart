@@ -116,7 +116,8 @@ class _MealRecommendationState extends State<MealRecommendation> {
                 const SizedBox(height: AppSizes.spaceBtwSections),
 
                 Text("Preferred Categories"),
-                Text(controller.preferredCategories.join(', ')),
+                Obx(() => Text(controller.preferredCategories.join(', '))),
+                // Text(controller.preferredCategories.join(', ')),
                 Text("Avoid Categories"),
                 Text(controller.avoidCategories.join(', ')),
 

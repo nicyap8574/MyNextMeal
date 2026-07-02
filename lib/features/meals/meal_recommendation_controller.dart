@@ -18,8 +18,8 @@ class MealRecommendationController {
   final RxBool isLoading = false.obs;
   final gemini = GeminiController();
   late RxString response = "".obs;
-  List<String> preferredCategories = [];
-  List<String> avoidCategories = [];
+  RxList<String> preferredCategories = <String>[].obs;
+  RxList<String> avoidCategories = <String>[].obs;
 
 
   Future<QuerySnapshot<Map<String, dynamic>>> displayTodayMeals() async{
@@ -48,14 +48,12 @@ class MealRecommendationController {
 
   Future<void> userMealPreferences() async{
     final data = await userProfile.getUserDetails();
-    print(data);
 
     //clear off from previous user
     preferredCategories.clear();
     avoidCategories.clear();
 
     Map<String,dynamic> categoryStats = data?['categoryStats'] ?? {};
-    print(categoryStats);
 
     categoryStats.forEach((category,data){
       if(category == "unknown"){

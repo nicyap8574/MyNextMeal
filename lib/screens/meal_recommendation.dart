@@ -115,6 +115,13 @@ class _MealRecommendationState extends State<MealRecommendation> {
 
                 const SizedBox(height: AppSizes.spaceBtwSections),
 
+                Text("Preferred Categories"),
+                Text(controller.preferredCategories.join(', ')),
+                Text("Avoid Categories"),
+                Text(controller.avoidCategories.join(', ')),
+
+                const SizedBox(height: AppSizes.spaceBtwSections),
+
                 Obx(() {
                   if (controller.isLoading.value == true) {
                     return Center(

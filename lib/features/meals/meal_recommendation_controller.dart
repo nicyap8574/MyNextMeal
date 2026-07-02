@@ -46,13 +46,16 @@ class MealRecommendationController {
     return todayMeal;
   }
 
-  void userMealPreferences() async{
+  Future<void> userMealPreferences() async{
     final data = await userProfile.getUserDetails();
+    print(data);
 
-    preferredCategories = [];
-    avoidCategories = [];
+    //clear off from previous user
+    preferredCategories.clear();
+    avoidCategories.clear();
 
     Map<String,dynamic> categoryStats = data?['categoryStats'] ?? {};
+    print(categoryStats);
 
     categoryStats.forEach((category,data){
       if(category == "unknown"){
@@ -71,10 +74,13 @@ class MealRecommendationController {
       }
     },
     );
+    print("Preferred categories: $preferredCategories");
+    print("Avoid categories: $avoidCategories");
   }
 
   Future<void> generateMealRecs() async{
     var result;
+    await userMealPreferences();
 
     try{
       isLoading.value = true;

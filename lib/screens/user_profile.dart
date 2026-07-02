@@ -98,7 +98,7 @@ class _UserProfileState extends State<UserProfile> {
                     ),
                   ),
 
-                  SizedBox(height: AppSizes.spaceBtwItems),
+                  // SizedBox(height: AppSizes.spaceBtwItems),
 
                   Text(username),
 
@@ -114,7 +114,7 @@ class _UserProfileState extends State<UserProfile> {
                     ),
                   ),
 
-                  SizedBox(height: AppSizes.spaceBtwItems),
+                  // SizedBox(height: AppSizes.spaceBtwItems),
 
                   Text(email),
 
@@ -130,7 +130,7 @@ class _UserProfileState extends State<UserProfile> {
                     ),
                   ),
 
-                  SizedBox(height: AppSizes.spaceBtwItems),
+                  // SizedBox(height: AppSizes.spaceBtwItems),
 
                   Text(id),
 
@@ -286,7 +286,10 @@ class _UserProfileState extends State<UserProfile> {
                     width: double.infinity,
                     child: ElevatedButton(
                         onPressed: () => userController.signOut(),
-                        style: ElevatedButton.styleFrom(backgroundColor: AppColors.apricotCream700),
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.apricotCream700,
+                            side: BorderSide.none,
+                        ),
                         child: const Text("Sign Out")),
                   ),
                 ],

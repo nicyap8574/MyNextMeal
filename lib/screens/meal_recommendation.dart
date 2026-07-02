@@ -115,11 +115,37 @@ class _MealRecommendationState extends State<MealRecommendation> {
 
                 const SizedBox(height: AppSizes.spaceBtwSections),
 
-                Text("Preferred Categories"),
-                Obx(() => Text(controller.preferredCategories.join(', '))),
-                // Text(controller.preferredCategories.join(', ')),
-                Text("Avoid Categories"),
-                Text(controller.avoidCategories.join(', ')),
+                Text(
+                  "Preferred Categories",
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+
+                Obx((){
+                  return Text(
+                    controller.preferredCategories.isEmpty
+                        ? "No preferred categories yet"
+                        : controller.preferredCategories.join(', '),
+                  );
+                }),
+
+                const SizedBox(height: AppSizes.spaceBtwItems),
+
+                Text(
+                  "Avoid Categories",
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+
+                Obx((){
+                  return Text(
+                    controller.avoidCategories.isEmpty
+                        ? "No avoid categories yet"
+                        : controller.avoidCategories.join(', '),
+                  );
+                }),
 
                 const SizedBox(height: AppSizes.spaceBtwSections),
 

@@ -72,8 +72,6 @@ class MealRecommendationController {
       }
     },
     );
-    print("Preferred categories: $preferredCategories");
-    print("Avoid categories: $avoidCategories");
   }
 
   Future<void> generateMealRecs() async{

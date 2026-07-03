@@ -332,6 +332,22 @@ class Home extends StatelessWidget {
                                     ),
 
                                     child: ListTile(
+                                      leading: ClipRRect(
+                                        borderRadius: BorderRadius.circular(8),
+                                        child: SizedBox(
+                                          width: 56,
+                                          height: 56,
+                                          child: meal['imageUrl'] != null && meal['imageUrl'].toString().isNotEmpty
+                                            ? Image.network(
+                                                meal['imageUrl'],
+                                                fit: BoxFit.cover,
+                                              )
+                                            : Container(
+                                              color: Colors.grey[300],
+                                              child: const Icon(Icons.fastfood, color: Colors.white),
+                                            ),
+                                        ),
+                                      ),
                                       title: Text(
                                           meal['analysis']['nutrients'][0]['meal_name'] ?? 'No name',
                                           style: TextStyle(fontWeight: FontWeight.bold)

@@ -1,7 +1,16 @@
 import 'package:firebase_ai/firebase_ai.dart';
 
 class GeminiController{
-  //JSON format for output
+
+  //JSON format for food validation
+  static final validationJsonSchema = Schema.object(
+    properties:{
+      'is_food': Schema.boolean(),
+      'confidence': Schema.number(),
+    },
+  );
+
+  //JSON format for meal analysis output
   static final analysisJsonSchema = Schema.object(
       properties: {
         'nutrients': Schema.array(
@@ -24,7 +33,7 @@ class GeminiController{
       }
   );
 
-  //JSON format for output
+  //JSON format for meal recommendation output
   static final recommendationJsonSchema_PreviousMeals = Schema.object(
       properties:{
         'imbalanced_food_explanation': Schema.string(),
@@ -51,7 +60,7 @@ class GeminiController{
       },
   );
 
-  //JSON format for output
+  //JSON format for meal recommendation output
   static final recommendationJsonSchema_NoPreviousMeals = Schema.object(
       properties:{
         'meal_type': Schema.string(),
@@ -83,6 +92,12 @@ class GeminiController{
       model: 'gemini-2.5-flash-lite',
       generationConfig: GenerationConfig(
           responseMimeType: 'application/json', responseSchema: analysisJsonSchema));
+
+  final validationModel = FirebaseAI.googleAI().generativeModel(
+    // model: 'gemini-3.1-flash-lite-preview',
+      model: 'gemini-2.5-flash-lite',
+      generationConfig: GenerationConfig(
+          responseMimeType: 'application/json', responseSchema: validationJsonSchema));
 
   //Meal recommendation
   final recommendationModel_PreviousMeals = FirebaseAI.googleAI().generativeModel(

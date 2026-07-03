@@ -70,6 +70,47 @@ class ImageAnalysisController{
     }
   }
 
+  Future<bool> validateImage(XFile file) async{
+    try{
+      isLoading.value = true;
+      errorMessage.value = null;
+
+      final prompt = TextPart("Identify if this image contains food");
+
+      final image = await file.readAsBytes();
+      final imagePart = InlineDataPart('image/jpeg', image);
+
+      //generate text output
+      final result = await gemini.validationModel.generateContent([
+        Content.multi([prompt,imagePart])
+      ]);
+
+      final text = result.text ?? '';
+
+      if(text.isEmpty){
+        errorMessage.value = "Failed to analyse the image";
+        return false;
+      }
+
+      final data = jsonDecode(text);
+      final bool isFood = data['is_food'] ?? false;
+      final double confidence = (data['confidence'] as num?)?.toDouble() ?? 0.0;
+
+      if(!isFood || confidence < 0.7){
+        errorMessage.value = "The uploaded image is not recognised as a food item";
+        return false;
+      }
+
+      return true;
+    }catch(e){
+      print("Validation error: $e");
+      errorMessage.value = "An error occurred";
+      return false;
+    }finally{
+      isLoading.value = false;
+    }
+  }
+
   Future<void> deleteImage({required String imageUrl}) async{
     try{
       final imageRef = FirebaseStorage.instance.refFromURL(imageUrl);
@@ -122,6 +163,14 @@ class ImageAnalysisController{
     try{
       isLoading.value = true;
       errorMessage.value = null;
+
+      final isValid = await validateImage(file);
+
+      if(!isValid){
+        return;
+      }
+
+      isLoading.value = true;
 
       final user = _auth.currentUser;
 

@@ -64,7 +64,7 @@ class UserRepository extends GetxController{
   Future<void> updateSingleField(Map<String, dynamic> json) async{
     final user = _auth.currentUser;
     try{
-      await _db.collection("Users").doc(user!.uid).update(json);
+      await _db.collection('users').doc(user!.uid).update(json);
     }on FirebaseException catch (e){
       final details = e.message ?? 'No additional details provided.';
       throw 'Firestore failed (${e.code}): $details';
@@ -77,7 +77,7 @@ class UserRepository extends GetxController{
   Future<void> deleteUser(String userId) async{
     final user = _auth.currentUser;
     try{
-      await _db.collection("Users").doc(user!.uid).delete();
+      await _db.collection('users').doc(user!.uid).delete();
     }on FirebaseException catch (e){
       final details = e.message ?? 'No additional details provided.';
       throw 'Firestore failed (${e.code}): $details';

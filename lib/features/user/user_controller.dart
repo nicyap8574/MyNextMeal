@@ -5,6 +5,7 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:mynextmeal/features/auth/auth_controller.dart';
+import 'package:mynextmeal/features/user/user_profile_controller.dart';
 import 'user_repository.dart';
 import '../../utils/popups/loaders.dart';
 import 'user_model.dart';
@@ -52,6 +53,11 @@ class UserController extends GetxController {
   //sign out
   Future<void> signOut() async {
     user(UserModel.empty()); //clear UI
+    
+    if (Get.isRegistered<UserProfileController>()) {
+      Get.find<UserProfileController>().cachedData = null;
+    }
+
     await _auth.signOut();
     AuthController.instance.screenRedirect();
   }

@@ -10,7 +10,7 @@ class IndividualMealController extends GetxController{
   static IndividualMealController get instance => Get.find();
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
-  late final user = _auth.currentUser;
+  User? get user => _auth.currentUser;
   final repo = Get.find<ImageAnalysisController>();
 
   Future<Map<String,dynamic>?> getIndividualMeal(mealId) async{

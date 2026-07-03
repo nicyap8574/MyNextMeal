@@ -33,14 +33,23 @@ class _UserProfileState extends State<UserProfile> {
 
   //Show previously-selected diet and focus options (get from database)
   void loadUserData() async{
-    final data = await controller.getUserDetails();
+    try {
+      final data = await controller.getUserDetails();
 
-    if(data?['id'] != ''){
-      setState((){
-        //extract from user's document database
-        email = data?['email'] ?? "No email set";
-        id = data?['id'] ?? "No ID set";
-        username = data?['username'] ?? "No username set";
+      if(data != null && data['id'] != null && data['id'] != ''){
+        setState((){
+          //extract from user's document database
+          email = data['email'] ?? "No email set";
+          id = data['id'] ?? "No ID set";
+          username = data['username'] ?? "No username set";
+        });
+      }
+    } catch (e) {
+      print("Error loading user data: $e");
+      setState(() {
+        email = "Error loading profile";
+        id = "Error loading profile";
+        username = "Error loading profile";
       });
     }
   }

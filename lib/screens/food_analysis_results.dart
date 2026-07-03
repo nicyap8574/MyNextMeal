@@ -329,12 +329,7 @@ class FoodAnalysisResults extends StatelessWidget {
                                           backgroundColor: AppColors.apricotCream100,
                                           foregroundColor: AppColors.black,
                                         ),
-                                        onPressed: () async {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(builder: (context) => const ImageAnalysis()),
-                                          );
-                                        },
+                                        onPressed: () => Navigator.pop(context),
                                         child: const Text("Cancel"),
                                       ),
                                     ),

@@ -11,6 +11,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mynextmeal/features/meals/meal_history_controller.dart';
 import 'package:mynextmeal/features/meals/sentiment_analysis.dart';
+import 'package:mynextmeal/screens/image_analysis.dart';
 import 'package:mynextmeal/screens/meal_history_page.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../utils/helpers/helper_functions.dart';
@@ -98,6 +99,20 @@ class ImageAnalysisController{
 
       if(!isFood || confidence < 0.7){
         errorMessage.value = "The uploaded image is not recognised as a food item";
+
+        Get.dialog(
+          AlertDialog(
+            title: Text("Invalid Image"),
+            content: Text("The uploaded image is not recognised as a food item"),
+            actions:[
+              TextButton(
+                onPressed: () => Get.close(2),
+                child: Text("OK"),
+              ),
+            ],
+          ),
+        );
+
         return false;
       }
 

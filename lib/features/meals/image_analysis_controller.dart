@@ -237,6 +237,8 @@ class ImageAnalysisController{
       final sentimentText = sentimentController.text.trim();
       if(sentimentText.isNotEmpty){
         sentiment = await sentimentAnalysis.analyse(sentimentText, apiToken: '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');
+      }else if(sentimentText.isEmpty){
+        sentimentText == "No sentiment provided.";
       }
 
       await _db.collection('meals').add({

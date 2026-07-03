@@ -71,7 +71,8 @@ class IndividualMeal extends StatelessWidget {
                       final briefSummary = nutrients['brief_summary']?.toString() ?? 'Unknown';
                       final createdAt = meal.data!['createdAt']?.toDate() ?? DateTime.now();
                       final formattedDateTime = DateFormat('dd MMM yyyy, hh:mm a').format(createdAt);
-                      final sentiment = meal.data!['sentiment']?.toString() ?? 'Unknown';
+                      final rawSentiment = meal.data!['sentiment']?.toString() ?? '';
+                      final sentiment = rawSentiment.trim().isEmpty ? 'No sentiment provided' : rawSentiment;
                       final sentimentLabel = meal.data!['sentimentLabel']?.toString() ?? 'Unknown';
                       final mealCategory = nutrients['category']?.toString() ?? 'Unknown';
 

@@ -314,8 +314,10 @@ class Home extends StatelessWidget {
 
                               return GestureDetector(
                                 onTap: () => Get.to(() => IndividualMeal(mealId, meal['imageUrl'])),
+
                                 child: Container(
                                     width: double.infinity,
+                                    height: 95,
                                     margin: const EdgeInsets.symmetric(vertical: AppSizes.spaceBtwItems/2),
 
                                     decoration: BoxDecoration(
@@ -325,37 +327,58 @@ class Home extends StatelessWidget {
                                         BoxShadow(
                                           color: AppColors.darkerGrey.withOpacity(0.1),
                                           blurRadius: 10,
-                                          offset: Offset(0,4),
+                                          offset: const Offset(0,4),
                                         ),
                                       ],
                                       borderRadius: BorderRadius.circular(5),
                                     ),
 
-                                    child: ListTile(
-                                      leading: ClipRRect(
-                                        borderRadius: BorderRadius.circular(8),
-                                        child: SizedBox(
-                                          width: 56,
-                                          height: 56,
-                                          child: meal['imageUrl'] != null && meal['imageUrl'].toString().isNotEmpty
-                                            ? Image.network(
-                                                meal['imageUrl'],
-                                                fit: BoxFit.cover,
-                                              )
-                                            : Container(
-                                              color: Colors.grey[300],
-                                              child: const Icon(Icons.fastfood, color: Colors.white),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(5),
+                                      child: IntrinsicHeight(
+                                        child: Row(
+                                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                                          children: [
+                                            SizedBox(
+                                              width: 95,
+                                              child: meal['imageUrl'] != null && meal['imageUrl'].toString().isNotEmpty
+                                                      ? Image.network(
+                                                          meal['imageUrl'],
+                                                          fit: BoxFit.cover,
+                                                        )
+                                                      : Container(
+                                                        color: Colors.grey[300],
+                                                        child: const Icon(Icons.fastfood, color: Colors.white),
+                                                      ),
                                             ),
+
+                                            Expanded(
+                                              child: Padding(
+                                                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                        meal['analysis']['nutrients'][0]['meal_name'] ?? 'No name',
+                                                        style: TextStyle(fontWeight: FontWeight.bold),
+                                                        maxLines: 1,
+                                                        overflow: TextOverflow.ellipsis,
+                                                    ),
+                                                    Text(
+                                                        "Carbs: ${meal['analysis']['nutrients'][0]['carbs_macro']} | Protein: ${meal['analysis']['nutrients'][0]['protein_macro']} | Fats: ${meal['analysis']['nutrients'][0]['fats_macro']} \n"
+                                                        "Uploaded At: $formattedDateTime",
+                                                        maxLines: 2,
+                                                        overflow: TextOverflow.ellipsis,
+                                                    ),
+                                                  ],
+                                                )
+                                              )
+                                            )
+                                          ],
                                         ),
                                       ),
-                                      title: Text(
-                                          meal['analysis']['nutrients'][0]['meal_name'] ?? 'No name',
-                                          style: TextStyle(fontWeight: FontWeight.bold)
-                                      ),
-                                      subtitle: Text(
-                                          "Carbs: ${meal['analysis']['nutrients'][0]['carbs_macro']} | Protein: ${meal['analysis']['nutrients'][0]['protein_macro']} | Fats: ${meal['analysis']['nutrients'][0]['fats_macro']} \n"
-                                              "Uploaded At: $formattedDateTime"),
-                                    )
+                                    ),
                                 ),
                               );
                             }

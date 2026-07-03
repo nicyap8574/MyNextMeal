@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:mynextmeal/common/spacing_styles.dart';
 
-import '../features/user/user_controller.dart';
 import '../features/user/user_profile_controller.dart';
 import '../utils/constants/colors.dart';
 import '../utils/constants/sizes.dart';
@@ -44,6 +44,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     userProfileController = Get.find<UserProfileController>();
     loadUserData();
   }
+
   //Show previously-selected diet and focus options (get from database)
   Future<void> loadUserData() async{
     final data = await userProfileController.getUserDetails();
@@ -65,6 +66,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
       });
     }
   }
+
 
 @override
   Widget build(BuildContext context) {
@@ -264,8 +266,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
                     if(confirmed == true){
                       await userProfileController.resetPreferences();
-
-                      await loadUserData();
 
                       setState(() {
                         selectedDietOptions.clear();

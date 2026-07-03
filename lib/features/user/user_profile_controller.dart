@@ -67,6 +67,8 @@ class UserProfileController extends GetxController{
       "dietOptions": FieldValue.delete(),
       "dietaryFocus": FieldValue.delete(),
     });
+
+    cachedData = null;
   }
 
   Future<bool> deleteAccount() async{

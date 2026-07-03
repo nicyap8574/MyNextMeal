@@ -8,6 +8,7 @@ import '../features/meals/meal_history_controller.dart';
 import '../utils/constants/colors.dart';
 import '../utils/constants/sizes.dart';
 import '../utils/helpers/helper_functions.dart';
+import '../utils/popups/loaders.dart';
 import 'image_analysis.dart';
 import 'individual_meal.dart';
 
@@ -136,7 +137,36 @@ class MealHistory extends StatelessWidget {
 
                   ElevatedButton.icon(
                     onPressed: () {
-                      controller.deleteAllMeals();
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context){
+                          return AlertDialog(
+                            title: const Text("Delete History"),
+                            content: const Text("Are you sure you want to delete all meal history? This cannot be undone."),
+                            actions: <Widget>[
+                              TextButton(
+                                child: const Text('Cancel'),
+                                onPressed: (){
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                              ElevatedButton(
+                                child: const Text('Delete'),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor:  Color(0xFF960018),
+                                  side: BorderSide.none,
+                                ),
+                                onPressed: () async {
+                                  Navigator.of(context).pop();
+                                  await controller.deleteAllMeals();
+                                },
+                              ),
+
+                            ]
+                          );
+                        }
+                      );
+
                     },
                     label: Text("Delete Meal History"),
                     icon: Icon(Icons.delete),

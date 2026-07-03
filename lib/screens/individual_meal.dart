@@ -61,19 +61,19 @@ class IndividualMeal extends StatelessWidget {
                       print(mealId);
 
                       final nutrients = meal.data!['analysis']['nutrients'][0];
-                      final mealName = nutrients['meal_name'];
-                      final ingredients = nutrients['detected_ingredients'] as List<dynamic>;
-                      final carbsMacro = nutrients['carbs_macro'];
-                      final proteinMacro = nutrients['protein_macro'];
-                      final fatsMacro = nutrients['fats_macro'];
-                      final mealHealthiness = nutrients['meal_healthiness'];
-                      final confidenceLevel = nutrients['confidence_level'];
-                      final briefSummary = nutrients['brief_summary'];
-                      final createdAt = meal.data!['createdAt'].toDate();
+                      final mealName = nutrients['meal_name']?.toString() ?? 'Unknown';
+                      final ingredients = (nutrients['detected_ingredients'] as List<dynamic>?) ?? [];
+                      final carbsMacro = nutrients['carbs_macro']?.toString() ?? 'Unknown';
+                      final proteinMacro = nutrients['protein_macro']?.toString() ?? 'Unknown';
+                      final fatsMacro = nutrients['fats_macro']?.toString() ?? 'Unknown';
+                      final mealHealthiness = nutrients['meal_healthiness']?.toString() ?? 'Unknown';
+                      final confidenceLevel = nutrients['confidence_level']?.toString() ?? 'Unknown';
+                      final briefSummary = nutrients['brief_summary']?.toString() ?? 'Unknown';
+                      final createdAt = meal.data!['createdAt']?.toDate() ?? DateTime.now();
                       final formattedDateTime = DateFormat('dd MMM yyyy, hh:mm a').format(createdAt);
-                      final sentiment = meal.data!['sentiment'];
-                      final sentimentLabel = meal.data!['sentimentLabel'];
-                      final mealCategory = nutrients['category'];
+                      final sentiment = meal.data!['sentiment']?.toString() ?? 'Unknown';
+                      final sentimentLabel = meal.data!['sentimentLabel']?.toString() ?? 'Unknown';
+                      final mealCategory = nutrients['category']?.toString() ?? 'Unknown';
 
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -117,7 +117,7 @@ class IndividualMeal extends StatelessWidget {
                             spacing: 8,
                             children: ingredients.map((individual_ingredient){
                               return Chip(
-                                label: Text(individual_ingredient),
+                                label: Text(individual_ingredient?.toString() ?? 'Unknown'),
                               );
                             }).toList(), //converts Iterable to List<Widget> to be accepted by children
                           ),

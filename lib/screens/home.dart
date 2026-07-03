@@ -107,7 +107,7 @@ class Home extends StatelessWidget {
                         ),
                         const SizedBox(height: AppSizes.xs),
                         Text(
-                          name.isNotEmpty ? name : 'there',
+                          name.isNotEmpty ? name : '',
                           style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                             fontWeight: FontWeight.w700,
                             color: dark ? AppColors.white : AppColors.textPrimary,

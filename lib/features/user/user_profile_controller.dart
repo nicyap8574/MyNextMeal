@@ -64,13 +64,21 @@ class UserProfileController extends GetxController{
 
     await userRef.update({
       "categoryStats" : FieldValue.delete(),
+      "dietOptions": FieldValue.delete(),
+      "dietaryFocus": FieldValue.delete(),
     });
   }
 
-  Future<void> deleteAccount() async{
+  Future<bool> deleteAccount() async{
     final userRef = await _db.collection('users').doc(user!.uid);
 
-    await userRef.delete();
+    try{
+      await userRef.delete();
+      return true;
+    }catch(e){
+      return false;
+    }
+
   }
 
 }

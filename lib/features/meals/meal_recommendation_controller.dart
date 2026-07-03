@@ -20,7 +20,8 @@ class MealRecommendationController {
   late RxString response = "".obs;
   RxList<String> preferredCategories = <String>[].obs;
   RxList<String> avoidCategories = <String>[].obs;
-  var mealType = "Breakfast";
+  // var mealType = "Breakfast";
+  RxString selectedMealType = ''.obs;
 
 
   Future<QuerySnapshot<Map<String, dynamic>>> displayTodayMeals() async{
@@ -96,7 +97,7 @@ class MealRecommendationController {
         prompt = TextPart("""
           No previous meals have been recorded.
           
-          This meal is for $mealType
+          This meal is for $selectedMealType
           
           User dietary goals and preferences include:
           Diet Options: $selectedDietOptions
@@ -188,7 +189,7 @@ class MealRecommendationController {
           Protein: $proteinRatioRounded
           Fats: $fatsRatioRounded
           
-          This meal is for $mealType
+          This meal is for $selectedMealType
           
           User dietary goals and preferences include:
           Diet Options: $selectedDietOptions

@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import '../common/spacing_styles.dart';
 import '../features/meals/meal_recommendation_controller.dart';
@@ -19,7 +20,7 @@ class MealRecommendation extends StatefulWidget {
 
 class _MealRecommendationState extends State<MealRecommendation> {
   final List<String> mealType = ['Breakfast','Lunch','Dinner','Supper','Snack'];
-  String selectedMealType = '';
+  // String selectedMealType = '';
   late Future<QuerySnapshot<Map<String,dynamic>>> todayMeals;
 
   @override
@@ -122,7 +123,7 @@ class _MealRecommendationState extends State<MealRecommendation> {
                     spacing: 8.0,
                     children: List.generate(mealType.length, (index){
                       final type = mealType[index];
-                      final isSelected = selectedMealType == type;
+                      final isSelected = controller.selectedMealType.value == type;
 
                       return ChoiceChip(
                           label: Text(type),
@@ -130,7 +131,7 @@ class _MealRecommendationState extends State<MealRecommendation> {
                           // showCheckmark: false,
                           onSelected: (bool selected){
                             setState((){
-                              selectedMealType = selected ? type : '';
+                              controller.selectedMealType.value = selected ? type : '';
                             });
                           }
                       );
@@ -206,7 +207,6 @@ class _MealRecommendationState extends State<MealRecommendation> {
                     // final description = meal['description'];
                     // final mainIngredients = meal['main_ingredients'] as List<dynamic>;
                     // final suitableFor = meal['suitable_for'] as List<dynamic>;
-                    //TestingTestingTesting
 
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

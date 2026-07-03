@@ -57,5 +57,21 @@ class UserProfileController extends GetxController{
       return null;
     }
   }
+
+  //reset meal preferences
+  Future<void> resetPreferences() async{
+    final userRef = await _db.collection('users').doc(user!.uid);
+
+    await userRef.update({
+      "categoryStats" : FieldValue.delete(),
+    });
+  }
+
+  Future<void> deleteAccount() async{
+    final userRef = await _db.collection('users').doc(user!.uid);
+
+    await userRef.delete();
+  }
+
 }
 

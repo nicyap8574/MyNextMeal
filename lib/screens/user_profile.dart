@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:mynextmeal/common/spacing_styles.dart';
 import 'package:mynextmeal/features/user/user_controller.dart';
+import 'package:mynextmeal/screens/profile_settings.dart';
 import 'package:mynextmeal/utils/constants/sizes.dart';
 import '../features/user/user_profile_controller.dart';
 import '../utils/constants/colors.dart';
@@ -278,6 +280,15 @@ class _UserProfileState extends State<UserProfile> {
                         ),
                       ]
                     )
+                  ),
+
+                  const SizedBox(height: AppSizes.spaceBtwSections),
+
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                        onPressed: () => Get.to(() => const ProfileSettings()),
+                        child: const Text("Profile Settings")),
                   ),
 
                   const SizedBox(height: AppSizes.spaceBtwSections),

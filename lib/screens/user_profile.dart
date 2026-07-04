@@ -6,6 +6,7 @@ import 'package:mynextmeal/common/spacing_styles.dart';
 import 'package:mynextmeal/features/user/user_controller.dart';
 import 'package:mynextmeal/screens/profile_settings.dart';
 import 'package:mynextmeal/utils/constants/sizes.dart';
+import 'package:shimmer/shimmer.dart';
 import '../features/user/user_profile_controller.dart';
 import '../utils/constants/colors.dart';
 import '../utils/helpers/helper_functions.dart';
@@ -88,7 +89,7 @@ class _UserProfileState extends State<UserProfile> {
                           ),
                         ),
 
-                        Text(username),
+                        username.isEmpty ? _buildShimmerLoader(width: 120, dark: dark) : Text(username),
 
                         SizedBox(height: AppSizes.spaceBtwSections),
 
@@ -100,7 +101,7 @@ class _UserProfileState extends State<UserProfile> {
                           ),
                         ),
 
-                        Text(email),
+                        username.isEmpty ? _buildShimmerLoader(width: 120, dark: dark) : Text(email),
 
                         SizedBox(height: AppSizes.spaceBtwSections),
 
@@ -112,7 +113,7 @@ class _UserProfileState extends State<UserProfile> {
                           ),
                         ),
 
-                        Text(id),
+                        username.isEmpty ? _buildShimmerLoader(width: 120, dark: dark) : Text(id),
                       ],
                     ),
                   ),
@@ -146,5 +147,21 @@ class _UserProfileState extends State<UserProfile> {
               ),
             ),
         );
+  }
+
+  Widget _buildShimmerLoader({required double width, required bool dark}){
+    return Shimmer.fromColors(
+      baseColor: dark ? Colors.grey[800]! : Colors.grey[300]!,
+      highlightColor: dark ? Colors.grey[700]! : Colors.grey[100]!,
+      child: Container(
+        width: width,
+        height: 16,
+        margin: const EdgeInsets.only(top: 4, bottom: 4),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(4),
+        ),
+      ),
+    );
   }
 }

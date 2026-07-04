@@ -44,6 +44,7 @@ dependencies:
   flutter_svg: ^2.2.4
   connectivity_plus: ^7.1.1
   material_symbols_icons: ^4.2928.1
+  shimmer: ^3.0.0
 
 
 

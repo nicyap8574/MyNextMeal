@@ -59,7 +59,7 @@ class ImageAnalysis extends StatelessWidget {
 
                     style: ElevatedButton.styleFrom(
                       backgroundColor: dark ?  const Color(0xFF221E19) : AppColors.apricotCream100,
-                      side: BorderSide(color: dark ? Colors.white.withOpacity(0.08) : Colors.transparent, width: 1),
+                      side: BorderSide(color: dark ? Colors.white.withOpacity(0.08) : AppColors.primary, width: 1),
                       elevation: 0,
                     ),
                     child: Column(
@@ -104,7 +104,7 @@ class ImageAnalysis extends StatelessWidget {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: dark ?  const Color(0xFF221E19) : AppColors.apricotCream100,
-                    side: BorderSide(color: dark ? Colors.white.withOpacity(0.08) : Colors.transparent, width: 1),
+                    side: BorderSide(color: dark ? Colors.white.withOpacity(0.08) : AppColors.primary, width: 1),
                     elevation: 0,
                   ),
                   child: Column(

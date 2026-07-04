@@ -119,26 +119,185 @@ class _MealRecommendationState extends State<MealRecommendation> {
 
                 const SizedBox(height: AppSizes.spaceBtwSections),
 
-                Wrap(
-                    spacing: 8.0,
-                    children: List.generate(mealType.length, (index){
-                      final type = mealType[index];
-                      final isSelected = controller.selectedMealType.value == type;
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Select Meal Type",
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
 
-                      return ChoiceChip(
-                          label: Text(type),
-                          showCheckmark: false,
-                          selected: isSelected,
-                          // showCheckmark: false,
-                          onSelected: (bool selected){
-                            setState((){
-                              controller.selectedMealType.value = selected ? type : '';
-                            });
-                          }
-                      );
-                    }
-                    )
+                    const SizedBox(height: 4),
+
+                    Text(
+                      'Which meal are you planning next?',
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: dark ? Colors.white70 : AppColors.textSecondary,
+                      ),
+                    ),
+
+                    const SizedBox(height: 12),
+
+                    //meal type chips selector
+                    Wrap(
+                      spacing: 8.0,
+                      runSpacing: 8.0,
+                      children: List.generate(mealType.length, (index){
+                        final type = mealType[index];
+                        final isSelected = controller.selectedMealType.value == type;
+
+                        return ChoiceChip(
+                            label: Text(type),
+                            showCheckmark: false,
+                            selected: isSelected,
+                            // showCheckmark: false,
+                            onSelected: (bool selected){
+                              setState((){
+                                controller.selectedMealType.value = selected ? type : '';
+                              });
+                            },
+                        );
+                      }),
+                    ),
+                  ],
                 ),
+
+                const SizedBox(height: AppSizes.spaceBtwSections),
+
+                //preferred and avoided categories
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: dark ? const Color(0xFF221E19) : AppColors.white,
+                    border: Border.all(
+                      color: dark ? Colors.white.withOpacity(0.08) : AppColors.apricotCream100,
+                    ),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Meal Preferences",
+                        style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+
+                      const SizedBox(height: 5),
+
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Icon(
+                            Icons.thumb_up_alt_outlined,
+                            color: dark ? const Color(0xFF81C784) : const Color(0xFF366339),
+                            size: 18
+                          ),
+
+                          const SizedBox(width: 8),
+
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'Preferred Categories',
+                                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                                ),
+
+                                const SizedBox(height: 8),
+
+                                Obx(() {
+                                  if(controller.preferredCategories.isEmpty){
+                                    return const Text("No preferred categories yet",
+                                    style: TextStyle(fontSize: 12, fontStyle: FontStyle.italic));
+                                  }
+                                  return Wrap(
+                                    spacing: 6,
+                                    runSpacing: 6,
+                                    children: controller.preferredCategories.map((category){
+                                      return Chip(
+                                        avatar: const Icon(Icons.check, size: 12, color: Color(0xFF366339)),
+                                        label: Text(
+                                          category,
+                                          style: const TextStyle(fontSize: 11, color: Color(0xFF366339), fontWeight: FontWeight.bold),
+                                        ),
+                                        padding: EdgeInsets.zero,
+                                        visualDensity: VisualDensity.compact,
+                                        backgroundColor: const Color(0xFF366339).withOpacity(0.1),
+                                        side: BorderSide.none,
+                                      );
+                                    }).toList(),
+                                  );
+                                }),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      const SizedBox(height: 16),
+
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Icon(
+                              Icons.block_outlined,
+                              color: dark ? const Color(0xFFEF959D) : const Color(0xFF960018),
+                              size: 18
+                          ),
+
+                          const SizedBox(width: 8),
+
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'Avoided Categories',
+                                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                                ),
+
+                                const SizedBox(height: 8),
+
+                                Obx(() {
+                                  if(controller.avoidCategories.isEmpty){
+                                    return const Text("No avoided categories yet",
+                                        style: TextStyle(fontSize: 12, fontStyle: FontStyle.italic));
+                                  }
+                                  return Wrap(
+                                    spacing: 6,
+                                    runSpacing: 6,
+                                    children: controller.avoidCategories.map((category){
+                                      return Chip(
+                                        avatar: const Icon(Icons.close, size: 12, color: Color(0xFF960018)),
+                                        label: Text(
+                                          category,
+                                          style: const TextStyle(fontSize: 11, color: Color(0xFF960018), fontWeight: FontWeight.bold),
+                                        ),
+                                        padding: EdgeInsets.zero,
+                                        visualDensity: VisualDensity.compact,
+                                        backgroundColor: const Color(0xFF960018).withOpacity(0.1),
+                                        side: BorderSide.none,
+                                      );
+                                    }).toList(),
+                                  );
+                                }),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: AppSizes.spaceBtwSections),
 
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -147,40 +306,6 @@ class _MealRecommendationState extends State<MealRecommendation> {
                   onPressed: () => controller.generateMealRecs(),
                   child: const Text("Generate Meal Recommendations"),
                 ),
-
-                const SizedBox(height: AppSizes.spaceBtwSections),
-
-                Text(
-                  "Preferred Categories",
-                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-
-                Obx((){
-                  return Text(
-                    controller.preferredCategories.isEmpty
-                        ? "No preferred categories yet"
-                        : controller.preferredCategories.join(', '),
-                  );
-                }),
-
-                const SizedBox(height: AppSizes.spaceBtwItems),
-
-                Text(
-                  "Avoid Categories",
-                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-
-                Obx((){
-                  return Text(
-                    controller.avoidCategories.isEmpty
-                        ? "No avoid categories yet"
-                        : controller.avoidCategories.join(', '),
-                  );
-                }),
 
                 const SizedBox(height: AppSizes.spaceBtwSections),
 
@@ -212,50 +337,185 @@ class _MealRecommendationState extends State<MealRecommendation> {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children:[
-                        Text("Meal Type"),
-                        Text(data['meal_type']),
 
-                        Text("Reasoning"),
-                        Text(data['imbalanced_food_explanation'] ?? "No reasoning available"),
-
-                        const SizedBox(height: AppSizes.spaceBtwItems),
-
-                        for (var meal in recommendations)
-                          Column(
+                        Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(16),
+                          margin: const EdgeInsets.only(bottom: 24),
+                          decoration: BoxDecoration(
+                            color: dark ? const Color(0xFF2A2115) : AppColors.apricotCream50,
+                            border: Border.all(
+                              color: dark ? AppColors.apricotCream800.withOpacity(0.4) : AppColors.apricotCream200,
+                            ),
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Dish Name"),
-                              Chip(
-                                label: Text(meal['meal_name']),
+                              Row(
+                                children: [
+                                  Icon(Icons.auto_awesome, color: AppColors.primary, size: 20),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    "${data['meal_type'][0].toUpperCase()}${data['meal_type'].substring(1)} Recommendations", //capitalise first letter of word
+                                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      color: dark ? AppColors.white : AppColors.textPrimary,
+                                    ),
+                                  ),
+                                ],
                               ),
-
-                              const SizedBox(height: AppSizes.spaceBtwItems),
-
-                              Text("Description"),
-                              Text(meal['description']),
-
-                              const SizedBox(height: AppSizes.spaceBtwItems),
-
-                              Text("Main Ingredients"),
-                              Wrap(
-                                spacing: 8,
-                                children: (meal['main_ingredients'] as List<dynamic>).map((individual_ingredient){
-                                  return Chip(
-                                    label: Text(individual_ingredient),
-                                  );
-                                }).toList(),
-                              ),
-
-                              Text("Suitable For"),
-                              Wrap(
-                                spacing: 8,
-                                children: (meal['suitable_for'] as List<dynamic>).map((individual_suitableFor){
-                                  return Chip(
-                                    label: Text(individual_suitableFor),
-                                  );
-                                }).toList(),
+                              const SizedBox(height: 12),
+                              Text(
+                                data['imbalanced_food_explanation'] ?? 'No inbalanced food explanation available',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontStyle: FontStyle.italic,
+                                  color: dark ? Colors.white70 : AppColors.textSecondary,
+                                  height: 1.4,
+                                ),
                               ),
                             ],
+                          ),
+                        ),
+
+                        Text(
+                          "Recommended Options",
+                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+
+                        const SizedBox(height: 16),
+
+                        for (var meal in recommendations)
+                          Container(
+                            width: double.infinity,
+                            margin: const EdgeInsets.only(bottom: 16),
+                            decoration: BoxDecoration(
+                              color: dark ? const Color(0xFF221E19) : AppColors.white,
+                              border: Border.all(
+                                color: dark ? Colors.white.withOpacity(0.08) : AppColors.apricotCream100,
+                              ),
+                              borderRadius: BorderRadius.circular(16),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(dark ? 0.2 : 0.05),
+                                  blurRadius: 10,
+                                  offset: const Offset(0,4),
+                                ),
+                              ],
+                            ),
+
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsetsGeometry.fromLTRB(16, 16, 16, 12),
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.restaurant, color: AppColors.primary, size: 22),
+                                      const SizedBox(width: 10),
+                                      Expanded(
+                                        child: Text(
+                                          meal['meal_name'] ?? 'Unknown Dish',
+                                          style: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const Divider(height: 1, thickness: 1),
+
+                                //meal details
+                                Padding(
+                                  padding: const EdgeInsets.all(16),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      //meal description
+                                      Text(
+                                        meal['description'] ?? '',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: dark ? Colors.white70 : AppColors.textSecondary,
+                                          height: 1.4,
+                                        ),
+                                      ),
+
+                                      const SizedBox(height: 16),
+
+                                      const Text(
+                                        'Ingredients',
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.bold,
+                                          letterSpacing: 0.5,
+                                        ),
+                                      ),
+
+                                      const SizedBox(height: 8),
+
+                                      //meal ingredients
+
+                                      Wrap(
+                                        spacing: 8,
+                                        runSpacing: 8,
+                                        children: (meal['main_ingredients'] as List<dynamic>).map((individual_ingredient){
+                                          return Chip(
+                                            label: Text(
+                                              individual_ingredient.toString(),
+                                              style: TextStyle(color: dark ? Colors.white70 : AppColors.textPrimary),
+                                            ),
+                                            padding: EdgeInsets.zero,
+                                            visualDensity: VisualDensity.compact,
+                                            backgroundColor: dark ? Colors.white.withOpacity(0.05) : AppColors.softGrey,
+                                            side: BorderSide.none,
+                                          );
+                                        }).toList(),
+                                      ),
+
+                                      const SizedBox(height: 16),
+
+                                      //suitable for
+                                      const Text(
+                                        'Suitable For',
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.bold,
+                                          letterSpacing: 0.5,
+                                        ),
+                                      ),
+
+                                      const SizedBox(height: 8),
+
+                                      Wrap(
+                                        spacing: 8,
+                                        runSpacing: 8,
+                                        children: (meal['suitable_for'] as List<dynamic>).map((individual_suitableFor){
+                                          return Chip(
+                                            label: Text(
+                                              individual_suitableFor.toString(),
+                                              style: TextStyle(
+                                                color: Color(0xFF59A65E),
+                                                fontWeight: FontWeight.bold
+                                              ),
+                                            ),
+                                            padding: EdgeInsets.zero,
+                                            visualDensity: VisualDensity.compact,
+                                            backgroundColor: dark ? AppColors.celadon300.withOpacity(0.12) : const Color(0xFF59A65E).withOpacity(0.12),
+                                            side: BorderSide.none,
+                                          );
+                                        }).toList(),
+                                      ),
+                                    ],
+                                  )
+                                )
+                              ],
+                            ),
                           ),
                       ],
                     );

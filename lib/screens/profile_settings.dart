@@ -27,8 +27,11 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
   Set<int> selectedDietOptions = {}; //stores selected diet options
   Set<int> selectedDietaryFocus = {}; //stores selected dietary focus
+  List<String> selectedRestrictions = [];
+
 
   final TextEditingController usernameController = TextEditingController();
+  final TextEditingController restrictionController = TextEditingController();
 
   final List<String> dietOptions = [
     'Halal',
@@ -45,6 +48,15 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     'General Health'
   ];
 
+  final List<String> dietaryRestrictions = [
+    'Peanuts',
+    'Dairy',
+    'Gluten',
+    'Soy',
+    'Seafood',
+    'Eggs',
+  ];
+
   @override
   void initState(){
     super.initState();
@@ -56,6 +68,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   @override
   void dispose(){
     usernameController.dispose();
+    restrictionController.dispose();
     super.dispose();
   }
 
@@ -67,6 +80,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
       final List<dynamic> diet = data['dietOptions'] ?? [];
       final List<dynamic> focus = data['dietaryFocus'] ?? [];
+      final List<dynamic> restrictions = data['dietaryRestrictions'] ?? [];
       final String username = data['username'] ?? '';
 
       //pre-selects ChoiceChip
@@ -80,6 +94,20 @@ class _ProfileSettingsState extends State<ProfileSettings> {
         selectedDietaryFocus = focus.map((item) => dietaryFocus
             .indexOf(item))
             .toSet();
+
+        selectedRestrictions = List<String>.from(restrictions);
+      });
+    }
+  }
+
+  void addCustomRestriction(String rawRestriction){
+    final trimmedRestriction = rawRestriction.trim();
+    if(trimmedRestriction.isNotEmpty){
+      setState(() {
+        if(!selectedRestrictions.contains(trimmedRestriction)){
+          selectedRestrictions.add(trimmedRestriction);
+        }
+        restrictionController.clear();
       });
     }
   }
@@ -88,8 +116,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 @override
   Widget build(BuildContext context) {
     final dark = AppHelperFunctions.isDarkMode(context);
-    // final userProfileController = Get.find<UserProfileController>();
-    // final userController = Get.find<UserController>();
     final user = FirebaseAuth.instance.currentUser;
     final isPasswordUser = user?.providerData.any((p) => p.providerId == 'password') ?? false;
 
@@ -134,11 +160,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 SizedBox(
                   width: double.infinity,
                   child: OutlinedButton(
-                    // onPressed: () async{
-                    //   if(user?.email != null){
-                    //     await forgotPasswordController.sendPasswordResetEmail();
-                    //   }
-                    // },
                     onPressed: (){
                       Get.bottomSheet(
                           ForgotPasswordSheet(email: ''),
@@ -285,6 +306,93 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
                         const SizedBox(height: AppSizes.spaceBtwSections),
 
+                        Container(
+                          child: Text(
+                            'Dietary Restrictions',
+                            style: TextStyle(
+                              fontSize: AppSizes.fontSizeLg,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+
+                        Container(
+                          child: Text(
+                            'Allergies and ingredients to avoid in recommendations.',
+                            style: TextStyle(
+                              fontSize: AppSizes.fontSizeSm-1,
+                              fontWeight: FontWeight.normal,
+                              fontStyle: FontStyle.italic,
+                            ),
+                          ),
+                        ),
+
+                        Wrap(
+                            spacing: 8.0,
+                            runSpacing: 4.0,
+                            children: dietaryRestrictions.map((restriction){
+                              final isSelected = selectedRestrictions.contains(restriction);
+                              return ChoiceChip(
+                                  label: Text(restriction),
+                                  selected: isSelected,
+                                  onSelected: (bool selected){
+                                    setState(() {
+                                      if(selected){
+                                        selectedRestrictions.add(restriction);
+                                      }else{
+                                        selectedRestrictions.remove(restriction);
+                                      }
+                                    });
+                                  });
+                            }).toList(),
+                        ),
+
+                        const SizedBox(height: AppSizes.spaceBtwSections),
+
+                        //custom restrictions
+                        if(selectedRestrictions.any((r) => !dietaryRestrictions.contains(r))) ...[
+                          Wrap(
+                            spacing: 8.0,
+                            runSpacing: 4.0,
+                            children: selectedRestrictions
+                              .where((r) => !dietaryRestrictions.contains(r))
+                              .map((restriction){
+                                return InputChip(
+                                  label: Text(restriction),
+                                  onDeleted: (){
+                                    setState(() {
+                                      selectedRestrictions.remove(restriction);
+                                    });
+                                  },
+                                );
+                            }).toList(),
+                          ),
+                          const SizedBox(height: AppSizes.spaceBtwItems),
+                        ],
+
+                        //text field for typing custom restrictions
+                        Row(
+                          children:[
+                            Expanded(
+                              child: TextField(
+                                controller: restrictionController,
+                                decoration: const InputDecoration(
+                                  hintText: 'Type custom restriction',
+                                  isDense: true,
+                                  contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                ),
+                                onSubmitted: addCustomRestriction,
+                              ),
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.add_circle, color: AppColors.primary, size: 30),
+                              onPressed: () => addCustomRestriction(restrictionController.text),
+                            ),
+                          ],
+                        ),
+
+                        const SizedBox(height: AppSizes.spaceBtwSections),
+
                         //save changes button
                         SizedBox(
                           width: double.infinity,
@@ -302,6 +410,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                 username: usernameController.text.trim(),
                                 selectedDietOptions: diet,
                                 selectedDietaryFocus: focus,
+                                selectedRestrictions: selectedRestrictions,
                               );
                             },
                             child: const Text("Save Changes"),
@@ -352,6 +461,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       setState(() {
                         selectedDietOptions.clear();
                         selectedDietaryFocus.clear();
+                        selectedRestrictions.clear();
                       });
 
                       ScaffoldMessenger.of(context).showSnackBar(

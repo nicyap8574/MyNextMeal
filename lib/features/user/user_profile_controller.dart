@@ -22,6 +22,7 @@ class UserProfileController extends GetxController{
     required String username,
     required List<String> selectedDietOptions,
     required List<String> selectedDietaryFocus,
+    required List<String> selectedRestrictions
   }) async {
 
     //Save to database
@@ -30,6 +31,7 @@ class UserProfileController extends GetxController{
         'username': username,
         'dietOptions': selectedDietOptions,
         'dietaryFocus': selectedDietaryFocus,
+        'dietaryRestrictions': selectedRestrictions,
       }, SetOptions(merge: true)); //merge new dietOptions and dietaryFocus with current document
 
       //add selected options to cachedData so does not read again from db
@@ -38,6 +40,7 @@ class UserProfileController extends GetxController{
         'username': username,
         'dietOptions': selectedDietOptions,
         'dietaryFocus': selectedDietaryFocus,
+        'dietaryRestrictions': selectedRestrictions,
       };
 
       //updates user data
@@ -92,6 +95,7 @@ class UserProfileController extends GetxController{
       "categoryStats" : FieldValue.delete(),
       "dietOptions": FieldValue.delete(),
       "dietaryFocus": FieldValue.delete(),
+      "dietaryRestrictions": FieldValue.delete(),
     });
 
     cachedData = null;

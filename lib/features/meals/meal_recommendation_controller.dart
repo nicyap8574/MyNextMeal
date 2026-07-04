@@ -92,6 +92,7 @@ class MealRecommendationController {
         //user selected dietary goals
         List<dynamic>? selectedDietOptions = data?['dietOptions'];
         List<dynamic>? selectedDietaryFocus = data?['dietaryFocus'];
+        List<dynamic>? selectedDietaryRestrictions = data?['dietaryRestrictions'];
 
 
         prompt = TextPart("""
@@ -102,11 +103,13 @@ class MealRecommendationController {
           User dietary goals and preferences include:
           Diet Options: $selectedDietOptions
           Dietary Focus: $selectedDietaryFocus
+          Dietary Restrictions: $selectedDietaryRestrictions
           Preferred categories: $preferredCategories
           Avoid categories: $avoidCategories
           
           Return 4 simple, healthy meal recommendations that:
           - match the diet and focus
+          - exclude any ingredients containing dietary restrictions
           - prioritize preferred categories
           - exclude avoided categories
           """);
@@ -182,6 +185,7 @@ class MealRecommendationController {
         //user selected dietary goals
         List<dynamic>? selectedDietOptions = data?['dietOptions'];
         List<dynamic>? selectedDietaryFocus = data?['dietaryFocus'];
+        List<dynamic>? selectedDietaryRestrictions = data?['dietaryRestrictions'];
 
         prompt = TextPart("""
           User nutrition summary for today:
@@ -194,11 +198,13 @@ class MealRecommendationController {
           User dietary goals and preferences include:
           Diet Options: $selectedDietOptions
           Dietary Focus: $selectedDietaryFocus
+          Dietary Restrictions: $selectedDietaryRestrictions
           Preferred categories: $preferredCategories
           Avoid categories: $avoidCategories
           
           Return 4 simple, healthy meal recommendations that:
           - match the diet and focus
+          - exclude any ingredients containing dietary restrictions
           - prioritize preferred categories
           - exclude avoided categories
           """);

@@ -113,7 +113,6 @@ class SignUpScreen extends StatelessWidget {
                     child: ElevatedButton(
                         onPressed: (){
                           controller.signup(context: context);
-                          AppLoaders.showSnackBar(context,"User created successfully");
                         },
                         child: const Text("Create Account"),),
                   ),
@@ -125,7 +124,6 @@ class SignUpScreen extends StatelessWidget {
                     width: double.infinity,
                     child: OutlinedButton(onPressed: () => Get.to(() => const LoginScreen()), child: const Text("I already have an account")),
                   ),
-
 
                   const SizedBox(height: AppSizes.spaceBtwSections),
 
@@ -139,10 +137,7 @@ class SignUpScreen extends StatelessWidget {
                     ],
                   ),
 
-
-
                   const SizedBox(height: AppSizes.spaceBtwItems),
-
 
                   //Footer
                   Row(

@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mynextmeal/features/auth/auth_controller.dart';
+import '../user/user_controller.dart';
 import '../user/user_repository.dart';
 import '../../screens/login.dart';
 import '../../utils/popups/loaders.dart';
@@ -35,24 +36,45 @@ class SignupController extends GetxController{
       if(password.text.trim() != confirmPassword.text.trim()){
         AppLoaders.showSnackBar(context, "Passwords do not match");
         // return "Passwords do not match";
+        return;
       }
 
-      //Register user in firebase authentication and save user data in firebase
-      final userCredential = await AuthController.instance.registerWithEmailAndPassword(email.text.trim(), password.text.trim());
-
-
-      final newUser = UserModel(
-        id: userCredential.user!.uid,
-        username: username.text.trim(),
-        email: email.text.trim(),
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const Center(
+          child: CircularProgressIndicator(),
+        ),
       );
 
-      final userRepository = Get.put(UserRepository());
-      await userRepository.saveUserRecord(newUser);
+      try{
+        //Register user in firebase authentication and save user data in firebase
+        final userCredential = await AuthController.instance.registerWithEmailAndPassword(email.text.trim(), password.text.trim());
 
-      //Show success message
-      AppLoaders.showSnackBar(context, "User created successfully");
-      Get.to(LoginScreen());
+
+        final newUser = UserModel(
+          id: userCredential.user!.uid,
+          username: username.text.trim(),
+          email: email.text.trim(),
+        );
+
+        final userRepository = Get.put(UserRepository());
+        await userRepository.saveUserRecord(newUser);
+
+        final userController = Get.find<UserController>();
+        userController.user(newUser);
+
+        Navigator.of(context).pop();
+
+        //Show success message
+        AppLoaders.showSnackBar(context, "User created successfully");
+
+        //Automatically redirect to home screen (already logged in)
+        AuthController.instance.screenRedirect();
+      }catch(e){
+        Navigator.of(context).pop();
+        rethrow;
+      }
 
       //catch errors with Firebase Authentication
     } on FirebaseAuthException catch (e) {

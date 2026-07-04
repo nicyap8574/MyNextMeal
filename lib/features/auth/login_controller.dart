@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:mynextmeal/features/auth/auth_controller.dart';
@@ -34,13 +35,29 @@ class LoginController extends GetxController {
         localStorage.write('REMEMBER_ME_PASSWORD', password.text.trim());
       }
 
-      //Login user
-      await AuthController.instance.loginWithEmailAndPassword(email.text.trim(), password.text.trim());
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
 
-      await userController.fetchUserRecord();
+      try{
+        //Login user
+        await AuthController.instance.loginWithEmailAndPassword(email.text.trim(), password.text.trim());
 
-      //Redirect
-      AuthController.instance.screenRedirect();
+        await userController.fetchUserRecord();
+
+        Navigator.of(context).pop();
+
+        //Redirect
+        AuthController.instance.screenRedirect();
+      }catch(e){
+        Navigator.of(context).pop();
+        rethrow;
+      }
+
     }catch(e){
       AppLoaders.showSnackBar(context, "Error: $e");
     }

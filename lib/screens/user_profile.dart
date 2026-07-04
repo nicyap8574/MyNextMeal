@@ -114,7 +114,10 @@ class _UserProfileState extends State<UserProfile> {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                        onPressed: () => Get.to(() => const ProfileSettings()),
+                      onPressed: () async{
+                        await Get.to(() => const ProfileSettings());
+                        loadUserData();
+                      },
                         child: const Text("Profile Settings")),
                   ),
 

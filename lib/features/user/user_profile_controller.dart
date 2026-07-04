@@ -4,6 +4,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:mynextmeal/features/user/user_controller.dart';
+import 'package:mynextmeal/features/user/user_model.dart';
 import '../../utils/popups/loaders.dart';
 
 class UserProfileController extends GetxController{
@@ -17,6 +19,7 @@ class UserProfileController extends GetxController{
 
   Future<void> saveChanges({
     required BuildContext context,
+    required String username,
     required List<String> selectedDietOptions,
     required List<String> selectedDietaryFocus,
   }) async {
@@ -24,6 +27,7 @@ class UserProfileController extends GetxController{
     //Save to database
     try{
       await _db.collection('users').doc(user!.uid).set({
+        'username': username,
         'dietOptions': selectedDietOptions,
         'dietaryFocus': selectedDietaryFocus,
       }, SetOptions(merge: true)); //merge new dietOptions and dietaryFocus with current document
@@ -31,9 +35,24 @@ class UserProfileController extends GetxController{
       //add selected options to cachedData so does not read again from db
       cachedData = {
         ...?cachedData, //merge previous cachedData with new
+        'username': username,
         'dietOptions': selectedDietOptions,
         'dietaryFocus': selectedDietaryFocus,
       };
+
+      //updates user data
+      if(Get.isRegistered<UserController>()){
+        final userController = UserController.instance;
+        userController.user.update((currentUser){
+          if(currentUser != null){
+            userController.user(UserModel(
+              id: currentUser.id,
+              email: currentUser.email,
+              username: username,
+            ));
+          }
+        });
+      }
 
       AppLoaders.showSnackBar(context, "Changes Saved!");
 

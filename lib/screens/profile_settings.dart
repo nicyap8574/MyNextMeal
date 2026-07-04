@@ -25,6 +25,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   Set<int> selectedDietOptions = {}; //stores selected diet options
   Set<int> selectedDietaryFocus = {}; //stores selected dietary focus
 
+  final TextEditingController usernameController = TextEditingController();
+
   final List<String> dietOptions = [
     'Halal',
     'Vegetarian',
@@ -48,17 +50,26 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     loadUserData();
   }
 
+  @override
+  void dispose(){
+    usernameController.dispose();
+    super.dispose();
+  }
+
   //Show previously-selected diet and focus options (get from database)
   Future<void> loadUserData() async{
     final data = await userProfileController.getUserDetails();
 
     if(data != null){
 
-      final List<dynamic> diet = data['dietOptions'];
-      final List<dynamic> focus = data['dietaryFocus'];
+      final List<dynamic> diet = data['dietOptions'] ?? [];
+      final List<dynamic> focus = data['dietaryFocus'] ?? [];
+      final String username = data['username'] ?? '';
 
       //pre-selects ChoiceChip
       setState((){
+        usernameController.text = username; //populate textfield
+
         selectedDietOptions = diet.map((item) => dietOptions
             .indexOf(item)) //converts String to index (read by ChoiceChip)
             .toSet(); //converts List to Set
@@ -108,6 +119,27 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children:[
+                        Text(
+                          'Username',
+                          style: TextStyle(
+                            fontSize: AppSizes.fontSizeLg,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+
+                        const SizedBox(height: 8),
+
+                        TextField(
+                          controller: usernameController,
+                          decoration: const InputDecoration(
+                            hintText: 'Enter username',
+                            border: OutlineInputBorder(),
+                            prefixIcon: Icon(Icons.person),
+                          ),
+                        ),
+
+                        const SizedBox(height: AppSizes.spaceBtwSections),
+
                         Container(
                           child: Text(
                             'Dietary Goals',
@@ -221,6 +253,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
                               userProfileController.saveChanges(
                                 context: context,
+                                username: usernameController.text.trim(),
                                 selectedDietOptions: diet,
                                 selectedDietaryFocus: focus,
                               );
@@ -295,7 +328,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 ),
               ),
 
-              const SizedBox(height: AppSizes.spaceBtwItems),
 
               Container(
                 width: double.infinity,

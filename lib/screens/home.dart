@@ -195,7 +195,8 @@ class Home extends StatelessWidget {
 
                   Container(
                     decoration: BoxDecoration(
-                      color: dark ? AppColors.apricotCream900 : AppColors.white,
+                      color: dark ? const Color(0xFF221E19) : AppColors.white,
+                      border: Border.all(color: dark ? Colors.white.withOpacity(0.08) : Colors.transparent),
                       borderRadius: BorderRadius.circular(AppSizes.cardRadiusMd),
                       boxShadow: [
                         BoxShadow(
@@ -259,10 +260,10 @@ class Home extends StatelessWidget {
                               horizontal: AppSizes.lg,
                             ),
                             decoration: BoxDecoration(
-                              color: dark ? AppColors.apricotCream900 : AppColors.white,
+                              color: dark ? const Color(0xFF221E19) : AppColors.white,
                               borderRadius: BorderRadius.circular(AppSizes.cardRadiusMd),
                               border: Border.all(
-                                color: dark ? AppColors.apricotCream800 : AppColors.apricotCream100,
+                                color: dark ? Colors.white.withOpacity(0.08) : AppColors.apricotCream100,
                               ),
                             ),
                             child: Column(
@@ -321,8 +322,8 @@ class Home extends StatelessWidget {
                                     margin: const EdgeInsets.symmetric(vertical: AppSizes.spaceBtwItems/2),
 
                                     decoration: BoxDecoration(
-                                      color: dark ? AppColors.apricotCream800 : AppColors.white,
-                                      border: Border.all(color: Colors.transparent, width: 0),
+                                      color: dark ? const Color(0xFF221E19) : AppColors.white,
+                                      border: Border.all(color: dark ? Colors.white.withOpacity(0.08) : Colors.transparent, width: 1),
                                       boxShadow: [
                                         BoxShadow(
                                           color: AppColors.darkerGrey.withOpacity(0.1),
@@ -394,7 +395,7 @@ class Home extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () => Get.to(() => const ImageAnalysis()),
         // backgroundColor: AppColors.apricotCream700,
-        backgroundColor: dark ? AppColors.primaryButton : AppColors.apricotCream700,
+        backgroundColor: dark ? AppColors.apricotCream600 : AppColors.apricotCream700,
         foregroundColor: AppColors.apricotCream100,
         child: const Icon(Icons.add),
       ),
@@ -419,7 +420,7 @@ class MacroPill extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    final surface = dark ? AppColors.apricotCream900 : AppColors.white;
+    final surface = dark ? const Color(0xFF221E19) : AppColors.white;
     final border = accent.withOpacity(dark ? 0.45: 0.35);
 
     return Container(

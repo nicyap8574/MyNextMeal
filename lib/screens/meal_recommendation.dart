@@ -58,8 +58,8 @@ class _MealRecommendationState extends State<MealRecommendation> {
                   padding: const EdgeInsets.all(16),
 
                   decoration: BoxDecoration(
-                    color: AppColors.apricotCream100,
-                    border: Border.all(color: Colors.transparent, width: 0),
+                    color: dark ?  const Color(0xFF221E19) : AppColors.apricotCream100,
+                    border: Border.all(color: dark ? Colors.white.withOpacity(0.08) : Colors.transparent, width: 1),
                     boxShadow: [
                       BoxShadow(
                         color: AppColors.darkerGrey.withOpacity(0.3),
@@ -127,6 +127,7 @@ class _MealRecommendationState extends State<MealRecommendation> {
 
                       return ChoiceChip(
                           label: Text(type),
+                          showCheckmark: false,
                           selected: isSelected,
                           // showCheckmark: false,
                           onSelected: (bool selected){

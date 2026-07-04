@@ -41,10 +41,10 @@ class MealHistory extends StatelessWidget {
                     horizontal: AppSizes.lg,
                   ),
                   decoration: BoxDecoration(
-                    color: dark ? AppColors.apricotCream900 : AppColors.white,
+                    color: dark ?  const Color(0xFF221E19) : AppColors.white,
                     borderRadius: BorderRadius.circular(AppSizes.cardRadiusMd),
                     border: Border.all(
-                      color: dark ? AppColors.apricotCream800 : AppColors.apricotCream100,
+                      color: dark ? Colors.white.withOpacity(0.08) : AppColors.apricotCream100,
                     ),
                   ),
                   child: Column(
@@ -108,8 +108,8 @@ class MealHistory extends StatelessWidget {
                                   margin: const EdgeInsets.symmetric(vertical: AppSizes.spaceBtwItems/2, horizontal: 16),
 
                                   decoration: BoxDecoration(
-                                    color: dark ? AppColors.apricotCream800 : AppColors.white,
-                                    border: Border.all(color: Colors.transparent, width: 0),
+                                    color: dark ? const Color(0xFF221E19) : AppColors.white,
+                                    border: Border.all(color: dark ? Colors.white.withOpacity(0.08) : Colors.transparent, width: 1),
                                     boxShadow: [
                                       BoxShadow(
                                         color: AppColors.darkerGrey.withOpacity(0.1),
@@ -172,6 +172,8 @@ class MealHistory extends StatelessWidget {
                         );
                       }
                   ),
+
+                  SizedBox(height: AppSizes.spaceBtwSections),
 
                   ElevatedButton.icon(
                     onPressed: () {

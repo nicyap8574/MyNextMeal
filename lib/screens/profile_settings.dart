@@ -192,8 +192,11 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                   padding: const EdgeInsets.all(16),
 
                   decoration: BoxDecoration(
-                    color: AppColors.apricotCream100,
-                    border: Border.all(color: Colors.transparent, width: 0),
+                    color: dark ? Color(0xFF221E19) : AppColors.apricotCream100,
+                    border: Border.all(
+                        color: dark ? Colors.white.withOpacity(0.08) : Colors.transparent,
+                        width: 0
+                    ),
                     boxShadow: [
                       BoxShadow(
                         color: AppColors.darkerGrey.withOpacity(0.3),

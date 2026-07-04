@@ -152,7 +152,10 @@ class LoginScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children:[
                   Container(
-                    decoration: BoxDecoration(border: Border.all(color: AppColors.grey), borderRadius: BorderRadius.circular(100)),
+                    decoration: BoxDecoration(border: Border.all(
+                        color: dark ? Colors.white.withOpacity(0.15) : AppColors.grey
+                    ),
+                    borderRadius: BorderRadius.circular(100)),
                     child: IconButton(
                         icon: const Image(
                           width: AppSizes.iconMd,

@@ -8,6 +8,7 @@ import 'package:mynextmeal/screens/profile_settings.dart';
 import 'package:mynextmeal/utils/constants/sizes.dart';
 import '../features/user/user_profile_controller.dart';
 import '../utils/constants/colors.dart';
+import '../utils/helpers/helper_functions.dart';
 
 class UserProfile extends StatefulWidget {
   const UserProfile({super.key});
@@ -58,52 +59,63 @@ class _UserProfileState extends State<UserProfile> {
   Widget build(BuildContext context) {
     final userProfileController = Get.find<UserProfileController>();
     final userController = Get.find<UserController>();
+    final dark = AppHelperFunctions.isDarkMode(context);
 
-        return SingleChildScrollView(
+    return SingleChildScrollView(
             child: Padding(
               padding: AppSpacingStyle.paddingWithAppBarHeight,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    child: Text(
-                      'Username',
-                      style: TextStyle(
-                        fontSize: AppSizes.fontSizeLg,
-                        fontWeight: FontWeight.bold,
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: dark ?  const Color(0xFF221E19) : AppColors.white,
+                      border: Border.all(
+                        color: dark ? Colors.white.withOpacity(0.08) : AppColors.apricotCream100,
                       ),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Username',
+                          style: TextStyle(
+                            fontSize: AppSizes.fontSizeLg,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+
+                        Text(username),
+
+                        SizedBox(height: AppSizes.spaceBtwSections),
+
+                        Text(
+                          'Email Address',
+                          style: TextStyle(
+                            fontSize: AppSizes.fontSizeLg,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+
+                        Text(email),
+
+                        SizedBox(height: AppSizes.spaceBtwSections),
+
+                        Text(
+                          'User ID',
+                          style: TextStyle(
+                            fontSize: AppSizes.fontSizeLg,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+
+                        Text(id),
+                      ],
                     ),
                   ),
-
-                  Text(username),
-
-                  SizedBox(height: AppSizes.spaceBtwSections),
-
-                  Container(
-                    child: Text(
-                      'Email Address',
-                      style: TextStyle(
-                        fontSize: AppSizes.fontSizeLg,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-
-                  Text(email),
-
-                  SizedBox(height: AppSizes.spaceBtwSections),
-
-                  Container(
-                    child: Text(
-                      'User ID',
-                      style: TextStyle(
-                        fontSize: AppSizes.fontSizeLg,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-
-                  Text(id),
 
                   SizedBox(height: AppSizes.spaceBtwSections),
 
@@ -124,8 +136,9 @@ class _UserProfileState extends State<UserProfile> {
                     child: ElevatedButton(
                         onPressed: () => userController.signOut(),
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.apricotCream700,
-                            side: BorderSide.none,
+                            backgroundColor: dark ? AppColors.apricotCream500.withOpacity(0.15) : AppColors.apricotCream100,
+                            foregroundColor: dark ? AppColors.apricotCream300 : AppColors.black,
+                            side: dark ? BorderSide(color: Colors.white.withOpacity(0.15)) : BorderSide.none,
                         ),
                         child: const Text("Sign Out")),
                   ),

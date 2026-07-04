@@ -22,8 +22,8 @@ class AppChipTheme{
     disabledColor: Colors.grey,
     labelStyle: const TextStyle(color: Colors.white),
     secondaryLabelStyle: const TextStyle(color: Colors.white),
-    selectedColor: AppColors.primaryButton,
-    backgroundColor: AppColors.primaryButton.withOpacity(0.1),
+    selectedColor: AppColors.primary,
+    backgroundColor: AppColors.darkBackground.withOpacity(0.1),
     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
     checkmarkColor: Colors.white,
     shape: RoundedRectangleBorder(

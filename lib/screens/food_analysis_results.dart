@@ -326,8 +326,9 @@ class FoodAnalysisResults extends StatelessWidget {
                                       width: double.infinity,
                                       child: ElevatedButton(
                                         style: ElevatedButton.styleFrom(
-                                          backgroundColor: AppColors.apricotCream100,
-                                          foregroundColor: AppColors.black,
+                                          backgroundColor: dark ? Colors.white.withOpacity(0.08) : AppColors.apricotCream100,
+                                          foregroundColor: dark ? AppColors.white : AppColors.black,
+                                          side: dark ? BorderSide(color: Colors.white.withOpacity(0.1)) : BorderSide.none,
                                         ),
                                         onPressed: () => Navigator.pop(context),
                                         child: const Text("Cancel"),

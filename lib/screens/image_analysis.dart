@@ -57,8 +57,8 @@ class ImageAnalysis extends StatelessWidget {
                     },
 
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.apricotCream100,
-                      side: BorderSide(color: Colors.transparent, width: 0),
+                      backgroundColor: dark ?  const Color(0xFF221E19) : AppColors.apricotCream100,
+                      side: BorderSide(color: dark ? Colors.white.withOpacity(0.08) : Colors.transparent, width: 1),
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -100,8 +100,8 @@ class ImageAnalysis extends StatelessWidget {
                     Get.to(() => CameraScreen(camera: firstCamera));
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.apricotCream100,
-                    side: BorderSide(color: Colors.transparent, width: 0),
+                    backgroundColor: dark ?  const Color(0xFF221E19) : AppColors.apricotCream100,
+                    side: BorderSide(color: dark ? Colors.white.withOpacity(0.08) : Colors.transparent, width: 1),
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -128,9 +128,9 @@ class ImageAnalysis extends StatelessWidget {
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(vertical:15, horizontal:10),
                 decoration: BoxDecoration(
-                  color: AppColors.white,
+                  color: dark ? const Color(0xFF221E19) : AppColors.white,
                   border: Border.all(
-                      color: AppColors.apricotCream100,
+                      color: dark ? Colors.white.withOpacity(0.08) : AppColors.apricotCream100,
                       width: 1.0,
                   ),
                   borderRadius: BorderRadius.circular(20),

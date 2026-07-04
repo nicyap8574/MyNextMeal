@@ -75,7 +75,7 @@ class _UserProfileState extends State<UserProfile> {
                       border: Border.all(
                         color: dark ? Colors.white.withOpacity(0.08) : AppColors.apricotCream100,
                       ),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(AppSizes.cardRadiusMd),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

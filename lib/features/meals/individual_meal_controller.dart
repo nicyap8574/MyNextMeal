@@ -59,6 +59,24 @@ class IndividualMealController extends GetxController{
         print("ERROR DELETING IMAGE");
       }
     }else{
+      showDialog(
+          context: context,
+          builder: (BuildContext context){
+            return AlertDialog(
+              title: const Text("Meal Not Found"),
+              content: const Text("Meal has already been deleted"),
+              actions: [
+                TextButton(
+                  onPressed: (){
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  },
+                  child: const Text("OK"),
+                )
+              ],
+            );
+          }
+      );
       print("MEAL DATA DOES NOT EXIST");
     }
 

@@ -428,217 +428,225 @@ class _ProfileSettingsState extends State<ProfileSettings> {
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(16),
+                // decoration: BoxDecoration(
+                //   color: dark ? const Color(0xFF2B1C1C) : const Color(0xFFFFF6F6),
+                //   border: Border.all(
+                //     color: dark ? const Color(0xFF5A1E1E) : const Color(0xFFFFD1D1),
+                //     width: 1,
+                //   ),
+                //   borderRadius: BorderRadius.circular(20),
+                // ),
 
-                child: ElevatedButton.icon(
-                  onPressed: () async{
-                    final confirmed = await showDialog<bool>(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Text('Reset Meal Preferences'),
-                          content: const Text(
-                            "Are you sure you want to reset your meal preferences? "
-                            "This will clear your preferred and avoided meals.",
-                          ),
-                          actions: [
-                            TextButton(
-                              onPressed: () => Navigator.pop(context,false),
-                              child: const Text("Cancel"),
-                            ),
-                            ElevatedButton(
-                              onPressed: () => Navigator.pop(context,true),
-                              child: const Text("Reset"),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor:  Color(0xFF960018),
-                                side: BorderSide.none,
-                              ),
-                            ),
-                          ],
-                        );
-                      }
-                    );
-
-                    if(confirmed == true){
-                      await userProfileController.resetPreferences();
-
-                      setState(() {
-                        selectedDietOptions.clear();
-                        selectedDietaryFocus.clear();
-                        selectedRestrictions.clear();
-                      });
-
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text("Meal preferences have been reset."),
-                        ),
-                      );
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF960018),
-                    // padding: EdgeInsets.symmetric(horizontal: 12),
-                    side: BorderSide.none,
-                  ),
-                  label: const Text("Reset Meal Preferences"),
-                  icon: const Icon(
-                    Icons.delete,
-                    size: 22,
-                  ),
-                ),
-              ),
-
-
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(16),
-
-                child: ElevatedButton.icon(
-                  onPressed: () async{
-                    final user = FirebaseAuth.instance.currentUser;
-                    if(user == null) return;
-
-                    final providerId = user.providerData.first.providerId;
-
-                    if(providerId == 'password'){
-                      final passwordController = TextEditingController();
-                      final confirmed = await showDialog<bool>(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: const Text('Delete Account'),
-                              content: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children:[
-                                  const Text(
-                                    'Are you sure you want to delete your account? '
-                                    'This cannot be undone. Please enter your password to confirm.',
+                child: Column(
+                  children: [
+                    ElevatedButton.icon(
+                      onPressed: () async{
+                        final confirmed = await showDialog<bool>(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('Reset Meal Preferences'),
+                                content: const Text(
+                                  "Are you sure you want to reset your meal preferences? "
+                                      "This will clear your preferred and avoided meals.",
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context,false),
+                                    child: const Text("Cancel"),
                                   ),
-                                  const SizedBox(height: AppSizes.spaceBtwItems),
-                                  TextField(
-                                    controller: passwordController,
-                                    obscureText: true,
-                                    decoration: const InputDecoration(
-                                      labelText: 'Password',
-                                      border: OutlineInputBorder(),
+                                  ElevatedButton(
+                                    onPressed: () => Navigator.pop(context,true),
+                                    child: const Text("Reset"),
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor:  Color(0xFF960018),
+                                      side: BorderSide.none,
                                     ),
                                   ),
                                 ],
-                              ),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context,false),
-                                  child: const Text("Cancel"),
+                              );
+                            }
+                        );
+
+                        if(confirmed == true){
+                          await userProfileController.resetPreferences();
+
+                          setState(() {
+                            selectedDietOptions.clear();
+                            selectedDietaryFocus.clear();
+                            selectedRestrictions.clear();
+                          });
+
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text("Meal preferences have been reset."),
+                            ),
+                          );
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: dark ? AppColors.apricotCream600 : AppColors.apricotCream700,
+                        side: BorderSide.none,
+                        padding: EdgeInsets.symmetric(horizontal: 12),
+                      ),
+                      label: const Text("Reset Meal Preferences"),
+                      icon: const Icon(
+                        Icons.restart_alt,
+                        size: 22,
+                      ),
+                    ),
+
+                    SizedBox(height: AppSizes.spaceBtwItems),
+
+                    ElevatedButton.icon(
+                      onPressed: () async{
+                        final user = FirebaseAuth.instance.currentUser;
+                        if(user == null) return;
+
+                        final providerId = user.providerData.first.providerId;
+
+                        if(providerId == 'password'){
+                          final passwordController = TextEditingController();
+                          final confirmed = await showDialog<bool>(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('Delete Account'),
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children:[
+                                    const Text(
+                                      'Are you sure you want to delete your account? '
+                                          'This cannot be undone. Please enter your password to confirm.',
+                                    ),
+                                    const SizedBox(height: AppSizes.spaceBtwItems),
+                                    TextField(
+                                      controller: passwordController,
+                                      obscureText: true,
+                                      decoration: const InputDecoration(
+                                        labelText: 'Password',
+                                        border: OutlineInputBorder(),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                ElevatedButton(
-                                  onPressed: () => Navigator.pop(context,true),
-                                  child: const Text("Delete"),
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor:  Color(0xFF960018),
-                                    side: BorderSide.none,
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context,false),
+                                    child: const Text("Cancel"),
                                   ),
-                                ),
-                              ],
+                                  ElevatedButton(
+                                    onPressed: () => Navigator.pop(context,true),
+                                    child: const Text("Delete"),
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor:  Color(0xFF960018),
+                                      side: BorderSide.none,
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                          if(confirmed == true && passwordController.text.isNotEmpty){
+
+                            //loading indicator
+                            showDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (_) => const Center(child: CircularProgressIndicator()),
                             );
-                          },
-                      );
-                      if(confirmed == true && passwordController.text.isNotEmpty){
 
-                        //loading indicator
-                        showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (_) => const Center(child: CircularProgressIndicator()),
-                        );
+                            final success = await userProfileController.deleteAccount(password: passwordController.text.trim());
 
-                        final success = await userProfileController.deleteAccount(password: passwordController.text.trim());
+                            Navigator.pop(context);
 
-                        Navigator.pop(context);
-
-                        if(success){
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text("Your account has been deleted."),
-                            ),
-                          );
-                          Get.offAll(() => const LoginScreen());
-                        }else{
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text("Failed to delete account."),
-                            ),
-                          );
-                        }
-                      }
-                    }else{
-                      //Google Sign In
-                      final confirmed = await showDialog<bool>(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: const Text('Delete Account'),
-                            content: const Text(
-                              "Are you sure you want to delete your account? "
-                                  "This cannot be undone.",
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () => Navigator.pop(context,false),
-                                child: const Text("Cancel"),
-                              ),
-                              ElevatedButton(
-                                onPressed: () => Navigator.pop(context,true),
-                                child: const Text("Delete"),
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor:  Color(0xFF960018),
-                                  side: BorderSide.none,
+                            if(success){
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text("Your account has been deleted."),
                                 ),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                      if(confirmed == true){
-
-                        //loading indicator
-                        showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (_) => const Center(child: CircularProgressIndicator()),
-                        );
-
-                        final success = await userProfileController.deleteAccount();
-
-                        Navigator.pop(context);
-
-                        if(success){
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text("Your account has been deleted."),
-                            ),
-                          );
-                          Get.offAll(() => const LoginScreen());
+                              );
+                              Get.offAll(() => const LoginScreen());
+                            }else{
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text("Failed to delete account."),
+                                ),
+                              );
+                            }
+                          }
                         }else{
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text("Failed to delete account."),
-                            ),
+                          //Google Sign In
+                          final confirmed = await showDialog<bool>(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('Delete Account'),
+                                content: const Text(
+                                  "Are you sure you want to delete your account? "
+                                      "This cannot be undone.",
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context,false),
+                                    child: const Text("Cancel"),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () => Navigator.pop(context,true),
+                                    child: const Text("Delete"),
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor:  Color(0xFF960018),
+                                      side: BorderSide.none,
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
                           );
+                          if(confirmed == true){
+
+                            //loading indicator
+                            showDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (_) => const Center(child: CircularProgressIndicator()),
+                            );
+
+                            final success = await userProfileController.deleteAccount();
+
+                            Navigator.pop(context);
+
+                            if(success){
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text("Your account has been deleted."),
+                                ),
+                              );
+                              Get.offAll(() => const LoginScreen());
+                            }else{
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text("Failed to delete account."),
+                                ),
+                              );
+                            }
+                          }
                         }
-                      }
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF960018),
-                    side: BorderSide.none,
-                  ),
-                  label: const Text('Delete Account'),
-                  icon: const Icon(
-                    Icons.delete,
-                    size: 22,
-                  ),
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFF960018),
+                        padding: EdgeInsets.symmetric(horizontal: 12),
+                        side: BorderSide.none,
+                      ),
+                      label: const Text('Delete Account'),
+                      icon: const Icon(
+                        Icons.delete,
+                        size: 22,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-
             ],
           ),
         ),

@@ -173,8 +173,6 @@ class MealHistory extends StatelessWidget {
                       }
                   ),
 
-                  SizedBox(height: AppSizes.spaceBtwSections),
-
                   ElevatedButton.icon(
                     onPressed: () {
                       showDialog(

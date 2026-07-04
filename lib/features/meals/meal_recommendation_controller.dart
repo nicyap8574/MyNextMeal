@@ -3,13 +3,14 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_ai/firebase_ai.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:mynextmeal/features/user/user_profile_controller.dart';
 import '../../services/gemini_controller.dart';
 
-class MealRecommendationController {
+class MealRecommendationController extends GetxController{
   static MealRecommendationController get instance => Get.find();
   final userProfile = Get.find<UserProfileController>(); //retrieve an already-created controller instance
   final FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -20,9 +21,28 @@ class MealRecommendationController {
   late RxString response = "".obs;
   RxList<String> preferredCategories = <String>[].obs;
   RxList<String> avoidCategories = <String>[].obs;
-  // var mealType = "Breakfast";
   RxString selectedMealType = ''.obs;
 
+  @override
+  void onInit(){
+    super.onInit();
+    autoSelectMealType();
+  }
+
+  void autoSelectMealType(){
+    final hour = DateTime.now().hour;
+    if(hour >= 5 && hour < 9){
+      selectedMealType.value = 'Breakfast';
+    }else if(hour >= 9 && hour < 13){
+      selectedMealType.value = 'Lunch';
+    }else if(hour >= 17 && hour < 20){
+      selectedMealType.value = 'Dinner';
+    }else if(hour >= 20 && hour < 22){
+      selectedMealType.value = 'Supper';
+    }else{
+      selectedMealType.value = 'Snack';
+    }
+  }
 
   Future<QuerySnapshot<Map<String, dynamic>>> displayTodayMeals() async{
     //retrieves details of current user
@@ -90,10 +110,9 @@ class MealRecommendationController {
         final data = await userProfile.getUserDetails();
 
         //user selected dietary goals
-        List<dynamic>? selectedDietOptions = data?['dietOptions'];
-        List<dynamic>? selectedDietaryFocus = data?['dietaryFocus'];
-        List<dynamic>? selectedDietaryRestrictions = data?['dietaryRestrictions'];
-
+        List<dynamic>? selectedDietOptions = data?['dietOptions'] ?? 'No diet options';
+        List<dynamic>? selectedDietaryFocus = data?['dietaryFocus'] ?? 'No dietary focus';
+        List<dynamic>? selectedDietaryRestrictions = data?['dietaryRestrictions'] ?? 'No dietary restrictions';
 
         prompt = TextPart("""
           No previous meals have been recorded.

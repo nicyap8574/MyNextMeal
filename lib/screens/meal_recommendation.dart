@@ -20,7 +20,6 @@ class MealRecommendation extends StatefulWidget {
 
 class _MealRecommendationState extends State<MealRecommendation> {
   final List<String> mealType = ['Breakfast','Lunch','Dinner','Supper','Snack'];
-  // String selectedMealType = '';
   late Future<QuerySnapshot<Map<String,dynamic>>> todayMeals;
 
   @override
@@ -142,14 +141,14 @@ class _MealRecommendationState extends State<MealRecommendation> {
                     const SizedBox(height: 12),
 
                     //meal type chips selector
-                    Wrap(
-                      spacing: 8.0,
-                      runSpacing: 8.0,
-                      children: List.generate(mealType.length, (index){
-                        final type = mealType[index];
-                        final isSelected = controller.selectedMealType.value == type;
+                    Obx(() => Wrap(
+                        spacing: 8.0,
+                        runSpacing: 8.0,
+                        children: List.generate(mealType.length, (index){
+                          final type = mealType[index];
+                          final isSelected = controller.selectedMealType.value == type;
 
-                        return ChoiceChip(
+                          return ChoiceChip(
                             label: Text(type),
                             showCheckmark: false,
                             selected: isSelected,
@@ -159,9 +158,10 @@ class _MealRecommendationState extends State<MealRecommendation> {
                                 controller.selectedMealType.value = selected ? type : '';
                               });
                             },
-                        );
-                      }),
-                    ),
+                          );
+                        }),
+                      ),
+                    )
                   ],
                 ),
 
@@ -222,14 +222,13 @@ class _MealRecommendationState extends State<MealRecommendation> {
                                     runSpacing: 6,
                                     children: controller.preferredCategories.map((category){
                                       return Chip(
-                                        avatar: const Icon(Icons.check, size: 12, color: Color(0xFF366339)),
                                         label: Text(
                                           category,
                                           style: const TextStyle(fontSize: 11, color: Color(0xFF366339), fontWeight: FontWeight.bold),
                                         ),
                                         padding: EdgeInsets.zero,
                                         visualDensity: VisualDensity.compact,
-                                        backgroundColor: const Color(0xFF366339).withOpacity(0.1),
+                                        backgroundColor: AppColors.celadon400.withOpacity(0.2),
                                         side: BorderSide.none,
                                       );
                                     }).toList(),
@@ -275,7 +274,6 @@ class _MealRecommendationState extends State<MealRecommendation> {
                                     runSpacing: 6,
                                     children: controller.avoidCategories.map((category){
                                       return Chip(
-                                        avatar: const Icon(Icons.close, size: 12, color: Color(0xFF960018)),
                                         label: Text(
                                           category,
                                           style: const TextStyle(fontSize: 11, color: Color(0xFF960018), fontWeight: FontWeight.bold),
@@ -328,11 +326,6 @@ class _MealRecommendationState extends State<MealRecommendation> {
 
                     final data = jsonDecode(controller.response.value);
                     final recommendations = data['recommendations'] as List<dynamic>;
-                    // final meal = recommendations[0] as Map<String, dynamic>;
-                    // final mealName = meal['meal_name'];
-                    // final description = meal['description'];
-                    // final mainIngredients = meal['main_ingredients'] as List<dynamic>;
-                    // final suitableFor = meal['suitable_for'] as List<dynamic>;
 
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -354,8 +347,6 @@ class _MealRecommendationState extends State<MealRecommendation> {
                             children: [
                               Row(
                                 children: [
-                                  Icon(Icons.auto_awesome, color: AppColors.primary, size: 20),
-                                  const SizedBox(width: 8),
                                   Text(
                                     "${data['meal_type'][0].toUpperCase()}${data['meal_type'].substring(1)} Recommendations", //capitalise first letter of word
                                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
@@ -414,8 +405,6 @@ class _MealRecommendationState extends State<MealRecommendation> {
                                   padding: const EdgeInsetsGeometry.fromLTRB(16, 16, 16, 12),
                                   child: Row(
                                     children: [
-                                      Icon(Icons.restaurant, color: AppColors.primary, size: 22),
-                                      const SizedBox(width: 10),
                                       Expanded(
                                         child: Text(
                                           meal['meal_name'] ?? 'Unknown Dish',

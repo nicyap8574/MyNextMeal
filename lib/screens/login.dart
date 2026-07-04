@@ -93,16 +93,8 @@ class LoginScreen extends StatelessWidget {
 
                     //Remember me and forgot password
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children:[
-                        //remember me
-                        Row(
-                          children:[
-                            Obx(() => SizedBox(width: 24, height: 24, child: Checkbox(value: controller.rememberMe.value, onChanged: (value) => controller.rememberMe.value = !controller.rememberMe.value))),
-                            const Text("Remember Me"),
-                          ],
-                        ),
-
                         //forgot password
                         TextButton(
                           onPressed: (){

@@ -75,8 +75,6 @@ class _UserProfileState extends State<UserProfile> {
                     ),
                   ),
 
-                  // SizedBox(height: AppSizes.spaceBtwItems),
-
                   Text(username),
 
                   SizedBox(height: AppSizes.spaceBtwSections),
@@ -90,8 +88,6 @@ class _UserProfileState extends State<UserProfile> {
                       ),
                     ),
                   ),
-
-                  // SizedBox(height: AppSizes.spaceBtwItems),
 
                   Text(email),
 

@@ -33,7 +33,7 @@ class ForgotPasswordSheet extends StatelessWidget {
             const SizedBox(height: AppSizes.spaceBtwSections/2),
 
             Text(
-              "We'll send you a link to the email address to reset your password.",
+              "We'll email you a link to reset your password. If you don't see it in a few minutes, check your Spam or Junk folder.",
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontWeight: FontWeight.normal,

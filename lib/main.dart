@@ -4,6 +4,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:mynextmeal/features/auth/forgot_password_controller.dart';
 import 'package:mynextmeal/features/meals/image_analysis_controller.dart';
 import 'package:mynextmeal/features/meals/individual_meal_controller.dart';
 import 'package:mynextmeal/features/meals/meal_history_controller.dart';
@@ -36,6 +37,7 @@ Future<void> main() async {
   Get.put(ImageAnalysisController());
   Get.put(MealHistoryController());
   Get.put(IndividualMealController());
+  Get.put(ForgotPasswordController());
   //
   // Get.lazyPut(() => ImageAnalysisController());
   // Get.lazyPut(() => IndividualMealController());

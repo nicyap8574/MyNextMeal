@@ -5,11 +5,13 @@ import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:mynextmeal/common/spacing_styles.dart';
+import 'package:mynextmeal/features/auth/forgot_password_controller.dart';
 
 import '../features/user/user_profile_controller.dart';
 import '../utils/constants/colors.dart';
 import '../utils/constants/sizes.dart';
 import '../utils/helpers/helper_functions.dart';
+import 'forgot_password_sheet.dart';
 import 'login.dart';
 
 class ProfileSettings extends StatefulWidget {
@@ -21,6 +23,7 @@ class ProfileSettings extends StatefulWidget {
 
 class _ProfileSettingsState extends State<ProfileSettings> {
   late UserProfileController userProfileController;
+  final forgotPasswordController = Get.find<ForgotPasswordController>();
 
   Set<int> selectedDietOptions = {}; //stores selected diet options
   Set<int> selectedDietaryFocus = {}; //stores selected dietary focus
@@ -87,6 +90,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     final dark = AppHelperFunctions.isDarkMode(context);
     // final userProfileController = Get.find<UserProfileController>();
     // final userController = Get.find<UserController>();
+    final user = FirebaseAuth.instance.currentUser;
+    final isPasswordUser = user?.providerData.any((p) => p.providerId == 'password') ?? false;
 
     return Scaffold(
       backgroundColor: dark ? AppColors.darkBackground : AppColors.lightBackground,
@@ -99,6 +104,68 @@ class _ProfileSettingsState extends State<ProfileSettings> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children:[
+              Text(
+                'Username',
+                style: TextStyle(
+                  fontSize: AppSizes.fontSizeLg,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+
+              const SizedBox(height: 8),
+
+              TextField(
+                controller: usernameController,
+                decoration: const InputDecoration(
+                  hintText: 'Enter username',
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.person),
+                ),
+              ),
+
+              const SizedBox(height: AppSizes.spaceBtwSections),
+
+              if(isPasswordUser) ...[
+                const Text(
+                  'Change Password',
+                  style: TextStyle(fontSize: AppSizes.fontSizeLg, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 8),
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton(
+                    // onPressed: () async{
+                    //   if(user?.email != null){
+                    //     await forgotPasswordController.sendPasswordResetEmail();
+                    //   }
+                    // },
+                    onPressed: (){
+                      Get.bottomSheet(
+                          ForgotPasswordSheet(email: ''),
+                          backgroundColor: dark ? AppColors.darkBackground : AppColors.lightBackground,
+                          isScrollControlled: true,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                          )
+                      );
+                    },
+                    child: const Text("Reset Password via Email"),
+                  ),
+                ),
+              ]else ...[
+                const Text(
+                  'Account Security',
+                  style: TextStyle(fontSize: AppSizes.fontSizeLg, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                    "Signed in with Google. Manage your password in your Google account.",
+                    style: TextStyle(fontStyle: FontStyle.italic, color: AppColors.darkerGrey)
+                ),
+              ],
+
+              const SizedBox(height: AppSizes.spaceBtwSections),
+
               Container(
                   width: double.infinity,
                   padding: const EdgeInsets.all(16),
@@ -119,27 +186,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children:[
-                        Text(
-                          'Username',
-                          style: TextStyle(
-                            fontSize: AppSizes.fontSizeLg,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-
-                        const SizedBox(height: 8),
-
-                        TextField(
-                          controller: usernameController,
-                          decoration: const InputDecoration(
-                            hintText: 'Enter username',
-                            border: OutlineInputBorder(),
-                            prefixIcon: Icon(Icons.person),
-                          ),
-                        ),
-
-                        const SizedBox(height: AppSizes.spaceBtwSections),
-
                         Container(
                           child: Text(
                             'Dietary Goals',

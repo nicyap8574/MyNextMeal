@@ -9,7 +9,7 @@ class AppProgressIndicatorTheme {
   );
 
   static ProgressIndicatorThemeData darkProgressIndicatorTheme = ProgressIndicatorThemeData(
-    color: Colors.white,
-    circularTrackColor: AppColors.grey,
+    color: AppColors.primary,
+    circularTrackColor: Colors.white.withOpacity(0.1),
   );
 }

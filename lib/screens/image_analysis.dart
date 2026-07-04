@@ -36,9 +36,10 @@ class ImageAnalysis extends StatelessWidget {
                 height: 200,
                 width: double.infinity,
                 decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.darkerGrey.withOpacity(0.3),
+                      color: dark ? Colors.transparent : AppColors.primary.withOpacity(0.15),
                       blurRadius: 10,
                       offset: Offset(0,4),
                     ),
@@ -59,6 +60,7 @@ class ImageAnalysis extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: dark ?  const Color(0xFF221E19) : AppColors.apricotCream100,
                       side: BorderSide(color: dark ? Colors.white.withOpacity(0.08) : Colors.transparent, width: 1),
+                      elevation: 0,
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -85,9 +87,10 @@ class ImageAnalysis extends StatelessWidget {
                 height: 200,
                 width: double.infinity,
                 decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.darkerGrey.withOpacity(0.3),
+                      color: dark ? Colors.transparent : AppColors.primary.withOpacity(0.15),
                       blurRadius: 10,
                       offset: Offset(0,4),
                     ),
@@ -102,6 +105,7 @@ class ImageAnalysis extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: dark ?  const Color(0xFF221E19) : AppColors.apricotCream100,
                     side: BorderSide(color: dark ? Colors.white.withOpacity(0.08) : Colors.transparent, width: 1),
+                    elevation: 0,
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,

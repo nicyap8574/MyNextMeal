@@ -14,6 +14,7 @@ import 'package:mynextmeal/features/meals/sentiment_analysis.dart';
 import 'package:mynextmeal/screens/image_analysis.dart';
 import 'package:mynextmeal/screens/meal_history_page.dart';
 import 'package:permission_handler/permission_handler.dart';
+import '../../env.dart';
 import '../../utils/helpers/helper_functions.dart';
 import '../../utils/popups/loaders.dart';
 import '../../services/gemini_controller.dart';
@@ -300,7 +301,7 @@ class ImageAnalysisController{
     try{
       final sentimentText = sentimentController.text.trim();
       if(sentimentText.isNotEmpty){
-        sentiment = await sentimentAnalysis.analyse(sentimentText, apiToken: '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');
+        sentiment = await sentimentAnalysis.analyse(sentimentText, apiToken: Env.hf_apiKey);
       }else if(sentimentText.isEmpty){
         sentimentText == "No sentiment provided.";
       }

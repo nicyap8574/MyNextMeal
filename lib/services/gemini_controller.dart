@@ -86,30 +86,43 @@ class GeminiController{
       },
   );
 
+  static final summaryJsonSchema = Schema.object(
+    properties:{
+      'brief_summary': Schema.string(),
+    },
+  );
+
   //Initialise the Gemini Developer API backend
   final analysisModel = FirebaseAI.googleAI().generativeModel(
-    // model: 'gemini-3.1-flash-lite-preview',
-      model: 'gemini-2.5-flash-lite',
+      model: 'gemini-3.5-flash',
+      // model: 'gemini-2.5-flash-lite',
       generationConfig: GenerationConfig(
           responseMimeType: 'application/json', responseSchema: analysisJsonSchema));
 
   final validationModel = FirebaseAI.googleAI().generativeModel(
-    // model: 'gemini-3.1-flash-lite-preview',
-      model: 'gemini-2.5-flash-lite',
+    model: 'gemini-3.5-flash',
+    //   model: 'gemini-2.5-flash-lite',
       generationConfig: GenerationConfig(
           responseMimeType: 'application/json', responseSchema: validationJsonSchema));
 
   //Meal recommendation
   final recommendationModel_PreviousMeals = FirebaseAI.googleAI().generativeModel(
-    // model: 'gemini-3.1-flash-lite-preview',
-      model: 'gemini-2.5-flash-lite',
+      model: 'gemini-3.5-flash',
+    //   model: 'gemini-2.5-flash-lite',
       generationConfig: GenerationConfig(
           responseMimeType: 'application/json', responseSchema: recommendationJsonSchema_PreviousMeals));
 
   //Meal recommendation
   final recommendationModel_NoPreviousMeals = FirebaseAI.googleAI().generativeModel(
-    // model: 'gemini-3.1-flash-lite-preview',
-      model: 'gemini-2.5-flash-lite',
+      model: 'gemini-3.5-flash',
+    //   model: 'gemini-2.5-flash-lite',
+      generationConfig: GenerationConfig(
+          responseMimeType: 'application/json', responseSchema: recommendationJsonSchema_NoPreviousMeals));
+
+  //Brief summary
+  final summaryModel = FirebaseAI.googleAI().generativeModel(
+      model: 'gemini-3.5-flash',
+    //   model: 'gemini-2.5-flash-lite',
       generationConfig: GenerationConfig(
           responseMimeType: 'application/json', responseSchema: recommendationJsonSchema_NoPreviousMeals));
 

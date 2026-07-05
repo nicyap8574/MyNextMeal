@@ -56,8 +56,10 @@ class ImageAnalysisController{
   var proteinMacro = ''.obs;
   var fatMacro = ''.obs;
   var category = ''.obs;
+  var briefSummary = ''.obs;
 
   final RxList<String> ingredients = <String>[].obs;
+  final RxBool isSummaryLoading = false.obs;
 
   final macroOptions = ['Low','Medium','High','Unknown'];
   final categoryOptions = ['Fried','Grilled','Steamed','Vegetarian','Healthy','Spicy','Fast Food','Dessert','Unknown'];
@@ -195,7 +197,15 @@ class ImageAnalysisController{
       final user = _auth.currentUser;
 
       //text prompt
-      final prompt = TextPart("Analyze this meal image. Identify the ingredients and estimate the macronutrient composition (carbs, protein, fat as low/medium/high) and give an overall meal healthiness (unhealthy/moderate/healthy) and confidence level (low/medium/high) and give category of meal (fried/healthy/spicy). Provide a brief summary of the meal's nutritional profile. For anything you're unsure about, just state ""Unknown"".");
+      final prompt = TextPart("""
+        Analyze this meal image. 
+        - Identify the ingredients and estimate the macronutrient composition (carbs, protein, fat as low/medium/high) 
+        - Give an overall meal healthiness (unhealthy/moderate/healthy) 
+        - Give confidence level (low/medium/high)
+        - Give category of meal (fried/healthy/spicy). 
+        - Provide a 1-line macro explanation describing the balance of carbs, protein, and fats. Must directly reference carbs, protein, and/or fats. Focus on balance (e.g. high carbs, low protein, moderate fat)
+        For anything you're unsure about, just state "Unknown".
+      """);
 
       //image
       final image = await file.readAsBytes();
@@ -233,6 +243,10 @@ class ImageAnalysisController{
         originalProteinCount = meal['protein_macro'] ?? '';
         originalFatsCount = meal['fats_macro'] ?? '';
         originalCategory = meal['category'] ?? '';
+
+        //initial Gemini result
+        final briefSummaryOriginal = meal['brief_summary'] ?? '';
+        briefSummary.value = briefSummaryOriginal;
 
         if(!_hasSetMealName){
           mealNameController.text = originalMealName;
@@ -272,6 +286,53 @@ class ImageAnalysisController{
     }
   }
 
+  Future<void> regenerateMealSummary() async{
+    var briefSummaryNew;
+
+    try{
+      isSummaryLoading.value = true;
+      errorMessage.value = null;
+
+      final mealName = mealNameController.text;
+      final currentIngredients = ingredients.join(', ');
+      final carbs = carbsMacro.value;
+      final protein = proteinMacro.value;
+      final fats = fatMacro.value;
+
+      //text prompt
+      final prompt = TextPart("""
+        Meal Name: $mealName
+        Ingredients: $currentIngredients
+        Carbs Macro: $carbs
+        Protein Macro: $protein
+        Fats Macro: $fats
+    
+        Based on the provided food details, provide a 1-line macro explanation describing the balance of carbs, protein, and fats. Must directly reference carbs, protein, and/or fats. Focus on balance (e.g. high carbs, low protein, moderate fat)
+        For anything you're unsure about, just state "Unknown".
+      """);
+
+      final briefSummaryNew = await gemini.summaryModel.generateContent([Content.text(prompt.text)]);
+
+      final text = briefSummaryNew.text ?? '';
+
+      if(text.isEmpty || text.contains("error")){
+        errorMessage.value = "Failed to regenerate summary";
+        return;
+      }
+
+      final data = jsonDecode(text);
+      if(data['brief_summary'] != null){
+        briefSummary.value = data['brief_summary'];
+      }
+
+    }catch(e){
+      print(e);
+      errorMessage.value = "An error occurred during regeneration.";
+    }finally{
+      isSummaryLoading.value = false;
+    }
+  }
+
   //Map<String,dynamic> --> every key is a String, every value is dynamic
   Future<void> saveMealRecord(Map<String, dynamic> json, String imageUrl, BuildContext context) async{
     final user = _auth.currentUser;
@@ -306,6 +367,9 @@ class ImageAnalysisController{
 
     //Save updated ingredients list
     meal['detected_ingredients'] = ingredients.toList();
+
+    //Save updated summary
+    meal['brief_summary'] = briefSummary.value;
 
     SentimentResult? sentiment;
 

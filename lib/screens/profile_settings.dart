@@ -112,7 +112,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     }
   }
 
-
 @override
   Widget build(BuildContext context) {
     final dark = AppHelperFunctions.isDarkMode(context);

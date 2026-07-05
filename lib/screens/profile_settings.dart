@@ -428,14 +428,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(16),
-                // decoration: BoxDecoration(
-                //   color: dark ? const Color(0xFF2B1C1C) : const Color(0xFFFFF6F6),
-                //   border: Border.all(
-                //     color: dark ? const Color(0xFF5A1E1E) : const Color(0xFFFFD1D1),
-                //     width: 1,
-                //   ),
-                //   borderRadius: BorderRadius.circular(20),
-                // ),
 
                 child: Column(
                   children: [

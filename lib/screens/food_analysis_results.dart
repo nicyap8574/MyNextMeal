@@ -19,6 +19,37 @@ class FoodAnalysisResults extends StatefulWidget {
 }
 
 class _FoodAnalysisResultsState extends State<FoodAnalysisResults> {
+
+  final TextEditingController categoryController = TextEditingController();
+  final TextEditingController ingredientsController = TextEditingController();
+
+  void addCustomCategory(String rawCategory){
+    final trimmedCategory = rawCategory.trim();
+    if(trimmedCategory.isNotEmpty){
+      final controller = Get.find<ImageAnalysisController>();
+      setState(() {
+        final alreadyExists = controller.categoryOptions.any((element) => element.toLowerCase() == trimmedCategory.toLowerCase());
+        if(!alreadyExists){
+          controller.categoryOptions.add(trimmedCategory);
+        }
+
+        controller.category.value = trimmedCategory;
+        categoryController.clear();
+      });
+    }
+  }
+
+  void addCustomIngredient(String rawIngredient){
+    final trimmedIngredient = rawIngredient.trim();
+    if(trimmedIngredient.isNotEmpty){
+      final controller = Get.find<ImageAnalysisController>();
+      if(!controller.ingredients.contains(trimmedIngredient)){
+        controller.ingredients.add(trimmedIngredient);
+      }
+      ingredientsController.clear();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final dark = AppHelperFunctions.isDarkMode(context);
@@ -117,7 +148,6 @@ class _FoodAnalysisResultsState extends State<FoodAnalysisResults> {
 
                               const SizedBox(height: AppSizes.spaceBtwItems),
 
-
                               Text(
                                   style: Theme.of(context).textTheme.titleSmall?.copyWith(
                                     fontWeight: FontWeight.w700,
@@ -144,8 +174,30 @@ class _FoodAnalysisResultsState extends State<FoodAnalysisResults> {
                                   )
                               ),
 
-                              const SizedBox(height: AppSizes.spaceBtwItems),
+                              const SizedBox(height: AppSizes.sm),
 
+                              //custom category
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: TextField(
+                                      controller: categoryController,
+                                      decoration: const InputDecoration(
+                                        hintText: 'Add custom category',
+                                        border: OutlineInputBorder(),
+                                      ),
+                                      onSubmitted: addCustomCategory,
+                                    ),
+                                  ),
+                                  const SizedBox(width: AppSizes.sm),
+                                  IconButton(
+                                      onPressed: () => addCustomCategory(categoryController.text),
+                                      icon: const Icon(Icons.add)
+                                  ),
+                                ],
+                              ),
+
+                              const SizedBox(height: AppSizes.spaceBtwItems),
 
                               Text(
                                   style: Theme.of(context).textTheme.titleSmall?.copyWith(
@@ -156,12 +208,39 @@ class _FoodAnalysisResultsState extends State<FoodAnalysisResults> {
 
                               Wrap(
                                 spacing: 8,
-                                children: ingredients.map((individual_ingredient){
-                                  return Chip(
+                                children: controller.ingredients.map((individual_ingredient){
+                                  return InputChip(
                                     label: Text(individual_ingredient),
+                                    onDeleted: (){
+                                      controller.ingredients.remove(individual_ingredient);
+                                    }
                                   );
                                 }).toList(), //converts Iterable to List<Widget> to be accepted by children
                               ),
+
+                              const SizedBox(height: AppSizes.sm),
+
+                              //custom ingredient
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: TextField(
+                                      controller: ingredientsController,
+                                      decoration: const InputDecoration(
+                                        hintText: 'Add custom ingredient',
+                                        border: OutlineInputBorder(),
+                                      ),
+                                      onSubmitted: addCustomIngredient,
+                                    ),
+                                  ),
+                                  const SizedBox(width: AppSizes.sm),
+                                  IconButton(
+                                      onPressed: () => addCustomIngredient(ingredientsController.text),
+                                      icon: const Icon(Icons.add)
+                                  ),
+                                ],
+                              ),
+
 
                               const SizedBox(height: AppSizes.spaceBtwItems),
 

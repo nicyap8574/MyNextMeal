@@ -57,6 +57,8 @@ class ImageAnalysisController{
   var fatMacro = ''.obs;
   var category = ''.obs;
 
+  final RxList<String> ingredients = <String>[].obs;
+
   final macroOptions = ['Low','Medium','High','Unknown'];
   final categoryOptions = ['Fried','Grilled','Steamed','Vegetarian','Healthy','Spicy','Fast Food','Dessert','Unknown'];
 
@@ -162,6 +164,7 @@ class ImageAnalysisController{
         _hasSetMealName = false;
         mealNameController.clear();
         sentimentController.clear();
+        ingredients.clear();
 
         analyseFoodImage(image);
         return true;
@@ -179,6 +182,7 @@ class ImageAnalysisController{
     try{
       isLoading.value = true;
       errorMessage.value = null;
+      ingredients.clear();
 
       final isValid = await validateImage(file);
 
@@ -250,6 +254,10 @@ class ImageAnalysisController{
           category.value = originalCategory;
           _hasSetCategory = true;
         }
+
+        final List<dynamic> detectedIngredients = meal['detected_ingredients'] ?? [];
+        ingredients.assignAll(detectedIngredients.cast<String>());
+
       }catch(e){
         print(e);
       }
@@ -295,6 +303,9 @@ class ImageAnalysisController{
       _hasEditedCategory = true;
       meal['category'] = category.value;
     }
+
+    //Save updated ingredients list
+    meal['detected_ingredients'] = ingredients.toList();
 
     SentimentResult? sentiment;
 

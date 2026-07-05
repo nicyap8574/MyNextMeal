@@ -110,9 +110,9 @@ class MealRecommendationController extends GetxController{
         final data = await userProfile.getUserDetails();
 
         //user selected dietary goals
-        List<dynamic>? selectedDietOptions = data?['dietOptions'] ?? 'No diet options';
-        List<dynamic>? selectedDietaryFocus = data?['dietaryFocus'] ?? 'No dietary focus';
-        List<dynamic>? selectedDietaryRestrictions = data?['dietaryRestrictions'] ?? 'No dietary restrictions';
+        List<dynamic>? selectedDietOptions = data?['dietOptions'] ?? [];
+        List<dynamic>? selectedDietaryFocus = data?['dietaryFocus'] ?? [];
+        List<dynamic>? selectedDietaryRestrictions = data?['dietaryRestrictions'] ?? [];
 
         prompt = TextPart("""
           No previous meals have been recorded.

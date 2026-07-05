@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -8,6 +10,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mynextmeal/common/app_navigation_bar.dart';
 import '../../screens/login.dart';
+import '../../screens/onboarding_screen.dart';
 import '../../utils/popups/loaders.dart';
 
 class AuthController extends GetxController{
@@ -28,7 +31,23 @@ class AuthController extends GetxController{
     final user = _auth.currentUser;
 
     if(user != null){
-      Get.offAll(() => const AppNavigationBar());
+      try{
+        final doc = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+        if(doc.exists){
+          final data = doc.data();
+          final hasCompletedOnboarding = data?['hasCompletedOnboarding'] ?? false;
+          if(hasCompletedOnboarding){
+            Get.offAll(() => const AppNavigationBar());
+          }else{
+            Get.offAll(() => const OnboardingScreen());
+          }
+        }else{
+          Get.offAll(() => const OnboardingScreen());
+        }
+      }catch(e){
+        print("Error $e");
+        Get.offAll(() => const AppNavigationBar());
+      }
     }else{
       Get.offAll(() => const LoginScreen());
     }

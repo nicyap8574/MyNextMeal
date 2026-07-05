@@ -61,6 +61,66 @@ class UserProfileController extends GetxController{
 
     }catch(e){
       print("Error saving changes: $e");
+      AppLoaders.showSnackBar(context, "Failed to save changes.");
+    }
+  }
+
+  Future<void> saveOnboardingDetails({
+    required BuildContext context,
+    required double height,
+    required double weight,
+    required int age,
+    required String activityLevel,
+    required List<String> selectedDietOptions,
+    required List<String> selectedDietaryFocus,
+    required List<String> selectedRestrictions,
+  }) async{
+    try{
+      await _db.collection('users').doc(user!.uid).set({
+        'height': height,
+        'weight': weight,
+        'age': age,
+        'activityLevel': activityLevel,
+        'dietOptions': selectedDietOptions,
+        'dietaryFocus': selectedDietaryFocus,
+        'dietaryRestrictions': selectedRestrictions,
+        'hasCompletedOnboarding': true,
+      }, SetOptions(merge: true)); //merge new dietOptions and dietaryFocus with current document
+
+      //add selected options to cachedData so does not read again from db
+      cachedData = {
+        ...?cachedData, //merge previous cachedData with new
+        'height': height,
+        'weight': weight,
+        'age': age,
+        'activityLevel': activityLevel,
+        'dietOptions': selectedDietOptions,
+        'dietaryFocus': selectedDietaryFocus,
+        'dietaryRestrictions': selectedRestrictions,
+        'hasCompletedOnboarding': true,
+      };
+
+      //updates user data
+      if(Get.isRegistered<UserController>()){
+        final userController = UserController.instance;
+        userController.user.update((currentUser){
+          if(currentUser != null){
+            userController.user(UserModel(
+              id: currentUser.id,
+              email: currentUser.email,
+              username: currentUser.username,
+              height: height,
+              weight: weight,
+              age: age,
+              activityLevel: activityLevel,
+              hasCompletedOnboarding: true,
+            ));
+          }
+        });
+      }
+    }catch(e){
+      print("Error saving changes: $e");
+      AppLoaders.showSnackBar(context, "Failed to save onboarding preferences.");
     }
   }
 

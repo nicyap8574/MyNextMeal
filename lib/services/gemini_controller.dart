@@ -124,6 +124,6 @@ class GeminiController{
       model: 'gemini-3.5-flash',
     //   model: 'gemini-2.5-flash-lite',
       generationConfig: GenerationConfig(
-          responseMimeType: 'application/json', responseSchema: recommendationJsonSchema_NoPreviousMeals));
+          responseMimeType: 'application/json', responseSchema: summaryJsonSchema));
 
 }

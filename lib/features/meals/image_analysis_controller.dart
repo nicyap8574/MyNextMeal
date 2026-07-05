@@ -167,6 +167,7 @@ class ImageAnalysisController{
         mealNameController.clear();
         sentimentController.clear();
         ingredients.clear();
+        briefSummary.value = '';
 
         analyseFoodImage(image);
         return true;
@@ -272,6 +273,8 @@ class ImageAnalysisController{
         final List<dynamic> detectedIngredients = meal['detected_ingredients'] ?? [];
         ingredients.assignAll(detectedIngredients.cast<String>());
 
+        briefSummary.value = meal['brief_summary'] ?? '';
+
       }catch(e){
         print(e);
       }
@@ -287,7 +290,6 @@ class ImageAnalysisController{
   }
 
   Future<void> regenerateMealSummary() async{
-    var briefSummaryNew;
 
     try{
       isSummaryLoading.value = true;
@@ -311,9 +313,8 @@ class ImageAnalysisController{
         For anything you're unsure about, just state "Unknown".
       """);
 
-      final briefSummaryNew = await gemini.summaryModel.generateContent([Content.text(prompt.text)]);
-
-      final text = briefSummaryNew.text ?? '';
+      final result = await gemini.summaryModel.generateContent([Content.text(prompt.text)]);
+      final text = result.text ?? '';
 
       if(text.isEmpty || text.contains("error")){
         errorMessage.value = "Failed to regenerate summary";

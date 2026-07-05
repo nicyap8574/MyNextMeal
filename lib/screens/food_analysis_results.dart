@@ -354,14 +354,39 @@ class _FoodAnalysisResultsState extends State<FoodAnalysisResults> {
 
                               const SizedBox(height: AppSizes.spaceBtwItems),
 
-                              Text(
-                                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                                    fontWeight: FontWeight.w700,
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                      "Brief Summary"
                                   ),
-                                  "Brief Summary"
+
+                                  Obx((){
+                                    if(controller.isSummaryLoading.value){
+                                      return const SizedBox(
+                                        height: 20,
+                                        width: 20,
+                                        child: CircularProgressIndicator(strokeWidth: 2),
+                                      );
+                                    }
+
+                                    return IconButton(
+                                      icon: const Icon(Icons.refresh, size: 20),
+                                      tooltip: 'Regenerate Summary',
+                                      onPressed: () => controller.regenerateMealSummary(),
+                                    );
+                                  }),
+                                ],
                               ),
 
-                              Text(briefSummary),
+                              // const SizedBox(height: AppSizes.sm),
+
+                              Obx(() => Text(controller.briefSummary.value)),
+
+                              // Text(briefSummary),
 
                               const SizedBox(height: AppSizes.spaceBtwItems),
 

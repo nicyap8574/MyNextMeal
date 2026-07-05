@@ -11,59 +11,64 @@ import '../utils/constants/sizes.dart';
 import '../utils/helpers/helper_functions.dart';
 import 'image_analysis.dart';
 
-class FoodAnalysisResults extends StatelessWidget {
+class FoodAnalysisResults extends StatefulWidget {
   const FoodAnalysisResults({super.key});
 
+  @override
+  State<FoodAnalysisResults> createState() => _FoodAnalysisResultsState();
+}
+
+class _FoodAnalysisResultsState extends State<FoodAnalysisResults> {
   @override
   Widget build(BuildContext context) {
     final dark = AppHelperFunctions.isDarkMode(context);
     final controller = Get.find<ImageAnalysisController>();
 
     return Scaffold(
-      backgroundColor: dark ? AppColors.darkBackground : AppColors.lightBackground,
-      appBar: AppBar(
-        title: const Text('Meal Analysis Results'),
-      ),
+        backgroundColor: dark ? AppColors.darkBackground : AppColors.lightBackground,
+        appBar: AppBar(
+          title: const Text('Meal Analysis Results'),
+        ),
 
-      body: Obx((){
-        if(controller.isLoading.value == true){
-          return Center(
-            child: const CircularProgressIndicator(),
-          );
-        }
+        body: Obx((){
+          if(controller.isLoading.value == true){
+            return Center(
+              child: const CircularProgressIndicator(),
+            );
+          }
 
-        return SingleChildScrollView(
-            child: Padding(
-                padding: AppSpacingStyle.paddingWithAppBarHeight,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          return SingleChildScrollView(
+              child: Padding(
+                  padding: AppSpacingStyle.paddingWithAppBarHeight,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 
-                  children: [
-                    Obx((){
-                      final imageFile = controller.foodImage.value;
+                    children: [
+                      Obx((){
+                        final imageFile = controller.foodImage.value;
 
-                      if(controller.isLoading.value != true && imageFile != null){
-                        return Column(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(AppSizes.cardRadiusMd),
-                              child: Image.file(
-                                  File(imageFile.path), //converts XFile to File -> directory to image in device
-                                  height: 300,
-                                  fit: BoxFit.cover
+                        if(controller.isLoading.value != true && imageFile != null){
+                          return Column(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(AppSizes.cardRadiusMd),
+                                child: Image.file(
+                                    File(imageFile.path), //converts XFile to File -> directory to image in device
+                                    height: 300,
+                                    fit: BoxFit.cover
+                                ),
                               ),
-                            ),
-                          ],
-                        );
-                      }else{
-                        return const SizedBox.shrink();
-                      }
-                    }),
+                            ],
+                          );
+                        }else{
+                          return const SizedBox.shrink();
+                        }
+                      }),
 
-                    const SizedBox(height: AppSizes.spaceBtwSections),
+                      const SizedBox(height: AppSizes.spaceBtwSections),
 
-                    //Obx so that it updates when response changes and can get the data from repository
-                    Obx((){
+                      //Obx so that it updates when response changes and can get the data from repository
+                      Obx((){
 
                         if(controller.errorMessage.value != null){
                           return Text(
@@ -99,9 +104,9 @@ class FoodAnalysisResults extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text("Detected Dish",
-                              style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                                fontWeight: FontWeight.w700,
-                              ),
+                                style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
 
                               const SizedBox(height: AppSizes.sm),
@@ -339,13 +344,13 @@ class FoodAnalysisResults extends StatelessWidget {
                               ),
                             ]
                         );
-                     }
-                    ),
-                  ],
-                )
-            )
-        );
-      })
+                      }
+                      ),
+                    ],
+                  )
+              )
+          );
+        })
     );
   }
 }

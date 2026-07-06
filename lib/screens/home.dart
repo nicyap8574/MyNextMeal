@@ -7,6 +7,7 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:intl/intl.dart';
 import 'package:mynextmeal/features/meals/meal_history_controller.dart';
 import 'package:mynextmeal/screens/meal_recommendation.dart';
+import 'package:mynextmeal/screens/meal_recommendation_history.dart';
 import '../features/user/user_controller.dart';
 import '../utils/constants/colors.dart';
 import '../utils/constants/sizes.dart';
@@ -226,6 +227,45 @@ class Home extends StatelessWidget {
                       ),
                     ),
                   ),
+
+                  const SizedBox(height: 4),
+
+                  Container(
+                    decoration: BoxDecoration(
+                      color: dark ? const Color(0xFF221E19) : Colors.transparent,
+                      border: Border.all(
+                        color: dark ? Colors.white.withOpacity(0.08) : Colors.transparent,
+                        width: 1,
+                      ),
+                      borderRadius: BorderRadius.circular(AppSizes.cardRadiusMd),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.darkerGrey.withOpacity(0.12),
+                          blurRadius: 8,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    width: double.infinity,
+                    margin: const EdgeInsets.symmetric(vertical: AppSizes.spaceBtwItems/2),
+                    child: ElevatedButton.icon(
+                      onPressed: () => Get.to(() => const MealRecommendationHistory()),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.apricotCream100,
+                        foregroundColor: dark ? Colors.white : Colors.black,
+                        side: BorderSide(color: AppColors.primary, width: 1),
+                      ),
+                      icon: const Icon(
+                        Icons.receipt_long,
+                        size: 22,
+                      ),
+                      label: const Text(
+                        'View recommendation history',
+                        style: TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                  ),
+
 
                   const SizedBox(height: AppSizes.spaceBtwSections),
 

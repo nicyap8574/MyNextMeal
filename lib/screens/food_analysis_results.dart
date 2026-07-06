@@ -375,7 +375,6 @@ class _FoodAnalysisResultsState extends State<FoodAnalysisResults> {
 
                                     return IconButton(
                                       icon: const Icon(Icons.refresh, size: 20),
-                                      tooltip: 'Regenerate Summary',
                                       onPressed: () => controller.regenerateMealSummary(),
                                     );
                                   }),

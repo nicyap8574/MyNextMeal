@@ -297,15 +297,28 @@ class _MealRecommendationState extends State<MealRecommendation> {
 
                 const SizedBox(height: AppSizes.spaceBtwSections),
 
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.all(16),
-                  ),
-                  onPressed: () => controller.generateMealRecs(),
-                  child: const Text("Generate Meal Recommendations"),
-                ),
+                Obx((){
+                  if(controller.hasGenerated.value){
+                    return const SizedBox.shrink();
+                  }
 
-                const SizedBox(height: AppSizes.spaceBtwSections),
+                  return Column(
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.all(16),
+                        ),
+                        onPressed: () {
+                          controller.generateMealRecs();
+                          controller.hasGenerated.value = true;
+                        },
+                        child: const Text("Generate Meal Recommendations"),
+                      ),
+
+                      const SizedBox(height: AppSizes.spaceBtwSections),
+                    ],
+                  );
+                }),
 
                 Obx(() {
                   if (controller.isLoading.value == true) {
@@ -358,7 +371,7 @@ class _MealRecommendationState extends State<MealRecommendation> {
                               ),
                               const SizedBox(height: 12),
                               Text(
-                                data['imbalanced_food_explanation'] ?? 'No inbalanced food explanation available',
+                                data['imbalanced_food_explanation'] ?? 'Add your first meal to generate an imbalanced food explanation',
                                 style: TextStyle(
                                   fontSize: 13,
                                   fontStyle: FontStyle.italic,
@@ -370,12 +383,33 @@ class _MealRecommendationState extends State<MealRecommendation> {
                           ),
                         ),
 
-                        Text(
-                          "Recommended Options",
-                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Recommended Options",
+                              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+
+                            Obx((){
+                              if(controller.isLoading.value){
+                                return const SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: CircularProgressIndicator(strokeWidth: 2),
+                                );
+                              }
+
+                              return IconButton(
+                                icon: const Icon(Icons.refresh, size: 20),
+                                onPressed: () => controller.generateMealRecs(),
+                              );
+                            }),
+                          ],
                         ),
+
 
                         const SizedBox(height: 16),
 

@@ -184,7 +184,8 @@ class _MealRecommendationResultsState extends State<MealRecommendationResults> {
                                         ),
                                       ),
 
-                                      const SizedBox(height: 16),
+                                      const SizedBox(height: AppSizes.spaceBtwItems),
+
 
                                       const Text(
                                         'Ingredients',
@@ -195,7 +196,8 @@ class _MealRecommendationResultsState extends State<MealRecommendationResults> {
                                         ),
                                       ),
 
-                                      const SizedBox(height: 8),
+                                      const SizedBox(height: AppSizes.spaceBtwItems/2),
+
 
                                       //meal ingredients
 
@@ -216,7 +218,8 @@ class _MealRecommendationResultsState extends State<MealRecommendationResults> {
                                         }).toList(),
                                       ),
 
-                                      const SizedBox(height: 16),
+                                      const SizedBox(height: AppSizes.spaceBtwItems),
+
 
                                       //suitable for
                                       const Text(
@@ -228,7 +231,7 @@ class _MealRecommendationResultsState extends State<MealRecommendationResults> {
                                         ),
                                       ),
 
-                                      const SizedBox(height: 8),
+                                      const SizedBox(height: AppSizes.spaceBtwItems/2),
 
                                       Wrap(
                                         spacing: 8,

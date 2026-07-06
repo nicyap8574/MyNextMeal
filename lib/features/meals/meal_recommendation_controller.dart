@@ -113,9 +113,18 @@ class MealRecommendationController extends GetxController{
         List<dynamic>? selectedDietOptions = data?['dietOptions'] ?? [];
         List<dynamic>? selectedDietaryFocus = data?['dietaryFocus'] ?? [];
         List<dynamic>? selectedDietaryRestrictions = data?['dietaryRestrictions'] ?? [];
+        int? age = data?['age'] ?? [];
+        double? height = data?['height'] ?? [];
+        double? weight = data?['weight'] ?? [];
+        String? activityLevel = data?['activityLevel'] ?? [];
 
         prompt = TextPart("""
           No previous meals have been recorded.
+          Customise a meal recommendation based on user details as follows:
+          Age: $age
+          Height: $height
+          Weight: $weight
+          Activity Level: $activityLevel
           
           This meal is for $selectedMealType
           
@@ -205,12 +214,23 @@ class MealRecommendationController extends GetxController{
         List<dynamic>? selectedDietOptions = data?['dietOptions'];
         List<dynamic>? selectedDietaryFocus = data?['dietaryFocus'];
         List<dynamic>? selectedDietaryRestrictions = data?['dietaryRestrictions'];
+        int? age = data?['age'] ?? [];
+        double? height = data?['height'] ?? [];
+        double? weight = data?['weight'] ?? [];
+        String? activityLevel = data?['activityLevel'] ?? [];
+
 
         prompt = TextPart("""
           User nutrition summary for today:
           Carbs: $carbsRatioRounded
           Protein: $proteinRatioRounded
           Fats: $fatsRatioRounded
+          
+          Customise a meal recommendation based on user details as follows:
+          Age: $age
+          Height: $height
+          Weight: $weight
+          Activity Level: $activityLevel
           
           This meal is for $selectedMealType
           

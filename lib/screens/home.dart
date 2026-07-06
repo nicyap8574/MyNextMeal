@@ -195,8 +195,11 @@ class Home extends StatelessWidget {
 
                   Container(
                     decoration: BoxDecoration(
-                      color: dark ? const Color(0xFF221E19) : AppColors.white,
-                      border: Border.all(color: dark ? Colors.white.withOpacity(0.08) : Colors.transparent),
+                      color: dark ? const Color(0xFF221E19) : Colors.transparent,
+                      border: Border.all(
+                        color: dark ? Colors.white.withOpacity(0.08) : Colors.transparent,
+                        width: 1,
+                      ),
                       borderRadius: BorderRadius.circular(AppSizes.cardRadiusMd),
                       boxShadow: [
                         BoxShadow(
@@ -210,6 +213,9 @@ class Home extends StatelessWidget {
                     margin: const EdgeInsets.symmetric(vertical: AppSizes.spaceBtwItems/2),
                     child: ElevatedButton.icon(
                       onPressed: () => Get.to(() => const MealRecommendation()),
+                      style: ElevatedButton.styleFrom(
+                        side: BorderSide.none,
+                      ),
                       icon: const Icon(
                         Icons.restaurant_menu_rounded,
                         size: 22,

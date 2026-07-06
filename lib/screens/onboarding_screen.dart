@@ -10,6 +10,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../utils/constants/image_strings.dart';
 import '../utils/helpers/helper_functions.dart';
+import '../utils/validator/validator.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -37,7 +38,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             children: [
               //page 1 -- Welcome Page
               Padding(
-                padding: const EdgeInsetsGeometry.all(AppSizes.appBarHeight),
+                padding: const EdgeInsets.all(AppSizes.appBarHeight),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -70,87 +71,101 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
 
               //page 2 -- Height, weight, age
-              Padding(
-                padding: const EdgeInsetsGeometry.all(AppSizes.appBarHeight),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+              SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(AppSizes.defaultSpace),
+                  child: Form(
+                    key: controller.physicalMetricsFormKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 100),
 
-                    const SizedBox(height: AppSizes.spaceBtwSections),
-
-                    Text(
-                        'Your Physical Metrics',
-                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        )
-                    ),
-
-                    const SizedBox(height: AppSizes.spaceBtwSections),
-
-                    //height
-                    Text(
-                        'Height (in cm)',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: AppSizes.fontSizeSm,
+                        Text(
+                            'Let us know more about you.',
+                            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                              fontWeight: FontWeight.bold,
+                            )
                         ),
+
+                        const SizedBox(height: 8),
+
+                        Text(
+                          'So we can serve you with better results.',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+
+                        const SizedBox(height: AppSizes.spaceBtwSections),
+
+                        //height
+                        Text(
+                            'Height (in cm)',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: AppSizes.fontSizeSm,
+                            ),
+                        ),
+
+                        const SizedBox(height: 8),
+
+                        TextFormField(
+                          controller: controller.heightController,
+                          keyboardType: TextInputType.number,
+                          validator: (value) => AppValidator.validateHeight(value),
+                          decoration: InputDecoration(
+                            hintText: 'e.g. 175',
+                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(AppSizes.borderRadiusLg)),
+                          ),
+                        ),
+
+                        const SizedBox(height: AppSizes.spaceBtwSections),
+
+                        //weight
+                        Text(
+                          'Weight (in kg)',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: AppSizes.fontSizeSm,
+                          ),
+                        ),
+
+                        const SizedBox(height: 8),
+
+                        TextFormField(
+                          controller: controller.weightController,
+                          keyboardType: TextInputType.number,
+                          validator: (value) => AppValidator.validateWeight(value),
+                          decoration: InputDecoration(
+                            hintText: 'e.g. 60',
+                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(AppSizes.borderRadiusLg)),
+                          ),
+                        ),
+
+                        const SizedBox(height: AppSizes.spaceBtwSections),
+
+                        //age
+                        Text(
+                          'Age',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: AppSizes.fontSizeSm,
+                          ),
+                        ),
+
+                        const SizedBox(height: 8),
+
+                        TextFormField(
+                          controller: controller.ageController,
+                          keyboardType: TextInputType.number,
+                          validator: (value) => AppValidator.validateAge(value),
+                          decoration: InputDecoration(
+                            hintText: 'e.g. 20',
+                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(AppSizes.borderRadiusLg)),
+                          ),
+                        ),
+                      ],
                     ),
-
-                    const SizedBox(height: 8),
-
-                    TextField(
-                      controller: controller.heightController,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        hintText: 'e.g. 175',
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(AppSizes.borderRadiusLg)),
-                      ),
-                    ),
-
-                    const SizedBox(height: AppSizes.spaceBtwSections),
-
-                    //weight
-                    Text(
-                      'Weight (in kg)',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: AppSizes.fontSizeSm,
-                      ),
-                    ),
-
-                    const SizedBox(height: 8),
-
-                    TextField(
-                      controller: controller.weightController,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        hintText: 'e.g. 60',
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(AppSizes.borderRadiusLg)),
-                      ),
-                    ),
-
-                    const SizedBox(height: AppSizes.spaceBtwSections),
-
-                    //age
-                    Text(
-                      'Age',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: AppSizes.fontSizeSm,
-                      ),
-                    ),
-
-                    const SizedBox(height: 8),
-
-                    TextField(
-                      controller: controller.ageController,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        hintText: 'e.g. 20',
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(AppSizes.borderRadiusLg)),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
 
@@ -163,7 +178,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     children: [
                       const SizedBox(height: 100),
                       Text(
-                          'Activity Level',
+                          'How active are you on a weekly basis?',
                           style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                             fontWeight: FontWeight.bold
                           )
@@ -247,26 +262,186 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ),
               ),
 
-              //page 4
+              //page 4 -- dietary goals and focus
               Padding(
-                padding: const EdgeInsetsGeometry.all(AppSizes.appBarHeight),
+                padding: const EdgeInsets.all(AppSizes.defaultSpace),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Welcome to MyNextMeal2', style: Theme.of(context).textTheme.headlineMedium),
-                    const SizedBox(height: AppSizes.spaceBtwItems),
-                    Text('Insert caption here2', style: Theme.of(context).textTheme.bodyMedium),
+                    const SizedBox(height: 100),
+
+                    Text(
+                        'What are your dietary preferences?',
+                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                            fontWeight: FontWeight.bold
+                        )
+                    ),
+
+                    const SizedBox(height: 8),
+
+                    Text(
+                      'Customise your meal recommendations according to your meal preferences',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+
+                    const SizedBox(height: AppSizes.spaceBtwSections),
+
+                    //dietary goals
+
+                    Text(
+                      'Dietary Goals',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: AppSizes.fontSizeLg
+                      ),
+                    ),
+
+                    const SizedBox(height: 4),
+
+                    Wrap(
+                      spacing: 8.0,
+                      children: controller.dietOptions.map((option){
+                        return Obx((){
+                          final isSelected = controller.selectedDietOptions.contains(option);
+                          return ChoiceChip(
+                              label: Text(option),
+                              selected: isSelected,
+                            onSelected: (_) => controller.toggleDietOptions(option),
+                          );
+                        });
+                      }).toList(),
+                    ),
+
+                    const SizedBox(height: AppSizes.spaceBtwSections),
+
+                    //dietary focus
+
+                    Text(
+                      'Dietary Focus',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: AppSizes.fontSizeLg
+                      ),
+                    ),
+
+                    const SizedBox(height: 4),
+
+                    Wrap(
+                      spacing: 8.0,
+                      children: controller.dietaryFocus.map((option){
+                        return Obx((){
+                          final isSelected = controller.selectedDietaryFocus.contains(option);
+                          return ChoiceChip(
+                            label: Text(option),
+                            selected: isSelected,
+                            onSelected: (_) => controller.toggleDietaryFocus(option),
+                          );
+                        });
+                      }).toList(),
+                    ),
                   ],
                 ),
               ),
 
-              //page 5
+              //page 5 -- dietary restrictions
               Padding(
-                padding: const EdgeInsetsGeometry.all(AppSizes.appBarHeight),
+                padding: const EdgeInsets.all(AppSizes.defaultSpace),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Welcome to MyNextMeal2', style: Theme.of(context).textTheme.headlineMedium),
-                    const SizedBox(height: AppSizes.spaceBtwItems),
-                    Text('Insert caption here2', style: Theme.of(context).textTheme.bodyMedium),
+                    const SizedBox(height: 100),
+
+                    Text(
+                        'Any restrictions or allergies?',
+                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                            fontWeight: FontWeight.bold
+                        )
+                    ),
+
+                    const SizedBox(height: 8),
+
+                    Text(
+                      'So that we can avoid these ingredients in your recommendations.',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+
+                    const SizedBox(height: AppSizes.spaceBtwSections),
+
+                    Wrap(
+                      spacing: 8.0,
+                      children: controller.dietaryRestrictions.map((option){
+                        return Obx((){
+                          final isSelected = controller.selectedRestrictions.contains(option);
+                          return ChoiceChip(
+                            label: Text(option),
+                            selected: isSelected,
+                            onSelected: (_) => controller.toggleRestriction(option),
+                          );
+                        });
+                      }).toList(),
+                    ),
+
+                    const SizedBox(height: AppSizes.spaceBtwSections),
+
+                    //custom restrictions
+                    Obx((){
+                      final customRestrictions = controller.selectedRestrictions
+                          .where((r) => !controller.dietaryRestrictions.contains(r))
+                          .toList();
+
+                      if(customRestrictions.isEmpty){
+                        return const SizedBox.shrink();
+                      }
+
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children:[
+                          Text(
+                            'Custom Restrictions',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                  fontSize: AppSizes.fontSizeSm
+                            ),
+                          ),
+
+                          const SizedBox(height: 8),
+
+                          Wrap(
+                            spacing: 8.0,
+                            runSpacing: 4.0,
+                            children: customRestrictions.map((r){
+                              return InputChip(
+                                label: Text(r),
+                                onDeleted: () => controller.removeRestriction(r),
+                              );
+                            }).toList(),
+                          ),
+                          const SizedBox(height: AppSizes.spaceBtwItems),
+                        ],
+                      );
+                    }),
+
+                    //type custom restrictions
+
+                    Row(
+                      children:[
+                        Expanded(
+                          child: TextField(
+                            controller: controller.customRestrictionController,
+                            decoration: const InputDecoration(
+                              hintText: 'Type custom restriction',
+                              isDense: true,
+                              contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                            ),
+                            onSubmitted: controller.addCustomRestriction,
+                          ),
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.add_circle, color: AppColors.primary, size: 30),
+                          onPressed: () => controller.addCustomRestriction(controller.customRestrictionController.text),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),

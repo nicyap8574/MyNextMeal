@@ -12,6 +12,8 @@ class OnboardingController extends GetxController{
   final pageController = PageController();
   Rx<int> currentPageIndex = 0.obs;
 
+  final physicalMetricsFormKey = GlobalKey<FormState>();
+
   final heightController = TextEditingController();
   final weightController = TextEditingController();
   final ageController = TextEditingController();
@@ -75,6 +77,12 @@ class OnboardingController extends GetxController{
   }
 
   void nextPage(BuildContext context) async{
+    if (currentPageIndex.value == 1) {
+      if (!physicalMetricsFormKey.currentState!.validate()) {
+        return;
+      }
+    }
+
     if(currentPageIndex.value == 4){
       await saveOnboardingDetails(context);
     }else{

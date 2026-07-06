@@ -124,6 +124,42 @@ class UserProfileController extends GetxController{
     }
   }
 
+  Future<void> saveActivityLevel({required BuildContext context, required String activityLevel}) async {
+    try{
+      await _db.collection('users').doc(user!.uid).set({
+        'activityLevel': activityLevel,
+      }, SetOptions(merge: true)); //merge new dietOptions and dietaryFocus with current document
+
+      //add selected options to cachedData so does not read again from db
+      cachedData = {
+        ...?cachedData, //merge previous cachedData with new
+        'activityLevel': activityLevel,
+      };
+
+      //updates user data
+      if(Get.isRegistered<UserController>()){
+        final userController = UserController.instance;
+        userController.user.update((currentUser){
+          if(currentUser != null){
+            userController.user(UserModel(
+              id: currentUser.id,
+              email: currentUser.email,
+              username: currentUser.username,
+              height: currentUser.height,
+              weight: currentUser.weight,
+              age: currentUser.age,
+              activityLevel: activityLevel,
+              hasCompletedOnboarding: true,
+            ));
+          }
+        });
+      }
+    }catch(e){
+      print("Error saving changes: $e");
+      AppLoaders.showSnackBar(context, "Failed to save onboarding preferences.");
+    }
+  }
+
   Future<Map<String,dynamic>?> getUserDetails() async{
 
     if(cachedData!=null){

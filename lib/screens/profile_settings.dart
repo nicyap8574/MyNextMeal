@@ -11,6 +11,7 @@ import '../features/user/user_profile_controller.dart';
 import '../utils/constants/colors.dart';
 import '../utils/constants/sizes.dart';
 import '../utils/helpers/helper_functions.dart';
+import 'activity_level.dart';
 import 'forgot_password_sheet.dart';
 import 'login.dart';
 
@@ -394,6 +395,21 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                         ),
 
                         const SizedBox(height: AppSizes.spaceBtwSections),
+
+                        //manage activity levels button
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () => Get.to(() => const ActivityLevel()),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: dark ? Colors.black : AppColors.apricotCream200,
+                              foregroundColor: dark ? Colors.white : Colors.black,
+                            ),
+                            child: const Text("Manage Activity Level"),
+                          ),
+                        ),
+
+                        const SizedBox(height: AppSizes.spaceBtwItems),
 
                         //save changes button
                         SizedBox(

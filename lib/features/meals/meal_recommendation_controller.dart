@@ -22,7 +22,6 @@ class MealRecommendationController extends GetxController{
   RxList<String> preferredCategories = <String>[].obs;
   RxList<String> avoidCategories = <String>[].obs;
   RxString selectedMealType = ''.obs;
-  RxBool hasGenerated = false.obs;
 
   @override
   void onInit(){

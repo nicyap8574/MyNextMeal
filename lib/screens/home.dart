@@ -440,7 +440,14 @@ class Home extends StatelessWidget {
                               alignment: Alignment.centerRight,
                               child: TextButton(
                                   onPressed: () => Get.to(() => const MealHistoryPage()),
-                                  child: Text("View All"),
+                                  child: Text(
+                                    "View All",
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w600,
+                                      color: dark ? Colors.white54 : AppColors.textSecondary,
+                                    ),
+                                  ),
                               ),
                             ),
                           ],

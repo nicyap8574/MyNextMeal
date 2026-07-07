@@ -6,6 +6,7 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:intl/intl.dart';
 import 'package:mynextmeal/features/meals/meal_history_controller.dart';
+import 'package:mynextmeal/screens/meal_history.dart';
 import 'package:mynextmeal/screens/meal_recommendation.dart';
 import 'package:mynextmeal/screens/meal_recommendation_history.dart';
 import '../features/user/user_controller.dart';
@@ -15,6 +16,8 @@ import '../utils/helpers/helper_functions.dart';
 import 'image_analysis.dart';
 import 'individual_meal.dart';
 import 'package:material_symbols_icons/symbols.dart';
+
+import 'meal_history_page.dart';
 
 
 class Home extends StatelessWidget {
@@ -266,7 +269,6 @@ class Home extends StatelessWidget {
                     ),
                   ),
 
-
                   const SizedBox(height: AppSizes.spaceBtwSections),
 
                   Text(
@@ -279,90 +281,93 @@ class Home extends StatelessWidget {
                   const SizedBox(height: AppSizes.md),
 
                   StreamBuilder<QuerySnapshot<Map<String,dynamic>>>(
-                      stream: mealHistoryController.displayCurrentUserMeals(),
-                      builder: (context, snapshot){
-                        if(snapshot.connectionState == ConnectionState.waiting){
-                          return const Center(child: CircularProgressIndicator());
-                        }
+                    stream: mealHistoryController.displayCurrentUserMeals(),
+                    builder: (context, snapshot){
+                      if(snapshot.connectionState == ConnectionState.waiting){
+                        return const Center(child: CircularProgressIndicator());
+                      }
 
-                        if(snapshot.hasError){
-                          return Center(child: Text(snapshot.error.toString()));
-                        }
+                      if(snapshot.hasError){
+                        return Center(child: Text(snapshot.error.toString()));
+                      }
 
-                        final todayMeals = snapshot.data!.docs.where((doc){
-                          final createdAt = doc.data()['createdAt'];
-                          if(createdAt == null) return false;
-                          return isSameDay(
-                            (createdAt as Timestamp).toDate(),
-                            today,
-                          );
-                        }).toList();
+                      final todayMeals = snapshot.data!.docs.where((doc){
+                        final createdAt = doc.data()['createdAt'];
+                        if(createdAt == null) return false;
+                        return isSameDay(
+                          (createdAt as Timestamp).toDate(),
+                          today,
+                        );
+                      }).toList();
 
-                        if(todayMeals.isEmpty){
-                          return Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.symmetric(
-                              vertical: AppSizes.spaceBtwSections,
-                              horizontal: AppSizes.lg,
+                      if(todayMeals.isEmpty){
+                        return Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.symmetric(
+                            vertical: AppSizes.spaceBtwSections,
+                            horizontal: AppSizes.lg,
+                          ),
+                          decoration: BoxDecoration(
+                            color: dark ? const Color(0xFF221E19) : AppColors.white,
+                            borderRadius: BorderRadius.circular(AppSizes.cardRadiusMd),
+                            border: Border.all(
+                              color: dark ? Colors.white.withOpacity(0.08) : AppColors.apricotCream100,
                             ),
-                            decoration: BoxDecoration(
-                              color: dark ? const Color(0xFF221E19) : AppColors.white,
-                              borderRadius: BorderRadius.circular(AppSizes.cardRadiusMd),
-                              border: Border.all(
-                                color: dark ? Colors.white.withOpacity(0.08) : AppColors.apricotCream100,
+                          ),
+                          child: Column(
+                            children: [
+                              Icon(
+                                Icons.lunch_dining,
+                                color: AppColors.primary,
+                                size: 40,
                               ),
-                            ),
-                            child: Column(
-                              children: [
-                                Icon(
-                                  Icons.lunch_dining,
-                                  color: AppColors.primary,
-                                  size: 40,
+                              SizedBox(height: AppSizes.md),
+                              Text(
+                                'No meals logged today',
+                                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                  fontWeight: FontWeight.w600,
                                 ),
-                                SizedBox(height: AppSizes.md),
-                                Text(
-                                  'No meals logged today',
-                                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                    fontWeight: FontWeight.w600,
+                              ),
+                              SizedBox(height: AppSizes.xs),
+                              Text(
+                                "Let's get started by adding your first meal!",
+                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                  color: dark ? AppColors.apricotCream200 : AppColors.textSecondary,
+                                ),
+                              ),
+                              SizedBox(height: AppSizes.md),
+                              ElevatedButton(
+                                  onPressed: () => Get.to(() => const ImageAnalysis()),
+                                  child: Text('Add my first meal'),
+                                  style: ElevatedButton.styleFrom(
+                                    padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
                                   ),
-                                ),
-                                SizedBox(height: AppSizes.xs),
-                                Text(
-                                  "Let's get started by adding your first meal!",
-                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    color: dark ? AppColors.apricotCream200 : AppColors.textSecondary,
-                                  ),
-                                ),
-                                SizedBox(height: AppSizes.md),
-                                ElevatedButton(
-                                    onPressed: () => Get.to(() => const ImageAnalysis()),
-                                    child: Text('Add my first meal'),
-                                    style: ElevatedButton.styleFrom(
-                                      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                                    ),
-                                ),
-                              ],
-                            ),
-                          );
-                        }
+                              ),
+                            ],
+                          ),
+                        );
+                      }
 
-                        return ListView.builder(
-                            itemCount: todayMeals.length > 5 ? 5 : todayMeals.length,
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemBuilder: (context,index){
-                              final meal = todayMeals[index].data(); //JSON output from Firestore
-                              final mealId = todayMeals[index].id;
+                      if(todayMeals.isNotEmpty){
+                        return Column(
+                          children: [
+                            ListView.builder(
+                              itemCount: todayMeals.length > 5 ? 5 : todayMeals.length,
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemBuilder: (context,index){
+                                final meal = todayMeals[index].data(); //JSON output from Firestore
+                                final mealId = todayMeals[index].id;
 
-                              //format date for output
-                              final timestamp = meal['createdAt'];
-                              final date = timestamp.toDate();
-                              final formattedDateTime = DateFormat('dd MMM yyyy, hh:mm a').format(date);
+                                //format date for output
+                                final timestamp = meal['createdAt'];
+                                final date = timestamp.toDate();
+                                final formattedDateTime = DateFormat('dd MMM yyyy, hh:mm a').format(date);
 
-                              return GestureDetector(
-                                onTap: () => Get.to(() => IndividualMeal(mealId, meal['imageUrl'])),
+                                return GestureDetector(
+                                  onTap: () => Get.to(() => IndividualMeal(mealId, meal['imageUrl'])),
 
-                                child: Container(
+                                  child: Container(
                                     width: double.infinity,
                                     height: 95,
                                     margin: const EdgeInsets.symmetric(vertical: AppSizes.spaceBtwItems/2),
@@ -389,14 +394,14 @@ class Home extends StatelessWidget {
                                             SizedBox(
                                               width: 95,
                                               child: meal['imageUrl'] != null && meal['imageUrl'].toString().isNotEmpty
-                                                      ? Image.network(
-                                                          meal['imageUrl'],
-                                                          fit: BoxFit.cover,
-                                                        )
-                                                      : Container(
-                                                        color: Colors.grey[300],
-                                                        child: const Icon(Icons.fastfood, color: Colors.white),
-                                                      ),
+                                                  ? Image.network(
+                                                meal['imageUrl'],
+                                                fit: BoxFit.cover,
+                                              )
+                                                  : Container(
+                                                color: Colors.grey[300],
+                                                child: const Icon(Icons.fastfood, color: Colors.white),
+                                              ),
                                             ),
 
                                             Expanded(
@@ -407,16 +412,16 @@ class Home extends StatelessWidget {
                                                   mainAxisAlignment: MainAxisAlignment.center,
                                                   children: [
                                                     Text(
-                                                        meal['analysis']['nutrients'][0]['meal_name'] ?? 'No name',
-                                                        style: TextStyle(fontWeight: FontWeight.bold),
-                                                        maxLines: 1,
-                                                        overflow: TextOverflow.ellipsis,
+                                                      meal['analysis']['nutrients'][0]['meal_name'] ?? 'No name',
+                                                      style: TextStyle(fontWeight: FontWeight.bold),
+                                                      maxLines: 1,
+                                                      overflow: TextOverflow.ellipsis,
                                                     ),
                                                     Text(
-                                                        "Carbs: ${meal['analysis']['nutrients'][0]['carbs_macro']} | Protein: ${meal['analysis']['nutrients'][0]['protein_macro']} | Fats: ${meal['analysis']['nutrients'][0]['fats_macro']} \n"
-                                                        "Uploaded At: $formattedDateTime",
-                                                        maxLines: 2,
-                                                        overflow: TextOverflow.ellipsis,
+                                                      "Carbs: ${meal['analysis']['nutrients'][0]['carbs_macro']} | Protein: ${meal['analysis']['nutrients'][0]['protein_macro']} | Fats: ${meal['analysis']['nutrients'][0]['fats_macro']} \n"
+                                                          "Uploaded At: $formattedDateTime",
+                                                      maxLines: 2,
+                                                      overflow: TextOverflow.ellipsis,
                                                     ),
                                                   ],
                                                 )
@@ -426,11 +431,23 @@ class Home extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                                ),
-                              );
-                            }
+                                  ),
+                                );
+                              }
+                            ),
+
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: TextButton(
+                                  onPressed: () => Get.to(() => const MealHistoryPage()),
+                                  child: Text("View All"),
+                              ),
+                            ),
+                          ],
                         );
                       }
+                      return const SizedBox();
+                    }
                   )
                 ],
               ),

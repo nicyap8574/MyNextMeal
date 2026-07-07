@@ -449,31 +449,33 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           ),
 
           //dot navigation SmoothPageIndicator
-          Positioned(
-            bottom: AppDeviceUtils.getBottomNavigationBarHeight() + 25,
-            left: AppSizes.defaultSpace,
+          if(MediaQuery.of(context).viewInsets.bottom == 0)
+            Positioned(
+              bottom: AppDeviceUtils.getBottomNavigationBarHeight() + 25,
+              left: AppSizes.defaultSpace,
 
-            child: SmoothPageIndicator(
-              controller: controller.pageController,
-              onDotClicked: controller.dotNavigationClick,
-              count: 5,
-              effect: ExpandingDotsEffect(
-                activeDotColor: dark ? Colors.white : AppColors.primary,
-                dotHeight: 6,
+              child: SmoothPageIndicator(
+                controller: controller.pageController,
+                onDotClicked: controller.dotNavigationClick,
+                count: 5,
+                effect: ExpandingDotsEffect(
+                  activeDotColor: dark ? Colors.white : AppColors.primary,
+                  dotHeight: 6,
+                ),
               ),
             ),
-          ),
 
           //circular button
-          Positioned(
-            right: AppSizes.defaultSpace,
-            bottom: AppDeviceUtils.getBottomNavigationBarHeight(),
-            child: ElevatedButton(
-              onPressed: () => OnboardingController.instance.nextPage(context),
-              style: ElevatedButton.styleFrom(shape: CircleBorder()),
-              child: Icon(Icons.arrow_forward_ios),
-            ),
-          )
+          if(MediaQuery.of(context).viewInsets.bottom == 0)
+            Positioned(
+              right: AppSizes.defaultSpace,
+              bottom: AppDeviceUtils.getBottomNavigationBarHeight(),
+              child: ElevatedButton(
+                onPressed: () => OnboardingController.instance.nextPage(context),
+                style: ElevatedButton.styleFrom(shape: CircleBorder()),
+                child: Icon(Icons.arrow_forward_ios),
+              ),
+            )
         ],
       )
     );

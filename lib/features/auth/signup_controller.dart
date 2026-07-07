@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mynextmeal/features/auth/auth_controller.dart';
+import 'package:mynextmeal/features/user/user_profile_controller.dart';
+import 'package:mynextmeal/screens/user_profile.dart';
 import '../user/user_controller.dart';
 import '../user/user_repository.dart';
 import '../../screens/login.dart';
@@ -69,7 +71,7 @@ class SignupController extends GetxController{
         //Show success message
         AppLoaders.showSnackBar(context, "User created successfully");
 
-        //Automatically redirect to home screen (already logged in)
+        //Automatically redirect to respective screen
         AuthController.instance.screenRedirect();
       }catch(e){
         Navigator.of(context).pop();

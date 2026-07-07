@@ -90,6 +90,9 @@ class UserProfileController extends GetxController{
       //add selected options to cachedData so does not read again from db
       cachedData = {
         ...?cachedData, //merge previous cachedData with new
+        'id': user!.uid,
+        'email': user!.email,
+        'username': UserController.instance.user.value.username,
         'height': height,
         'weight': weight,
         'age': age,

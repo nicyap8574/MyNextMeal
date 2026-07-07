@@ -254,9 +254,12 @@ class Home extends StatelessWidget {
                     child: ElevatedButton.icon(
                       onPressed: () => Get.to(() => const MealRecommendationHistory()),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.apricotCream100,
-                        foregroundColor: dark ? Colors.white : Colors.black,
-                        side: BorderSide(color: AppColors.primary, width: 1),
+                        backgroundColor: dark ? AppColors.darkBackground : AppColors.lightBackground,
+                        foregroundColor: dark ? AppColors.apricotCream300 : AppColors.apricotCream700,
+                        side: BorderSide(
+                            color: dark ? AppColors.apricotCream600 : AppColors.apricotCream400,
+                            width: 1.5,
+                        ),
                       ),
                       icon: const Icon(
                         Icons.receipt_long,

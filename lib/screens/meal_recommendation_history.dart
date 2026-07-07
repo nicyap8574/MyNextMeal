@@ -52,7 +52,6 @@ class _MealRecommendationHistoryState extends State<MealRecommendationHistory> {
                   final docs = snapshot.data?.docs ?? [];
 
                   // IF NO RECOMMENDED MEALS YET
-
                   if(docs.isEmpty){
                     return Container(
                       width: double.infinity,
@@ -109,14 +108,7 @@ class _MealRecommendationHistoryState extends State<MealRecommendationHistory> {
                   }
 
                   //DISPLAY RECOMMENDED MEALS
-
                   return ListView.builder(
-                    // padding: const EdgeInsets.fromLTRB(
-                    //   AppSizes.defaultSpace,
-                    //   AppSizes.md,
-                    //   AppSizes.defaultSpace,
-                    //   AppSizes.md,
-                    // ),
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
 
@@ -131,6 +123,7 @@ class _MealRecommendationHistoryState extends State<MealRecommendationHistory> {
                       final formattedDateTime = DateFormat('dd MMM yyyy, hh:mm a').format(date);
 
                       final recommendations = (generatedMeals?['recommendations'] as List<dynamic>?) ?? [];
+                      // List<Widget> widgets = [];
 
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -146,8 +139,9 @@ class _MealRecommendationHistoryState extends State<MealRecommendationHistory> {
                               ),
                             ),
                           ),
-                          ...recommendations.map((meal){
-                            return Container(
+
+                          for(var meal in recommendations)
+                            Container(
                               width: double.infinity,
                               margin: const EdgeInsets.only(bottom: 16),
                               decoration: BoxDecoration(
@@ -296,11 +290,166 @@ class _MealRecommendationHistoryState extends State<MealRecommendationHistory> {
                                         ),
                                       ],
                                     )
-                                  )
+                                  ),
                                 ],
-                              )
-                            );
-                          })
+                              ),
+                            ),
+
+                          // ...recommendations.map((meal){
+                          //   return Container(
+                          //     width: double.infinity,
+                          //     margin: const EdgeInsets.only(bottom: 16),
+                          //     decoration: BoxDecoration(
+                          //       color: dark ? const Color(0xFF221E19) : AppColors.white,
+                          //       border: Border.all(
+                          //         color: dark ? Colors.white.withOpacity(0.08) : AppColors.apricotCream100,
+                          //       ),
+                          //       borderRadius: BorderRadius.circular(16),
+                          //       boxShadow: [
+                          //         BoxShadow(
+                          //           color: Colors.black.withOpacity(dark ? 0.2 : 0.05),
+                          //           blurRadius: 10,
+                          //           offset: const Offset(0, 4),
+                          //         ),
+                          //       ],
+                          //     ),
+                          //     child: Column(
+                          //       crossAxisAlignment: CrossAxisAlignment.start,
+                          //       children: [
+                          //         Padding(
+                          //           padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
+                          //           child: Row(
+                          //             children: [
+                          //               Expanded(
+                          //                 child: Text(
+                          //                   meal['meal_name'] ?? 'Unknown Dish',
+                          //                   style: const TextStyle(
+                          //                     fontSize: 18,
+                          //                     fontWeight: FontWeight.bold,
+                          //                   ),
+                          //                 ),
+                          //               ),
+                          //             ],
+                          //           ),
+                          //         ),
+                          //
+                          //         const Divider(height: 1, thickness: 1),
+                          //
+                          //         //meal details
+                          //         Padding(
+                          //           padding: const EdgeInsetsGeometry.all(16),
+                          //           child: Column(
+                          //             crossAxisAlignment: CrossAxisAlignment.start,
+                          //             children: [
+                          //               //meal desc
+                          //               Text(
+                          //                 meal['description'],
+                          //                 style: TextStyle(
+                          //                   fontSize: 14,
+                          //                   color: dark ? Colors.white70 : AppColors.textSecondary,
+                          //                   height: 1.4,
+                          //                 ),
+                          //               ),
+                          //
+                          //               const SizedBox(height: AppSizes.spaceBtwItems),
+                          //
+                          //               //meal ingredients
+                          //
+                          //               const Text(
+                          //                 'Ingredients',
+                          //                 style: TextStyle(
+                          //                   fontSize: 13,
+                          //                   fontWeight: FontWeight.bold,
+                          //                   letterSpacing: 0.5,
+                          //                 ),
+                          //               ),
+                          //
+                          //               const SizedBox(height: AppSizes.spaceBtwItems/2),
+                          //
+                          //               Wrap(
+                          //                 spacing: 8,
+                          //                 runSpacing: 8,
+                          //                 children: (meal['main_ingredients'] as List<dynamic>).map((individual_ingredient){
+                          //                   return Chip(
+                          //                     label: Text(
+                          //                       individual_ingredient.toString(),
+                          //                       style: TextStyle(color: dark ? Colors.white70 : AppColors.textPrimary),
+                          //                     ),
+                          //                     padding: EdgeInsets.zero,
+                          //                     visualDensity: VisualDensity.compact,
+                          //                     backgroundColor: dark ? Colors.white.withOpacity(0.05) : AppColors.softGrey,
+                          //                     side: BorderSide.none,
+                          //                   );
+                          //                 }).toList(),
+                          //               ),
+                          //
+                          //               const SizedBox(height: AppSizes.spaceBtwItems),
+                          //
+                          //               //suitable for
+                          //
+                          //               const Text(
+                          //                 'Suitable For',
+                          //                 style: TextStyle(
+                          //                   fontSize: 13,
+                          //                   fontWeight: FontWeight.bold,
+                          //                   letterSpacing: 0.5,
+                          //                 ),
+                          //               ),
+                          //
+                          //               const SizedBox(height: AppSizes.spaceBtwItems/2),
+                          //
+                          //               Wrap(
+                          //                 spacing: 8,
+                          //                 runSpacing: 8,
+                          //                 children: (meal['suitable_for'] as List<dynamic>).map((individual_suitableFor){
+                          //                   return Chip(
+                          //                     label: Text(
+                          //                       individual_suitableFor.toString(),
+                          //                       style: TextStyle(
+                          //                           color: Color(0xFF59A65E),
+                          //                           fontWeight: FontWeight.bold
+                          //                       ),
+                          //                     ),
+                          //                     padding: EdgeInsets.zero,
+                          //                     visualDensity: VisualDensity.compact,
+                          //                     backgroundColor: dark ? AppColors.celadon300.withOpacity(0.12) : const Color(0xFF59A65E).withOpacity(0.12),
+                          //                     side: BorderSide.none,
+                          //                   );
+                          //                 }).toList(),
+                          //               ),
+                          //
+                          //               const SizedBox(height: AppSizes.spaceBtwItems),
+                          //
+                          //               //Meal type
+                          //
+                          //               const Text(
+                          //                 'Meal Type',
+                          //                 style: TextStyle(
+                          //                   fontSize: 13,
+                          //                   fontWeight: FontWeight.bold,
+                          //                   letterSpacing: 0.5,
+                          //                 ),
+                          //               ),
+                          //
+                          //               const SizedBox(height: AppSizes.spaceBtwItems/2),
+                          //
+                          //               Chip(
+                          //                 label: Text(
+                          //                   generatedMeals?['meal_type'] ?? 'None',
+                          //                   style: TextStyle(color: dark ? Colors.white70 : AppColors.textPrimary),
+                          //                 ),
+                          //                 padding: EdgeInsets.zero,
+                          //                 visualDensity: VisualDensity.compact,
+                          //                 backgroundColor: dark ? Colors.white.withOpacity(0.05) : AppColors.softGrey,
+                          //                 side: BorderSide.none,
+                          //               ),
+                          //             ],
+                          //           )
+                          //         )
+                          //       ],
+                          //     )
+                          //   );
+                          // })
                         ],
                       );
                     },

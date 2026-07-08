@@ -41,8 +41,11 @@ class _MealRecommendationHistoryState extends State<MealRecommendationHistory> {
               StreamBuilder<QuerySnapshot<Map<String,dynamic>>>(
                 stream: controller.getRecommendations(),
                 builder: (context, snapshot){
-                  if(snapshot.connectionState == ConnectionState.waiting){
-                    return const Center(child: CircularProgressIndicator());
+                  // if(snapshot.connectionState == ConnectionState.waiting){
+                  //   return const Center(child: CircularProgressIndicator());
+                  // }
+                  if(!snapshot.hasData){
+                    return const SizedBox();
                   }
 
                   if(snapshot.hasError){
@@ -92,6 +95,7 @@ class _MealRecommendationHistoryState extends State<MealRecommendationHistory> {
                             onPressed: () => Get.to(() => const MealRecommendation()),
                             style: ElevatedButton.styleFrom(
                               side: BorderSide.none,
+                              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
                             ),
                             icon: const Icon(
                               Icons.restaurant_menu_rounded,

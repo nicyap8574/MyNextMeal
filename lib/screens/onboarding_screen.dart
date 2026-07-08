@@ -281,7 +281,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       const SizedBox(height: 8),
                 
                       Text(
-                        'Customise your meal recommendations according to your meal preferences',
+                        'Customise your meal recommendations according to your meal preferences. Custom configurations can be added later in settings.',
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                 

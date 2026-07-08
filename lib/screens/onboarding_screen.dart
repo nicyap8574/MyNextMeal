@@ -288,7 +288,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       const SizedBox(height: AppSizes.spaceBtwSections),
                 
                       //dietary goals
-                
+
                       Text(
                         'Dietary Goals',
                         style: TextStyle(
@@ -374,105 +374,107 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
 
               //page 5 -- dietary restrictions
-              Padding(
-                padding: const EdgeInsets.all(AppSizes.defaultSpace),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 100),
-
-                    Text(
-                        'Any restrictions or allergies?',
-                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                            fontWeight: FontWeight.bold
-                        )
-                    ),
-
-                    const SizedBox(height: 8),
-
-                    Text(
-                      'So that we can avoid these ingredients in your recommendations.',
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-
-                    const SizedBox(height: AppSizes.spaceBtwSections),
-
-                    Wrap(
-                      spacing: 8.0,
-                      children: controller.dietaryRestrictions.map((option){
-                        return Obx((){
-                          final isSelected = controller.selectedRestrictions.contains(option);
-                          return ChoiceChip(
-                            label: Text(option),
-                            selected: isSelected,
-                            onSelected: (_) => controller.toggleRestriction(option),
-                          );
-                        });
-                      }).toList(),
-                    ),
-
-                    const SizedBox(height: AppSizes.spaceBtwSections),
-
-                    //custom restrictions
-                    Obx((){
-                      final customRestrictions = controller.selectedRestrictions
-                          .where((r) => !controller.dietaryRestrictions.contains(r))
-                          .toList();
-
-                      if(customRestrictions.isEmpty){
-                        return const SizedBox.shrink();
-                      }
-
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+              SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(AppSizes.defaultSpace),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 100),
+                
+                      Text(
+                          'Any restrictions or allergies?',
+                          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                              fontWeight: FontWeight.bold
+                          )
+                      ),
+                
+                      const SizedBox(height: 8),
+                
+                      Text(
+                        'So that we can avoid these ingredients in your recommendations.',
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                
+                      const SizedBox(height: AppSizes.spaceBtwSections),
+                
+                      Wrap(
+                        spacing: 8.0,
+                        children: controller.dietaryRestrictions.map((option){
+                          return Obx((){
+                            final isSelected = controller.selectedRestrictions.contains(option);
+                            return ChoiceChip(
+                              label: Text(option),
+                              selected: isSelected,
+                              onSelected: (_) => controller.toggleRestriction(option),
+                            );
+                          });
+                        }).toList(),
+                      ),
+                
+                      const SizedBox(height: AppSizes.spaceBtwSections),
+                
+                      //custom restrictions
+                      Obx((){
+                        final customRestrictions = controller.selectedRestrictions
+                            .where((r) => !controller.dietaryRestrictions.contains(r))
+                            .toList();
+                
+                        if(customRestrictions.isEmpty){
+                          return const SizedBox.shrink();
+                        }
+                
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children:[
+                            Text(
+                              'Custom Restrictions',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                    fontSize: AppSizes.fontSizeSm
+                              ),
+                            ),
+                
+                            const SizedBox(height: 8),
+                
+                            Wrap(
+                              spacing: 8.0,
+                              runSpacing: 4.0,
+                              children: customRestrictions.map((r){
+                                return InputChip(
+                                  label: Text(r),
+                                  onDeleted: () => controller.removeRestriction(r),
+                                );
+                              }).toList(),
+                            ),
+                            const SizedBox(height: AppSizes.spaceBtwItems),
+                          ],
+                        );
+                      }),
+                
+                      //type custom restrictions
+                
+                      Row(
                         children:[
-                          Text(
-                            'Custom Restrictions',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                  fontSize: AppSizes.fontSizeSm
+                          Expanded(
+                            child: TextField(
+                              controller: controller.customRestrictionController,
+                              decoration: const InputDecoration(
+                                hintText: 'Type custom restriction',
+                                isDense: true,
+                                contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                              ),
+                              onSubmitted: controller.addCustomRestriction,
                             ),
                           ),
-
-                          const SizedBox(height: 8),
-
-                          Wrap(
-                            spacing: 8.0,
-                            runSpacing: 4.0,
-                            children: customRestrictions.map((r){
-                              return InputChip(
-                                label: Text(r),
-                                onDeleted: () => controller.removeRestriction(r),
-                              );
-                            }).toList(),
+                          IconButton(
+                            icon: const Icon(Icons.add_circle, color: AppColors.primary, size: 30),
+                            onPressed: () => controller.addCustomRestriction(controller.customRestrictionController.text),
                           ),
-                          const SizedBox(height: AppSizes.spaceBtwItems),
                         ],
-                      );
-                    }),
-
-                    //type custom restrictions
-
-                    Row(
-                      children:[
-                        Expanded(
-                          child: TextField(
-                            controller: controller.customRestrictionController,
-                            decoration: const InputDecoration(
-                              hintText: 'Type custom restriction',
-                              isDense: true,
-                              contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                            ),
-                            onSubmitted: controller.addCustomRestriction,
-                          ),
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.add_circle, color: AppColors.primary, size: 30),
-                          onPressed: () => controller.addCustomRestriction(controller.customRestrictionController.text),
-                        ),
-                      ],
-                    ),
-                  ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],

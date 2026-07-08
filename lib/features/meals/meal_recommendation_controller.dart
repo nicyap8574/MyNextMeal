@@ -112,6 +112,7 @@ class MealRecommendationController extends GetxController{
         //user selected dietary goals
         List<dynamic>? selectedDietOptions = data?['dietOptions'] ?? [];
         List<dynamic>? selectedDietaryFocus = data?['dietaryFocus'] ?? [];
+        List<dynamic>? selectedNutritionalGoals = data?['nutritionalGoals'] ?? [];
         List<dynamic>? selectedDietaryRestrictions = data?['dietaryRestrictions'] ?? [];
         int? age = data?['age'] ?? [];
         double? height = data?['height'] ?? [];
@@ -131,12 +132,13 @@ class MealRecommendationController extends GetxController{
           User dietary goals and preferences include:
           Diet Options: $selectedDietOptions
           Dietary Focus: $selectedDietaryFocus
+          Nutritional Goals: $selectedNutritionalGoals
           Dietary Restrictions: $selectedDietaryRestrictions
           Preferred categories: $preferredCategories
           Avoid categories: $avoidCategories
           
           Return 4 simple, healthy meal recommendations that:
-          - match the diet and focus
+          - match the diet and focus and nutritional goals
           - exclude any ingredients containing dietary restrictions
           - prioritize preferred categories
           - exclude avoided categories
@@ -213,6 +215,7 @@ class MealRecommendationController extends GetxController{
         //user selected dietary goals
         List<dynamic>? selectedDietOptions = data?['dietOptions'];
         List<dynamic>? selectedDietaryFocus = data?['dietaryFocus'];
+        List<dynamic>? selectedNutritionalGoals = data?['nutritionalGoals'] ?? [];
         List<dynamic>? selectedDietaryRestrictions = data?['dietaryRestrictions'];
         int? age = data?['age'] ?? [];
         double? height = data?['height'] ?? [];
@@ -237,12 +240,13 @@ class MealRecommendationController extends GetxController{
           User dietary goals and preferences include:
           Diet Options: $selectedDietOptions
           Dietary Focus: $selectedDietaryFocus
+          Nutritional Goals: $selectedNutritionalGoals
           Dietary Restrictions: $selectedDietaryRestrictions
           Preferred categories: $preferredCategories
           Avoid categories: $avoidCategories
           
           Return 4 simple, healthy meal recommendations that:
-          - match the diet and focus
+          - match the diet and focus and nutritional goals
           - exclude any ingredients containing dietary restrictions
           - prioritize preferred categories
           - exclude avoided categories

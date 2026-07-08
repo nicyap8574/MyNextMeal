@@ -22,6 +22,7 @@ class UserProfileController extends GetxController{
     required String username,
     required List<String> selectedDietOptions,
     required List<String> selectedDietaryFocus,
+    required List<String> selectedNutritionalGoals,
     required List<String> selectedRestrictions
   }) async {
 
@@ -31,6 +32,7 @@ class UserProfileController extends GetxController{
         'username': username,
         'dietOptions': selectedDietOptions,
         'dietaryFocus': selectedDietaryFocus,
+        'nutritionalGoals': selectedNutritionalGoals,
         'dietaryRestrictions': selectedRestrictions,
       }, SetOptions(merge: true)); //merge new dietOptions and dietaryFocus with current document
 
@@ -40,6 +42,7 @@ class UserProfileController extends GetxController{
         'username': username,
         'dietOptions': selectedDietOptions,
         'dietaryFocus': selectedDietaryFocus,
+        'nutritionalGoals': selectedNutritionalGoals,
         'dietaryRestrictions': selectedRestrictions,
       };
 
@@ -73,6 +76,7 @@ class UserProfileController extends GetxController{
     required String activityLevel,
     required List<String> selectedDietOptions,
     required List<String> selectedDietaryFocus,
+    required List<String> selectedNutritionalGoals,
     required List<String> selectedRestrictions,
   }) async{
     try{
@@ -83,6 +87,7 @@ class UserProfileController extends GetxController{
         'activityLevel': activityLevel,
         'dietOptions': selectedDietOptions,
         'dietaryFocus': selectedDietaryFocus,
+        'nutritionalGoals': selectedNutritionalGoals,
         'dietaryRestrictions': selectedRestrictions,
         'hasCompletedOnboarding': true,
       }, SetOptions(merge: true)); //merge new dietOptions and dietaryFocus with current document
@@ -99,6 +104,7 @@ class UserProfileController extends GetxController{
         'activityLevel': activityLevel,
         'dietOptions': selectedDietOptions,
         'dietaryFocus': selectedDietaryFocus,
+        'nutritionalGoals': selectedNutritionalGoals,
         'dietaryRestrictions': selectedRestrictions,
         'hasCompletedOnboarding': true,
       };
@@ -235,6 +241,7 @@ class UserProfileController extends GetxController{
       "categoryStats" : FieldValue.delete(),
       "dietOptions": FieldValue.delete(),
       "dietaryFocus": FieldValue.delete(),
+      "nutritionalGoals": FieldValue.delete(),
       "dietaryRestrictions": FieldValue.delete(),
     });
 

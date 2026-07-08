@@ -263,83 +263,113 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
 
               //page 4 -- dietary goals and focus
-              Padding(
-                padding: const EdgeInsets.all(AppSizes.defaultSpace),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 100),
-
-                    Text(
-                        'What are your dietary preferences?',
-                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                            fontWeight: FontWeight.bold
-                        )
-                    ),
-
-                    const SizedBox(height: 8),
-
-                    Text(
-                      'Customise your meal recommendations according to your meal preferences',
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-
-                    const SizedBox(height: AppSizes.spaceBtwSections),
-
-                    //dietary goals
-
-                    Text(
-                      'Dietary Goals',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: AppSizes.fontSizeLg
+              SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(AppSizes.defaultSpace),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 100),
+                
+                      Text(
+                          'What are your dietary preferences?',
+                          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                              fontWeight: FontWeight.bold
+                          )
                       ),
-                    ),
-
-                    const SizedBox(height: 4),
-
-                    Wrap(
-                      spacing: 8.0,
-                      children: controller.dietOptions.map((option){
-                        return Obx((){
-                          final isSelected = controller.selectedDietOptions.contains(option);
-                          return ChoiceChip(
+                
+                      const SizedBox(height: 8),
+                
+                      Text(
+                        'Customise your meal recommendations according to your meal preferences',
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                
+                      const SizedBox(height: AppSizes.spaceBtwSections),
+                
+                      //dietary goals
+                
+                      Text(
+                        'Dietary Goals',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: AppSizes.fontSizeLg
+                        ),
+                      ),
+                
+                      const SizedBox(height: 4),
+                
+                      Wrap(
+                        spacing: 8.0,
+                        children: controller.dietOptions.map((option){
+                          return Obx((){
+                            final isSelected = controller.selectedDietOptions.contains(option);
+                            return ChoiceChip(
+                                label: Text(option),
+                                selected: isSelected,
+                              onSelected: (_) => controller.toggleDietOptions(option),
+                            );
+                          });
+                        }).toList(),
+                      ),
+                
+                      const SizedBox(height: AppSizes.spaceBtwSections),
+                
+                      //dietary focus
+                
+                      Text(
+                        'Dietary Focus',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: AppSizes.fontSizeLg
+                        ),
+                      ),
+                
+                      const SizedBox(height: 4),
+                
+                      Wrap(
+                        spacing: 8.0,
+                        children: controller.dietaryFocus.map((option){
+                          return Obx((){
+                            final isSelected = controller.selectedDietaryFocus.contains(option);
+                            return ChoiceChip(
                               label: Text(option),
                               selected: isSelected,
-                            onSelected: (_) => controller.toggleDietOptions(option),
-                          );
-                        });
-                      }).toList(),
-                    ),
-
-                    const SizedBox(height: AppSizes.spaceBtwSections),
-
-                    //dietary focus
-
-                    Text(
-                      'Dietary Focus',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: AppSizes.fontSizeLg
+                              onSelected: (_) => controller.toggleDietaryFocus(option),
+                            );
+                          });
+                        }).toList(),
                       ),
-                    ),
-
-                    const SizedBox(height: 4),
-
-                    Wrap(
-                      spacing: 8.0,
-                      children: controller.dietaryFocus.map((option){
-                        return Obx((){
-                          final isSelected = controller.selectedDietaryFocus.contains(option);
-                          return ChoiceChip(
-                            label: Text(option),
-                            selected: isSelected,
-                            onSelected: (_) => controller.toggleDietaryFocus(option),
-                          );
-                        });
-                      }).toList(),
-                    ),
-                  ],
+                
+                      const SizedBox(height: AppSizes.spaceBtwSections),
+                
+                      //nutritional goals
+                
+                      Text(
+                        'Nutritional Goals',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: AppSizes.fontSizeLg
+                        ),
+                      ),
+                
+                      const SizedBox(height: 4),
+                
+                      Wrap(
+                        spacing: 8.0,
+                        children: controller.nutritionalGoals.map((option){
+                          return Obx((){
+                            final isSelected = controller.selectedNutritionalGoals.contains(option);
+                            return ChoiceChip(
+                              label: Text(option),
+                              selected: isSelected,
+                              onSelected: (_) => controller.toggleNutritionalGoals(option),
+                            );
+                          });
+                        }).toList(),
+                      ),
+                    ],
+                  ),
                 ),
               ),
 

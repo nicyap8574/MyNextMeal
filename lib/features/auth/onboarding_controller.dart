@@ -22,6 +22,7 @@ class OnboardingController extends GetxController{
 
   var selectedDietOptions = <String>{}.obs;
   var selectedDietaryFocus = <String>{}.obs;
+  var selectedNutritionalGoals = <String>{}.obs;
 
   var selectedRestrictions = <String>[].obs;
   final customRestrictionController = TextEditingController();
@@ -37,8 +38,19 @@ class OnboardingController extends GetxController{
     'Type-2 Diabetes',
     'High Cholesterol',
     'Weight Loss',
+    'Gain Weight',
     'Muscle Gain',
     'General Health'
+  ];
+
+  final List<String> nutritionalGoals = [
+    'High protein',
+    'Low carb',
+    'Low fat',
+    'High fiber',
+    'Balanced diet',
+    'Reduced sugar intake',
+    'Reduce sodium'
   ];
 
   final List<String> dietaryRestrictions = [
@@ -114,6 +126,14 @@ class OnboardingController extends GetxController{
     }
   }
 
+  void toggleNutritionalGoals(String goals){
+    if(selectedNutritionalGoals.contains(goals)){
+      selectedNutritionalGoals.remove(goals);
+    }else{
+      selectedNutritionalGoals.add(goals);
+    }
+  }
+
   void toggleRestriction(String restriction){
     if(selectedRestrictions.contains(restriction)){
       selectedRestrictions.remove(restriction);
@@ -152,6 +172,7 @@ class OnboardingController extends GetxController{
         activityLevel: activityLevel.value,
         selectedDietOptions: selectedDietOptions.toList(),
         selectedDietaryFocus: selectedDietaryFocus.toList(),
+        selectedNutritionalGoals: selectedNutritionalGoals.toList(),
         selectedRestrictions: selectedRestrictions.toList(),
     );
 

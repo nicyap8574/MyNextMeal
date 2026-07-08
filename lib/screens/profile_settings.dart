@@ -29,6 +29,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
   Set<int> selectedDietOptions = {}; //stores selected diet options
   Set<int> selectedDietaryFocus = {}; //stores selected dietary focus
+  Set<int> selectedNutritionalGoals = {}; //stores selected nutritional goals
   List<String> selectedRestrictions = [];
 
 
@@ -46,8 +47,19 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     'Type-2 Diabetes',
     'High Cholesterol',
     'Weight Loss',
+    'Gain Weight',
     'Muscle Gain',
     'General Health'
+  ];
+
+  final List<String> nutritionalGoals = [
+    'High protein',
+    'Low carb',
+    'Low fat',
+    'High fiber',
+    'Balanced diet',
+    'Reduced sugar intake',
+    'Reduce sodium'
   ];
 
   final List<String> dietaryRestrictions = [
@@ -82,6 +94,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
       final List<dynamic> diet = data['dietOptions'] ?? [];
       final List<dynamic> focus = data['dietaryFocus'] ?? [];
+      final List<dynamic> goals = data['nutritionalGoals'] ?? [];
       final List<dynamic> restrictions = data['dietaryRestrictions'] ?? [];
       final String username = data['username'] ?? '';
 
@@ -94,6 +107,10 @@ class _ProfileSettingsState extends State<ProfileSettings> {
             .toSet(); //converts List to Set
 
         selectedDietaryFocus = focus.map((item) => dietaryFocus
+            .indexOf(item))
+            .toSet();
+
+        selectedNutritionalGoals = goals.map((item) => nutritionalGoals
             .indexOf(item))
             .toSet();
 
@@ -312,6 +329,55 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
                         Container(
                           child: Text(
+                            'Nutritional Goals',
+                            style: TextStyle(
+                              fontSize: AppSizes.fontSizeLg,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+
+                        Container(
+                          child: Text(
+                            'Select all that apply',
+                            style: TextStyle(
+                              fontSize: AppSizes.fontSizeSm-1,
+                              fontWeight: FontWeight.normal,
+                              fontStyle: FontStyle.italic,
+                            ),
+                          ),
+                        ),
+
+                        SizedBox(height: AppSizes.spaceBtwItems),
+
+                        Wrap(
+                            spacing: 8.0,
+                            children: List.generate(nutritionalGoals.length, (index){
+                              final isSelected = selectedNutritionalGoals.contains(index);
+
+                              return ChoiceChip(
+                                  label: Text(
+                                    nutritionalGoals[index],
+                                  ),
+                                  selected: isSelected,
+                                  onSelected: (bool selected){
+                                    setState((){
+                                      if (isSelected){
+                                        selectedNutritionalGoals.remove(index);
+                                      }else{
+                                        selectedNutritionalGoals.add(index);
+                                      }
+                                    });
+                                  }
+                              );
+                            }
+                            )
+                        ),
+
+                        const SizedBox(height: AppSizes.spaceBtwSections),
+
+                        Container(
+                          child: Text(
                             'Dietary Restrictions',
                             style: TextStyle(
                               fontSize: AppSizes.fontSizeLg,
@@ -438,12 +504,17 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                               final focus = selectedDietaryFocus
                                   .map((index) => dietaryFocus[index])
                                   .toList();
+                               final goals = selectedNutritionalGoals
+                                  .map((index) => nutritionalGoals[index])
+                                  .toList();
+
 
                               userProfileController.saveChanges(
                                 context: context,
                                 username: usernameController.text.trim(),
                                 selectedDietOptions: diet,
                                 selectedDietaryFocus: focus,
+                                selectedNutritionalGoals: goals,
                                 selectedRestrictions: selectedRestrictions,
                               );
                             },
@@ -497,6 +568,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                           setState(() {
                             selectedDietOptions.clear();
                             selectedDietaryFocus.clear();
+                            selectedNutritionalGoals.clear();
                             selectedRestrictions.clear();
                           });
 

@@ -27,13 +27,17 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   late UserProfileController userProfileController;
   final forgotPasswordController = Get.find<ForgotPasswordController>();
 
-  Set<int> selectedDietOptions = {}; //stores selected diet options
-  Set<int> selectedDietaryFocus = {}; //stores selected dietary focus
+  // Set<int> selectedDietOptions = {}; //stores selected diet options
+  // Set<int> selectedDietaryFocus = {}; //stores selected dietary focus
+  List<String> selectedDietOptions = []; //stores selected diet options
+  List<String> selectedDietaryFocus = []; //stores selected dietary focus
   List<String> selectedRestrictions = [];
   List<String> selectedNutritionalGoals = []; //stores selected nutritional goals
 
 
   final TextEditingController usernameController = TextEditingController();
+  final TextEditingController goalsController = TextEditingController();
+  final TextEditingController focusController = TextEditingController();
   final TextEditingController restrictionController = TextEditingController();
   final TextEditingController nutritionController = TextEditingController();
 
@@ -83,6 +87,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   @override
   void dispose(){
     usernameController.dispose();
+    goalsController.dispose();
+    focusController.dispose();
     restrictionController.dispose();
     nutritionController.dispose();
     super.dispose();
@@ -104,16 +110,41 @@ class _ProfileSettingsState extends State<ProfileSettings> {
       setState((){
         usernameController.text = username; //populate textfield
 
-        selectedDietOptions = diet.map((item) => dietOptions
-            .indexOf(item)) //converts String to index (read by ChoiceChip)
-            .toSet(); //converts List to Set
+        // selectedDietOptions = diet.map((item) => dietOptions
+        //     .indexOf(item)) //converts String to index (read by ChoiceChip)
+        //     .toSet(); //converts List to Set
+        //
+        // selectedDietaryFocus = focus.map((item) => dietaryFocus
+        //     .indexOf(item))
+        //     .toSet();
 
-        selectedDietaryFocus = focus.map((item) => dietaryFocus
-            .indexOf(item))
-            .toSet();
-
+        selectedDietOptions = List<String>.from(diet);
+        selectedDietaryFocus = List<String>.from(focus);
         selectedNutritionalGoals = List<String>.from(goals);
         selectedRestrictions = List<String>.from(restrictions);
+      });
+    }
+  }
+  void addCustomDietaryGoals(String input){
+    final trimmedInput = input.trim();
+    if(trimmedInput.isNotEmpty){
+      setState(() {
+        if(!selectedDietOptions.contains(trimmedInput)){
+          selectedDietOptions.add(trimmedInput);
+        }
+        goalsController.clear();
+      });
+    }
+  }
+
+  void addCustomDietaryFocus(String input){
+    final trimmedInput = input.trim();
+    if(trimmedInput.isNotEmpty){
+      setState(() {
+        if(!selectedDietaryFocus.contains(trimmedInput)){
+          selectedDietaryFocus.add(trimmedInput);
+        }
+        focusController.clear();
       });
     }
   }
@@ -264,28 +295,69 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
                         Wrap(
                             spacing: 8.0,
-                            children: List.generate(dietOptions.length, (index){
-                              final isSelected = selectedDietOptions.contains(index);
+                            children: dietOptions.map((goals){
+                              final isSelected = selectedDietOptions.contains(goals);
 
                               return ChoiceChip(
-                                  label: Text(
-                                    dietOptions[index],
-                                  ),
+                                  label: Text(goals),
                                   selected: isSelected,
-                                  // showCheckmark: false,
                                   onSelected: (bool selected){
                                     setState((){
                                       if (isSelected){
-                                        selectedDietOptions.remove(index);
+                                        selectedDietOptions.remove(goals);
                                       }else{
-                                        selectedDietOptions.add(index);
+                                        selectedDietOptions.add(goals);
                                       }
                                     });
                                   }
                               );
-                            }
-                            )
+                            }).toList(),
                         ),
+
+                        const SizedBox(height: AppSizes.spaceBtwSections-6),
+
+                        //custom dietary goals
+                        if(selectedDietOptions.any((g) => !dietOptions.contains(g))) ...[
+                          Wrap(
+                            spacing: 8.0,
+                            runSpacing: 4.0,
+                            children: selectedDietOptions
+                                .where((g) => !dietOptions.contains(g))
+                                .map((goal){
+                              return InputChip(
+                                label: Text(goal),
+                                onDeleted: (){
+                                  setState(() {
+                                    selectedDietOptions.remove(goal);
+                                  });
+                                },
+                              );
+                            }).toList(),
+                          ),
+                          const SizedBox(height: AppSizes.spaceBtwItems),
+                        ],
+
+                        //text field for typing custom dietary goals
+                        Row(
+                          children:[
+                            Expanded(
+                              child: TextField(
+                                controller: goalsController,
+                                decoration: const InputDecoration(
+                                  hintText: 'Type custom dietary goals',
+                                  isDense: true,
+                                  contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                ),
+                                onSubmitted: addCustomDietaryGoals,
+                              ),
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.add_circle, color: AppColors.primary, size: 30),
+                              onPressed: () => addCustomDietaryGoals(goalsController.text),
+                            ),
+                          ],
+                        ),
+
 
                         const SizedBox(height: AppSizes.spaceBtwSections),
 
@@ -314,26 +386,67 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
                         Wrap(
                             spacing: 8.0,
-                            children: List.generate(dietaryFocus.length, (index){
-                              final isSelected = selectedDietaryFocus.contains(index);
+                            children: dietaryFocus.map((focus){
+                              final isSelected = selectedDietaryFocus.contains(focus);
 
                               return ChoiceChip(
-                                  label: Text(
-                                    dietaryFocus[index],
-                                  ),
+                                  label: Text(focus),
                                   selected: isSelected,
                                   onSelected: (bool selected){
                                     setState((){
                                       if (isSelected){
-                                        selectedDietaryFocus.remove(index);
+                                        selectedDietaryFocus.add(focus);
                                       }else{
-                                        selectedDietaryFocus.add(index);
+                                        selectedDietaryFocus.remove(focus);
                                       }
                                     });
                                   }
                               );
-                            }
-                            )
+                            }).toList(),
+                        ),
+
+                        const SizedBox(height: AppSizes.spaceBtwSections-6),
+
+                        //custom dietary focus
+                        if(selectedDietaryFocus.any((f) => !dietaryFocus.contains(f))) ...[
+                          Wrap(
+                            spacing: 8.0,
+                            runSpacing: 4.0,
+                            children: selectedDietaryFocus
+                                .where((f) => !dietaryFocus.contains(f))
+                                .map((focus){
+                              return InputChip(
+                                label: Text(focus),
+                                onDeleted: (){
+                                  setState(() {
+                                    selectedDietaryFocus.remove(focus);
+                                  });
+                                },
+                              );
+                            }).toList(),
+                          ),
+                          const SizedBox(height: AppSizes.spaceBtwItems),
+                        ],
+
+                        //text field for typing custom restrictions
+                        Row(
+                          children:[
+                            Expanded(
+                              child: TextField(
+                                controller: focusController,
+                                decoration: const InputDecoration(
+                                  hintText: 'Type custom dietary focus',
+                                  isDense: true,
+                                  contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                ),
+                                onSubmitted: addCustomDietaryFocus,
+                              ),
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.add_circle, color: AppColors.primary, size: 30),
+                              onPressed: () => addCustomDietaryFocus(focusController.text),
+                            ),
+                          ],
                         ),
 
                         const SizedBox(height: AppSizes.spaceBtwSections),
@@ -383,19 +496,19 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
                         const SizedBox(height: AppSizes.spaceBtwSections-6),
 
-                        //custom restrictions
-                        if(selectedNutritionalGoals.any((r) => !nutritionalGoals.contains(r))) ...[
+                        //custom nutritional goals
+                        if(selectedNutritionalGoals.any((n) => !nutritionalGoals.contains(n))) ...[
                           Wrap(
                             spacing: 8.0,
                             runSpacing: 4.0,
                             children: selectedNutritionalGoals
-                                .where((r) => !nutritionalGoals.contains(r))
-                                .map((restriction){
+                                .where((n) => !nutritionalGoals.contains(n))
+                                .map((nutrition){
                               return InputChip(
-                                label: Text(restriction),
+                                label: Text(nutrition),
                                 onDeleted: (){
                                   setState(() {
-                                    selectedNutritionalGoals.remove(restriction);
+                                    selectedNutritionalGoals.remove(nutrition);
                                   });
                                 },
                               );
@@ -549,18 +662,18 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: (){
-                              final diet = selectedDietOptions
-                                  .map((index) => dietOptions[index])
-                                  .toList();
-                              final focus = selectedDietaryFocus
-                                  .map((index) => dietaryFocus[index])
-                                  .toList();
+                              // final diet = selectedDietOptions
+                              //     .map((index) => dietOptions[index])
+                              //     .toList();
+                              // final focus = selectedDietaryFocus
+                              //     .map((index) => dietaryFocus[index])
+                              //     .toList();
 
                               userProfileController.saveChanges(
                                 context: context,
                                 username: usernameController.text.trim(),
-                                selectedDietOptions: diet,
-                                selectedDietaryFocus: focus,
+                                selectedDietOptions: selectedDietOptions,
+                                selectedDietaryFocus: selectedDietaryFocus,
                                 selectedNutritionalGoals: selectedNutritionalGoals,
                                 selectedRestrictions: selectedRestrictions,
                               );

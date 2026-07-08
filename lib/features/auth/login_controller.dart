@@ -67,9 +67,11 @@ class LoginController extends GetxController {
     try{
       final userCredential = await AuthController.instance.signInWithGoogle();
 
-      //save user record
-      await userController.saveUserRecord(userCredential);
-      //passes UserCredential data type instead of User data type because it checks for new user
+      //save user record only if new user
+      if(userCredential.additionalUserInfo?.isNewUser == true){
+        await userController.saveUserRecord(userCredential);
+        //passes UserCredential data type instead of User data type because it checks for new user
+      }
 
       await userController.fetchUserRecord();
 

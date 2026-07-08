@@ -74,96 +74,99 @@ class _PhysicalMetricsState extends State<PhysicalMetrics> {
       body: SingleChildScrollView(
         child: Padding(
           padding: AppSpacingStyle.paddingWithAppBarHeight,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Height (in cm)',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: AppSizes.fontSizeSm,
+          child: Form(
+            key: controller.physicalMetricsFormKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Height (in cm)',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: AppSizes.fontSizeSm,
+                  ),
                 ),
-              ),
-
-              const SizedBox(height: AppSizes.spaceBtwItems/2),
-
-              TextFormField(
-                controller: heightController,
-                keyboardType: TextInputType.number,
-                validator: (value) => AppValidator.validateHeight(value),
-                decoration: InputDecoration(
-                  hintText: 'e.g. 175',
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(AppSizes.borderRadiusLg)),
+            
+                const SizedBox(height: AppSizes.spaceBtwItems/2),
+            
+                TextFormField(
+                  controller: heightController,
+                  keyboardType: TextInputType.number,
+                  validator: (value) => AppValidator.validateHeight(value),
+                  decoration: InputDecoration(
+                    hintText: 'e.g. 175',
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(AppSizes.borderRadiusLg)),
+                  ),
                 ),
-              ),
-
-              const SizedBox(height: AppSizes.spaceBtwSections),
-
-              //weight
-              Text(
-                'Weight (in kg)',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: AppSizes.fontSizeSm,
+            
+                const SizedBox(height: AppSizes.spaceBtwSections),
+            
+                //weight
+                Text(
+                  'Weight (in kg)',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: AppSizes.fontSizeSm,
+                  ),
                 ),
-              ),
-
-              const SizedBox(height: 8),
-
-              TextFormField(
-                controller: weightController,
-                keyboardType: TextInputType.number,
-                validator: (value) => AppValidator.validateWeight(value),
-                decoration: InputDecoration(
-                  hintText: 'e.g. 60',
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(AppSizes.borderRadiusLg)),
+            
+                const SizedBox(height: 8),
+            
+                TextFormField(
+                  controller: weightController,
+                  keyboardType: TextInputType.number,
+                  validator: (value) => AppValidator.validateWeight(value),
+                  decoration: InputDecoration(
+                    hintText: 'e.g. 60',
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(AppSizes.borderRadiusLg)),
+                  ),
                 ),
-              ),
-
-              const SizedBox(height: AppSizes.spaceBtwSections),
-
-              //age
-              Text(
-                'Age',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: AppSizes.fontSizeSm,
+            
+                const SizedBox(height: AppSizes.spaceBtwSections),
+            
+                //age
+                Text(
+                  'Age',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: AppSizes.fontSizeSm,
+                  ),
                 ),
-              ),
-
-              const SizedBox(height: 8),
-
-              TextFormField(
-                controller: ageController,
-                keyboardType: TextInputType.number,
-                validator: (value) => AppValidator.validateAge(value),
-                decoration: InputDecoration(
-                  hintText: 'e.g. 20',
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(AppSizes.borderRadiusLg)),
+            
+                const SizedBox(height: 8),
+            
+                TextFormField(
+                  controller: ageController,
+                  keyboardType: TextInputType.number,
+                  validator: (value) => AppValidator.validateAge(value),
+                  decoration: InputDecoration(
+                    hintText: 'e.g. 20',
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(AppSizes.borderRadiusLg)),
+                  ),
                 ),
-              ),
-
-              const SizedBox(height: AppSizes.spaceBtwSections),
-
-              //save changes button
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () async {
-                    final profileController = Get.find<UserProfileController>();
-                    await profileController.updatePhysicalMetrics(
-                      context: context,
-                      height: double.tryParse(heightController.text) ?? 170.00,
-                      weight: double.tryParse(weightController.text) ?? 60.00,
-                      age: int.tryParse(ageController.text) ?? 18,
-                    );
-                    AppLoaders.showSnackBar(Get.context!, "Activity level updated successfully");
-                  },
-                  child: const Text("Save Changes"),
+            
+                const SizedBox(height: AppSizes.spaceBtwSections),
+            
+                //save changes button
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      final profileController = Get.find<UserProfileController>();
+                      await profileController.updatePhysicalMetrics(
+                        context: context,
+                        height: double.tryParse(heightController.text) ?? 170.00,
+                        weight: double.tryParse(weightController.text) ?? 60.00,
+                        age: int.tryParse(ageController.text) ?? 18,
+                      );
+                      AppLoaders.showSnackBar(Get.context!, "Activity level updated successfully");
+                    },
+                    child: const Text("Save Changes"),
+                  ),
                 ),
-              ),
-
-            ],
+            
+              ],
+            ),
           ),
         )
       )

@@ -63,8 +63,8 @@ class AppValidator{
       return "Please enter a valid number";
     }
 
-    if(weight < 20.00 || weight > 250.00){
-      return "Invalid weight entered";
+    if(weight <= 20.00 || weight >= 250.00){
+      return "Weight must be between 20kg and 250kg";
     }
     return null;
   }
@@ -80,8 +80,8 @@ class AppValidator{
       return "Please enter a valid number";
     }
 
-    if(height < 100.00 || height > 250.00){
-      return "Invalid height entered";
+    if(height <= 100.00 || height >= 220.00){
+      return "Height must be between 100cm and 220cm.";
     }
     return null;
   }
@@ -97,8 +97,8 @@ class AppValidator{
       return "Please enter a valid number";
     }
 
-    if(age <= 13 || age > 80){
-      return "Invalid age entered.";
+    if(age <= 13 || age >= 80){
+      return "Age must be between 13 and 80.";
     }
     return null;
   }

@@ -28,6 +28,7 @@ class _ActivityLevelState extends State<ActivityLevel> {
     final userController = Get.find<UserController>();
 
     //if user has already set activity level, update activity level in OnboardingController with new value
+    //userController.use.value.activityLevel -> fetches from memory
     if(userController.user.value.activityLevel != null){
       controller.activityLevel.value = userController.user.value.activityLevel!;
     }
@@ -131,7 +132,7 @@ class _ActivityLevelState extends State<ActivityLevel> {
                 child: ElevatedButton(
                   onPressed: () async {
                     final profileController = Get.find<UserProfileController>();
-                    await profileController.saveActivityLevel(
+                    await profileController.updateActivityLevel(
                       context: context,
                       activityLevel: controller.activityLevel.value,
                     );

@@ -6,6 +6,7 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:mynextmeal/common/spacing_styles.dart';
 import 'package:mynextmeal/features/auth/forgot_password_controller.dart';
+import 'package:mynextmeal/screens/physical_metrics.dart';
 
 import '../features/user/user_profile_controller.dart';
 import '../utils/constants/colors.dart';
@@ -395,6 +396,21 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                         ),
 
                         const SizedBox(height: AppSizes.spaceBtwSections),
+
+                        //manage physical metrics
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () => Get.to(() => const PhysicalMetrics()),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: dark ? Colors.black : AppColors.apricotCream200,
+                              foregroundColor: dark ? Colors.white : Colors.black,
+                            ),
+                            child: const Text("Edit Physical Metrics"),
+                          ),
+                        ),
+
+                        const SizedBox(height: 8),
 
                         //manage activity levels button
                         SizedBox(

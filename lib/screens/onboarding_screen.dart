@@ -106,7 +106,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             ),
                         ),
 
-                        const SizedBox(height: 8),
+                        const SizedBox(height: AppSizes.spaceBtwItems/2),
 
                         TextFormField(
                           controller: controller.heightController,

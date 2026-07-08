@@ -127,7 +127,7 @@ class UserProfileController extends GetxController{
     }
   }
 
-  Future<void> saveActivityLevel({required BuildContext context, required String activityLevel}) async {
+  Future<void> updateActivityLevel({required BuildContext context, required String activityLevel}) async {
     try{
       await _db.collection('users').doc(user!.uid).set({
         'activityLevel': activityLevel,
@@ -160,6 +160,46 @@ class UserProfileController extends GetxController{
     }catch(e){
       print("Error saving changes: $e");
       AppLoaders.showSnackBar(context, "Failed to save onboarding preferences.");
+    }
+  }
+
+  Future<void> updatePhysicalMetrics({required BuildContext context, required double height, required double weight, required int age}) async {
+    try{
+      await _db.collection('users').doc(user!.uid).set({
+        'height': height,
+        'weight': weight,
+        'age': age,
+      }, SetOptions(merge: true));
+
+      //add to cachedData so does not read again from db
+      cachedData = {
+        ...?cachedData, //merge previous cachedData with new
+        'height': height,
+        'weight': weight,
+        'age': age,
+      };
+
+      //updates user data
+      if(Get.isRegistered<UserController>()){
+        final userController = UserController.instance;
+        userController.user.update((currentUser){
+          if(currentUser != null){
+            userController.user(UserModel(
+              id: currentUser.id,
+              email: currentUser.email,
+              username: currentUser.username,
+              height: height,
+              weight: weight,
+              age: age,
+              activityLevel: currentUser.activityLevel,
+              hasCompletedOnboarding: true,
+            ));
+          }
+        });
+      }
+    }catch(e){
+      print("Error saving changes: $e");
+      AppLoaders.showSnackBar(context, "Failed to update physical metrics.");
     }
   }
 

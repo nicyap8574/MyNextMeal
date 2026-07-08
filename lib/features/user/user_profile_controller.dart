@@ -197,6 +197,7 @@ class UserProfileController extends GetxController{
           }
         });
       }
+      AppLoaders.showSnackBar(context, "Physical metrics updated successfully");
     }catch(e){
       print("Error saving changes: $e");
       AppLoaders.showSnackBar(context, "Failed to update physical metrics.");

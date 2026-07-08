@@ -136,7 +136,7 @@ class _ActivityLevelState extends State<ActivityLevel> {
                       context: context,
                       activityLevel: controller.activityLevel.value,
                     );
-                    AppLoaders.showSnackBar(Get.context!, "Activity level updated successfully");
+                    // AppLoaders.showSnackBar(Get.context!, "Activity level updated successfully");
                   },
                   child: const Text("Save Changes"),
                 ),

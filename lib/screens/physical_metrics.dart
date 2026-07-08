@@ -152,6 +152,11 @@ class _PhysicalMetricsState extends State<PhysicalMetrics> {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () async {
+                      //check if form is valid
+                      if(!controller.physicalMetricsFormKey.currentState!.validate()){
+                        return;
+                      }
+
                       final profileController = Get.find<UserProfileController>();
                       await profileController.updatePhysicalMetrics(
                         context: context,
@@ -159,7 +164,6 @@ class _PhysicalMetricsState extends State<PhysicalMetrics> {
                         weight: double.tryParse(weightController.text) ?? 60.00,
                         age: int.tryParse(ageController.text) ?? 18,
                       );
-                      AppLoaders.showSnackBar(Get.context!, "Activity level updated successfully");
                     },
                     child: const Text("Save Changes"),
                   ),

@@ -421,8 +421,7 @@ class Home extends StatelessWidget {
                                                       overflow: TextOverflow.ellipsis,
                                                     ),
                                                     Text(
-                                                      "Carbs: ${meal['analysis']['nutrients'][0]['carbs_macro']} | Protein: ${meal['analysis']['nutrients'][0]['protein_macro']} | Fats: ${meal['analysis']['nutrients'][0]['fats_macro']} \n"
-                                                          "Uploaded At: $formattedDateTime",
+                                                      "Carbs: ${meal['analysis']['nutrients'][0]['carbs_macro']} | Protein: ${meal['analysis']['nutrients'][0]['protein_macro']} | Fats: ${meal['analysis']['nutrients'][0]['fats_macro']}",
                                                       maxLines: 2,
                                                       overflow: TextOverflow.ellipsis,
                                                     ),
@@ -453,6 +452,8 @@ class Home extends StatelessWidget {
                                   ),
                               ),
                             ),
+
+                            SizedBox(height: MediaQuery.sizeOf(context).height*0.08),
                           ],
                         );
                       }

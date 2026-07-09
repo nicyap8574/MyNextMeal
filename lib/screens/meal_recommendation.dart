@@ -49,6 +49,7 @@ class _MealRecommendationState extends State<MealRecommendation> {
         body: SingleChildScrollView(
           child: Padding(
             padding: AppSpacingStyle.paddingWithAppBarHeight,
+            // padding: EdgeInsets.zero,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
 
@@ -120,51 +121,54 @@ class _MealRecommendationState extends State<MealRecommendation> {
 
                 const SizedBox(height: AppSizes.spaceBtwSections),
 
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Select Meal Type",
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
+                Container(
+                  width: double.infinity,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Select Meal Type",
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
 
-                    const SizedBox(height: 4),
+                      const SizedBox(height: 4),
 
-                    Text(
-                      'Which meal are you planning next?',
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: dark ? Colors.white70 : AppColors.textSecondary,
+                      Text(
+                        'Which meal are you planning next?',
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: dark ? Colors.white70 : AppColors.textSecondary,
+                        ),
                       ),
-                    ),
 
-                    const SizedBox(height: 12),
+                      const SizedBox(height: 12),
 
-                    //meal type chips selector
-                    Obx(() => Wrap(
-                        spacing: 8.0,
-                        runSpacing: 8.0,
-                        children: List.generate(mealType.length, (index){
-                          final type = mealType[index];
-                          final isSelected = controller.selectedMealType.value == type;
+                      //meal type chips selector
+                      Obx(() => Wrap(
+                          spacing: 8.0,
+                          runSpacing: 8.0,
+                          children: List.generate(mealType.length, (index){
+                            final type = mealType[index];
+                            final isSelected = controller.selectedMealType.value == type;
 
-                          return ChoiceChip(
-                            label: Text(type),
-                            showCheckmark: false,
-                            selected: isSelected,
-                            // showCheckmark: false,
-                            onSelected: (bool selected){
-                              setState((){
-                                controller.selectedMealType.value = selected ? type : '';
-                              });
-                            },
-                          );
-                        }),
-                      ),
-                    )
-                  ],
+                            return ChoiceChip(
+                              label: Text(type),
+                              showCheckmark: false,
+                              selected: isSelected,
+                              // showCheckmark: false,
+                              onSelected: (bool selected){
+                                setState((){
+                                  controller.selectedMealType.value = selected ? type : '';
+                                });
+                              },
+                            );
+                          }),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
 
                 const SizedBox(height: AppSizes.spaceBtwSections),

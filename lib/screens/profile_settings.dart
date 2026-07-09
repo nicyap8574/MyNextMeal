@@ -34,6 +34,12 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   List<String> selectedRestrictions = [];
   List<String> selectedNutritionalGoals = []; //stores selected nutritional goals
 
+  //collapsible sections
+  bool _isDietaryGoalsExpanded = false;
+  bool _isDietaryFocusExpanded = false;
+  bool _isNutritionGoalsExpanded = false;
+  bool _isDietaryRestrictionsExpanded = false;
+
 
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController goalsController = TextEditingController();
@@ -270,30 +276,44 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children:[
-                        Container(
-                          child: Text(
-                            'Dietary Goals',
-                            style: TextStyle(
-                              fontSize: AppSizes.fontSizeLg,
-                              fontWeight: FontWeight.bold,
+                        InkWell(
+                          onTap: () => setState(() => _isDietaryGoalsExpanded = !_isDietaryGoalsExpanded),
+                          borderRadius: BorderRadius.circular(8),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 4),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Dietary Goals',
+                                  style: TextStyle(
+                                    fontSize: AppSizes.fontSizeLg,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Icon(
+                                  _isDietaryGoalsExpanded ? Icons.expand_less : Icons.expand_more,
+                                ),
+                              ],
                             ),
                           ),
                         ),
 
-                        Container(
-                          child: Text(
-                            'Select all that apply',
-                            style: TextStyle(
-                              fontSize: AppSizes.fontSizeSm-1,
-                              fontWeight: FontWeight.normal,
-                              fontStyle: FontStyle.italic,
+                        if(_isDietaryGoalsExpanded) ...[
+                          Container(
+                            child: Text(
+                              'Select all that apply',
+                              style: TextStyle(
+                                fontSize: AppSizes.fontSizeSm-1,
+                                fontWeight: FontWeight.normal,
+                                fontStyle: FontStyle.italic,
+                              ),
                             ),
                           ),
-                        ),
 
-                        SizedBox(height: AppSizes.spaceBtwItems),
+                          SizedBox(height: AppSizes.spaceBtwItems),
 
-                        Wrap(
+                          Wrap(
                             spacing: 8.0,
                             children: dietOptions.map((goals){
                               final isSelected = selectedDietOptions.contains(goals);
@@ -312,79 +332,93 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                   }
                               );
                             }).toList(),
-                        ),
-
-                        const SizedBox(height: AppSizes.spaceBtwSections-6),
-
-                        //custom dietary goals
-                        if(selectedDietOptions.any((g) => !dietOptions.contains(g))) ...[
-                          Wrap(
-                            spacing: 8.0,
-                            runSpacing: 4.0,
-                            children: selectedDietOptions
-                                .where((g) => !dietOptions.contains(g))
-                                .map((goal){
-                              return InputChip(
-                                label: Text(goal),
-                                onDeleted: (){
-                                  setState(() {
-                                    selectedDietOptions.remove(goal);
-                                  });
-                                },
-                              );
-                            }).toList(),
                           ),
-                          const SizedBox(height: AppSizes.spaceBtwItems),
-                        ],
 
-                        //text field for typing custom dietary goals
-                        Row(
-                          children:[
-                            Expanded(
-                              child: TextField(
-                                controller: goalsController,
-                                decoration: const InputDecoration(
-                                  hintText: 'Type custom dietary goals',
-                                  isDense: true,
-                                  contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                                ),
-                                onSubmitted: addCustomDietaryGoals,
-                              ),
+                          const SizedBox(height: AppSizes.spaceBtwSections-6),
+
+                          //custom dietary goals
+                          if(selectedDietOptions.any((g) => !dietOptions.contains(g))) ...[
+                            Wrap(
+                              spacing: 8.0,
+                              runSpacing: 4.0,
+                              children: selectedDietOptions
+                                  .where((g) => !dietOptions.contains(g))
+                                  .map((goal){
+                                return InputChip(
+                                  label: Text(goal),
+                                  onDeleted: (){
+                                    setState(() {
+                                      selectedDietOptions.remove(goal);
+                                    });
+                                  },
+                                );
+                              }).toList(),
                             ),
-                            IconButton(
-                              icon: const Icon(Icons.add_circle, color: AppColors.primary, size: 30),
-                              onPressed: () => addCustomDietaryGoals(goalsController.text),
-                            ),
+                            const SizedBox(height: AppSizes.spaceBtwItems),
                           ],
-                        ),
 
+                          //text field for typing custom dietary goals
+                          Row(
+                            children:[
+                              Expanded(
+                                child: TextField(
+                                  controller: goalsController,
+                                  decoration: const InputDecoration(
+                                    hintText: 'Type custom dietary goals',
+                                    isDense: true,
+                                    contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                  ),
+                                  onSubmitted: addCustomDietaryGoals,
+                                ),
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.add_circle, color: AppColors.primary, size: 30),
+                                onPressed: () => addCustomDietaryGoals(goalsController.text),
+                              ),
+                            ],
+                          ),
+                        ],
 
                         const SizedBox(height: AppSizes.spaceBtwSections),
 
-                        Container(
-                          child: Text(
-                            'Dietary Focus',
-                            style: TextStyle(
-                              fontSize: AppSizes.fontSizeLg,
-                              fontWeight: FontWeight.bold,
+                        InkWell(
+                          onTap: () => setState(() => _isDietaryFocusExpanded = !_isDietaryFocusExpanded),
+                          borderRadius: BorderRadius.circular(8),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 4),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Dietary Focus',
+                                  style: TextStyle(
+                                    fontSize: AppSizes.fontSizeLg,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Icon(
+                                  _isDietaryFocusExpanded ? Icons.expand_less : Icons.expand_more,
+                                ),
+                              ],
                             ),
                           ),
                         ),
 
-                        Container(
-                          child: Text(
-                            'Select all that apply',
-                            style: TextStyle(
-                              fontSize: AppSizes.fontSizeSm-1,
-                              fontWeight: FontWeight.normal,
-                              fontStyle: FontStyle.italic,
+                        if(_isDietaryFocusExpanded) ...[
+                          Container(
+                            child: Text(
+                              'Select all that apply',
+                              style: TextStyle(
+                                fontSize: AppSizes.fontSizeSm-1,
+                                fontWeight: FontWeight.normal,
+                                fontStyle: FontStyle.italic,
+                              ),
                             ),
                           ),
-                        ),
 
-                        const SizedBox(height: AppSizes.spaceBtwItems),
+                          const SizedBox(height: AppSizes.spaceBtwItems),
 
-                        Wrap(
+                          Wrap(
                             spacing: 8.0,
                             children: dietaryFocus.map((focus){
                               final isSelected = selectedDietaryFocus.contains(focus);
@@ -403,78 +437,93 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                   }
                               );
                             }).toList(),
-                        ),
-
-                        const SizedBox(height: AppSizes.spaceBtwSections-6),
-
-                        //custom dietary focus
-                        if(selectedDietaryFocus.any((f) => !dietaryFocus.contains(f))) ...[
-                          Wrap(
-                            spacing: 8.0,
-                            runSpacing: 4.0,
-                            children: selectedDietaryFocus
-                                .where((f) => !dietaryFocus.contains(f))
-                                .map((focus){
-                              return InputChip(
-                                label: Text(focus),
-                                onDeleted: (){
-                                  setState(() {
-                                    selectedDietaryFocus.remove(focus);
-                                  });
-                                },
-                              );
-                            }).toList(),
                           ),
-                          const SizedBox(height: AppSizes.spaceBtwItems),
-                        ],
 
-                        //text field for typing custom restrictions
-                        Row(
-                          children:[
-                            Expanded(
-                              child: TextField(
-                                controller: focusController,
-                                decoration: const InputDecoration(
-                                  hintText: 'Type custom dietary focus',
-                                  isDense: true,
-                                  contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                                ),
-                                onSubmitted: addCustomDietaryFocus,
-                              ),
+                          const SizedBox(height: AppSizes.spaceBtwSections-6),
+
+                          //custom dietary focus
+                          if(selectedDietaryFocus.any((f) => !dietaryFocus.contains(f))) ...[
+                            Wrap(
+                              spacing: 8.0,
+                              runSpacing: 4.0,
+                              children: selectedDietaryFocus
+                                  .where((f) => !dietaryFocus.contains(f))
+                                  .map((focus){
+                                return InputChip(
+                                  label: Text(focus),
+                                  onDeleted: (){
+                                    setState(() {
+                                      selectedDietaryFocus.remove(focus);
+                                    });
+                                  },
+                                );
+                              }).toList(),
                             ),
-                            IconButton(
-                              icon: const Icon(Icons.add_circle, color: AppColors.primary, size: 30),
-                              onPressed: () => addCustomDietaryFocus(focusController.text),
-                            ),
+                            const SizedBox(height: AppSizes.spaceBtwItems),
                           ],
-                        ),
+
+                          //text field for typing custom restrictions
+                          Row(
+                            children:[
+                              Expanded(
+                                child: TextField(
+                                  controller: focusController,
+                                  decoration: const InputDecoration(
+                                    hintText: 'Type custom dietary focus',
+                                    isDense: true,
+                                    contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                  ),
+                                  onSubmitted: addCustomDietaryFocus,
+                                ),
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.add_circle, color: AppColors.primary, size: 30),
+                                onPressed: () => addCustomDietaryFocus(focusController.text),
+                              ),
+                            ],
+                          ),
+                        ],
 
                         const SizedBox(height: AppSizes.spaceBtwSections),
 
-                        Container(
-                          child: Text(
-                            'Nutritional Goals',
-                            style: TextStyle(
-                              fontSize: AppSizes.fontSizeLg,
-                              fontWeight: FontWeight.bold,
+                        InkWell(
+                          onTap: () => setState(() => _isNutritionGoalsExpanded = !_isNutritionGoalsExpanded),
+                          borderRadius: BorderRadius.circular(8),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 4),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Dietary Focus',
+                                  style: TextStyle(
+                                    fontSize: AppSizes.fontSizeLg,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Icon(
+                                  _isNutritionGoalsExpanded ? Icons.expand_less : Icons.expand_more,
+                                ),
+                              ],
                             ),
                           ),
                         ),
 
-                        Container(
-                          child: Text(
-                            'Select all that apply',
-                            style: TextStyle(
-                              fontSize: AppSizes.fontSizeSm-1,
-                              fontWeight: FontWeight.normal,
-                              fontStyle: FontStyle.italic,
+                        if(_isNutritionGoalsExpanded) ...[
+                          Container(
+                            child: Text(
+                              'Select all that apply',
+                              style: TextStyle(
+                                fontSize: AppSizes.fontSizeSm-1,
+                                fontWeight: FontWeight.normal,
+                                fontStyle: FontStyle.italic,
+                              ),
                             ),
                           ),
-                        ),
 
-                        SizedBox(height: AppSizes.spaceBtwItems),
+                          SizedBox(height: AppSizes.spaceBtwItems),
 
-                        Wrap(
+                          Wrap(
                             spacing: 8.0,
                             children: nutritionalGoals.map((goals){
                               final isSelected = selectedNutritionalGoals.contains(goals);
@@ -492,76 +541,92 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                   }
                               );
                             }).toList(),
-                        ),
-
-                        const SizedBox(height: AppSizes.spaceBtwSections-6),
-
-                        //custom nutritional goals
-                        if(selectedNutritionalGoals.any((n) => !nutritionalGoals.contains(n))) ...[
-                          Wrap(
-                            spacing: 8.0,
-                            runSpacing: 4.0,
-                            children: selectedNutritionalGoals
-                                .where((n) => !nutritionalGoals.contains(n))
-                                .map((nutrition){
-                              return InputChip(
-                                label: Text(nutrition),
-                                onDeleted: (){
-                                  setState(() {
-                                    selectedNutritionalGoals.remove(nutrition);
-                                  });
-                                },
-                              );
-                            }).toList(),
                           ),
-                          const SizedBox(height: AppSizes.spaceBtwItems),
-                        ],
 
-                        //text field for typing custom restrictions
-                        Row(
-                          children:[
-                            Expanded(
-                              child: TextField(
-                                controller: nutritionController,
-                                decoration: const InputDecoration(
-                                  hintText: 'Type custom nutritional goals',
-                                  isDense: true,
-                                  contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                                ),
-                                onSubmitted: addCustomNutritionalGoals,
-                              ),
+                          const SizedBox(height: AppSizes.spaceBtwSections-6),
+
+                          //custom nutritional goals
+                          if(selectedNutritionalGoals.any((n) => !nutritionalGoals.contains(n))) ...[
+                            Wrap(
+                              spacing: 8.0,
+                              runSpacing: 4.0,
+                              children: selectedNutritionalGoals
+                                  .where((n) => !nutritionalGoals.contains(n))
+                                  .map((nutrition){
+                                return InputChip(
+                                  label: Text(nutrition),
+                                  onDeleted: (){
+                                    setState(() {
+                                      selectedNutritionalGoals.remove(nutrition);
+                                    });
+                                  },
+                                );
+                              }).toList(),
                             ),
-                            IconButton(
-                              icon: const Icon(Icons.add_circle, color: AppColors.primary, size: 30),
-                              onPressed: () => addCustomNutritionalGoals(nutritionController.text),
-                            ),
+                            const SizedBox(height: AppSizes.spaceBtwItems),
                           ],
-                        ),
+
+                          //text field for typing custom restrictions
+                          Row(
+                            children:[
+                              Expanded(
+                                child: TextField(
+                                  controller: nutritionController,
+                                  decoration: const InputDecoration(
+                                    hintText: 'Type custom nutritional goals',
+                                    isDense: true,
+                                    contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                  ),
+                                  onSubmitted: addCustomNutritionalGoals,
+                                ),
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.add_circle, color: AppColors.primary, size: 30),
+                                onPressed: () => addCustomNutritionalGoals(nutritionController.text),
+                              ),
+                            ],
+                          ),
+                        ],
 
                         const SizedBox(height: AppSizes.spaceBtwSections),
 
-                        Container(
-                          child: Text(
-                            'Dietary Restrictions',
-                            style: TextStyle(
-                              fontSize: AppSizes.fontSizeLg,
-                              fontWeight: FontWeight.bold,
+                        InkWell(
+                          onTap: () => setState(() => _isDietaryRestrictionsExpanded = !_isDietaryRestrictionsExpanded),
+                          borderRadius: BorderRadius.circular(8),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 4),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Dietary Restrictions',
+                                  style: TextStyle(
+                                    fontSize: AppSizes.fontSizeLg,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Icon(
+                                  _isDietaryRestrictionsExpanded ? Icons.expand_less : Icons.expand_more,
+                                ),
+                              ],
                             ),
                           ),
                         ),
 
-                        Container(
-                          child: Text(
-                            'Allergies and ingredients to avoid in recommendations.',
-                            style: TextStyle(
-                              fontSize: AppSizes.fontSizeSm-1,
-                              fontWeight: FontWeight.normal,
-                              fontStyle: FontStyle.italic,
+                        if(_isDietaryRestrictionsExpanded) ...[
+
+                          Container(
+                            child: Text(
+                              'Allergies and ingredients to avoid in recommendations.',
+                              style: TextStyle(
+                                fontSize: AppSizes.fontSizeSm-1,
+                                fontWeight: FontWeight.normal,
+                                fontStyle: FontStyle.italic,
+                              ),
                             ),
                           ),
-                        ),
 
-                        Wrap(
+                          Wrap(
                             spacing: 8.0,
                             runSpacing: 4.0,
                             children: dietaryRestrictions.map((restriction){
@@ -579,18 +644,18 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                     });
                                   });
                             }).toList(),
-                        ),
+                          ),
 
-                        const SizedBox(height: AppSizes.spaceBtwSections-6),
+                          const SizedBox(height: AppSizes.spaceBtwSections-6),
 
-                        //custom restrictions
-                        if(selectedRestrictions.any((r) => !dietaryRestrictions.contains(r))) ...[
-                          Wrap(
-                            spacing: 8.0,
-                            runSpacing: 4.0,
-                            children: selectedRestrictions
-                              .where((r) => !dietaryRestrictions.contains(r))
-                              .map((restriction){
+                          //custom restrictions
+                          if(selectedRestrictions.any((r) => !dietaryRestrictions.contains(r))) ...[
+                            Wrap(
+                              spacing: 8.0,
+                              runSpacing: 4.0,
+                              children: selectedRestrictions
+                                  .where((r) => !dietaryRestrictions.contains(r))
+                                  .map((restriction){
                                 return InputChip(
                                   label: Text(restriction),
                                   onDeleted: (){
@@ -599,31 +664,32 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                     });
                                   },
                                 );
-                            }).toList(),
-                          ),
-                          const SizedBox(height: AppSizes.spaceBtwItems),
-                        ],
-
-                        //text field for typing custom restrictions
-                        Row(
-                          children:[
-                            Expanded(
-                              child: TextField(
-                                controller: restrictionController,
-                                decoration: const InputDecoration(
-                                  hintText: 'Type custom restriction',
-                                  isDense: true,
-                                  contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                                ),
-                                onSubmitted: addCustomRestriction,
-                              ),
+                              }).toList(),
                             ),
-                            IconButton(
-                              icon: const Icon(Icons.add_circle, color: AppColors.primary, size: 30),
-                              onPressed: () => addCustomRestriction(restrictionController.text),
-                            ),
+                            const SizedBox(height: AppSizes.spaceBtwItems),
                           ],
-                        ),
+
+                          //text field for typing custom restrictions
+                          Row(
+                            children:[
+                              Expanded(
+                                child: TextField(
+                                  controller: restrictionController,
+                                  decoration: const InputDecoration(
+                                    hintText: 'Type custom restriction',
+                                    isDense: true,
+                                    contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                  ),
+                                  onSubmitted: addCustomRestriction,
+                                ),
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.add_circle, color: AppColors.primary, size: 30),
+                                onPressed: () => addCustomRestriction(restrictionController.text),
+                              ),
+                            ],
+                          ),
+                        ],
 
                         const SizedBox(height: AppSizes.spaceBtwSections),
 

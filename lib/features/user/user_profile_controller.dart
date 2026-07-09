@@ -92,6 +92,15 @@ class UserProfileController extends GetxController{
         'hasCompletedOnboarding': true,
       }, SetOptions(merge: true)); //merge new dietOptions and dietaryFocus with current document
 
+      //save initial weight
+      final String dateKey = DateTime.now().toIso8601String().substring(0,10);
+      await _db.collection('users').doc(user!.uid).update({
+        'weightHistory.$dateKey':{
+          'weight': weight,
+          'date': dateKey,
+        },
+      });
+
       //add selected options to cachedData so does not read again from db
       cachedData = {
         ...?cachedData, //merge previous cachedData with new
@@ -171,11 +180,20 @@ class UserProfileController extends GetxController{
 
   Future<void> updatePhysicalMetrics({required BuildContext context, required double height, required double weight, required int age}) async {
     try{
+      final String dateKey = DateTime.now().toIso8601String().substring(0, 10);
+
       await _db.collection('users').doc(user!.uid).set({
         'height': height,
         'weight': weight,
         'age': age,
       }, SetOptions(merge: true));
+
+      await _db.collection('users').doc(user!.uid).update({
+        'weightHistory.$dateKey': {
+          'weight': weight,
+          'date': dateKey,
+        },
+      });
 
       //add to cachedData so does not read again from db
       cachedData = {
@@ -183,6 +201,13 @@ class UserProfileController extends GetxController{
         'height': height,
         'weight': weight,
         'age': age,
+        // 'weightHistory': {
+        //   ...?(cachedData?['weightHistory'] as Map<String,dynamic>?),
+        //   dateKey: {
+        //     'weight': weight,
+        //     'date': dateKey,
+        //   },
+        // },
       };
 
       //updates user data

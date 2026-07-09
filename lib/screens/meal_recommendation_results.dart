@@ -252,6 +252,35 @@ class _MealRecommendationResultsState extends State<MealRecommendationResults> {
                                           );
                                         }).toList(),
                                       ),
+
+                                      const SizedBox(height: AppSizes.spaceBtwItems),
+
+                                      //cuisine
+
+                                      const Text(
+                                        'Cuisine',
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.bold,
+                                          letterSpacing: 0.5,
+                                        ),
+                                      ),
+
+                                      const SizedBox(height: AppSizes.spaceBtwItems/2),
+
+                                      Chip(
+                                        label: Text(
+                                          meal['cuisine'],
+                                          style: TextStyle(
+                                              color: dark ? AppColors.white : AppColors.primary,
+                                              fontWeight: FontWeight.bold
+                                          ),
+                                        ),
+                                        padding: EdgeInsets.zero,
+                                        visualDensity: VisualDensity.compact,
+                                        backgroundColor: dark ? AppColors.apricotCream800.withOpacity(0.4) : AppColors.lightBackground.withOpacity(0.2),
+                                        side: BorderSide.none,
+                                      ),
                                     ],
                                   ),
                               ),

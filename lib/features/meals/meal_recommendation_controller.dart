@@ -22,6 +22,7 @@ class MealRecommendationController extends GetxController{
   RxList<String> preferredCategories = <String>[].obs;
   RxList<String> avoidCategories = <String>[].obs;
   RxString selectedMealType = ''.obs;
+  RxString selectedMealCuisine = 'Random'.obs;
 
   @override
   void onInit(){
@@ -128,6 +129,7 @@ class MealRecommendationController extends GetxController{
           Activity Level: $activityLevel
           
           This meal is for $selectedMealType
+          Only give me meals of $selectedMealCuisine cuisine
           
           User dietary goals and preferences include:
           Diet Options: $selectedDietOptions
@@ -236,6 +238,7 @@ class MealRecommendationController extends GetxController{
           Activity Level: $activityLevel
           
           This meal is for $selectedMealType
+          Only give me meals of $selectedMealCuisine cuisine
           
           User dietary goals and preferences include:
           Diet Options: $selectedDietOptions

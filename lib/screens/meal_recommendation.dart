@@ -22,6 +22,24 @@ class MealRecommendation extends StatefulWidget {
 
 class _MealRecommendationState extends State<MealRecommendation> {
   final List<String> mealType = ['Breakfast','Lunch','Dinner','Supper','Snack'];
+  final List<DropdownMenuEntry<String>> cuisine = [
+    DropdownMenuEntry(value: 'Random', label: 'Random'),
+    DropdownMenuEntry(value: 'Malay', label: 'Malay'),
+    DropdownMenuEntry(value: 'Chinese', label: 'Chinese'),
+    DropdownMenuEntry(value: 'Mamak', label: 'Mamak'),
+    DropdownMenuEntry(value: 'Indian', label: 'Indian'),
+    DropdownMenuEntry(value: 'Western', label: 'Western'),
+    DropdownMenuEntry(value: 'Japanese', label: 'Japanese'),
+    DropdownMenuEntry(value: 'Korean', label: 'Korean'),
+    DropdownMenuEntry(value: 'Thai', label: 'Thai'),
+    DropdownMenuEntry(value: 'Nyonya', label: 'Nyonya'),
+    DropdownMenuEntry(value: 'Fast Food', label: 'Fast Food'),
+    DropdownMenuEntry(value: 'Indonesian', label: 'Indonesian'),
+    DropdownMenuEntry(value: 'Middle Eastern', label: 'Middle Eastern'),
+    DropdownMenuEntry(value: 'Italian', label: 'Italian'),
+    DropdownMenuEntry(value: 'Vietnamese', label: 'Vietnamese'),
+    DropdownMenuEntry(value: 'Seafood', label: 'Seafood'),
+  ];
   late Future<QuerySnapshot<Map<String,dynamic>>> todayMeals;
 
   @override
@@ -49,7 +67,6 @@ class _MealRecommendationState extends State<MealRecommendation> {
         body: SingleChildScrollView(
           child: Padding(
             padding: AppSpacingStyle.paddingWithAppBarHeight,
-            // padding: EdgeInsets.zero,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
 
@@ -127,7 +144,7 @@ class _MealRecommendationState extends State<MealRecommendation> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Select Meal Type",
+                        "Meal Type",
                         style: Theme.of(context).textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
@@ -167,6 +184,52 @@ class _MealRecommendationState extends State<MealRecommendation> {
                           }),
                         ),
                       )
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: AppSizes.spaceBtwSections),
+
+                Container(
+                  width: double.infinity,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Meal Cuisine",
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+
+                      const SizedBox(height: 4),
+
+                      Text(
+                        'What cuisine are you craving for?',
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: dark ? Colors.white70 : AppColors.textSecondary,
+                        ),
+                      ),
+
+                      const SizedBox(height: 12),
+
+                      //meal cuisine drop down menu
+                      Obx(() => DropdownMenu<String>(
+                        width: MediaQuery.of(context).size.width,
+                        initialSelection: controller.selectedMealCuisine.value,
+                        dropdownMenuEntries: cuisine,
+                        onSelected: (value){
+                          if(value!=null){
+                            controller.selectedMealCuisine.value = value;
+                          }
+                        },
+                        requestFocusOnTap: true,
+                        enableSearch: true,
+                        enableFilter: true,
+
+                        menuHeight: 250,
+                      ))
                     ],
                   ),
                 ),

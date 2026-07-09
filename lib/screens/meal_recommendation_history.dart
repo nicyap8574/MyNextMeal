@@ -292,6 +292,34 @@ class _MealRecommendationHistoryState extends State<MealRecommendationHistory> {
                                           backgroundColor: dark ? Colors.white.withOpacity(0.05) : AppColors.softGrey,
                                           side: BorderSide.none,
                                         ),
+
+                                        const SizedBox(height: AppSizes.spaceBtwItems),
+
+                                        //Meal cuisine
+
+                                        const Text(
+                                          'Meal Cuisine',
+                                          style: TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.bold,
+                                            letterSpacing: 0.5,
+                                          ),
+                                        ),
+
+                                        const SizedBox(height: AppSizes.spaceBtwItems/2),
+
+                                        Chip(
+                                          label: Text(
+                                            meal['cuisine'] ?? 'None',
+                                            style: TextStyle(
+                                              color: dark ? AppColors.white : AppColors.primary,
+                                            ),
+                                          ),
+                                          padding: EdgeInsets.zero,
+                                          visualDensity: VisualDensity.compact,
+                                          backgroundColor: dark ? AppColors.apricotCream800.withOpacity(0.4) : AppColors.lightBackground.withOpacity(0.2),
+                                          side: BorderSide.none,
+                                        ),
                                       ],
                                     )
                                   ),

@@ -2,15 +2,11 @@ import 'dart:math';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:intl/intl.dart';
 import 'package:mynextmeal/features/user/user_profile_controller.dart';
-import 'package:mynextmeal/screens/physical_metrics.dart';
 
 import '../utils/constants/colors.dart';
-import '../utils/constants/sizes.dart';
 import '../utils/helpers/helper_functions.dart';
 
 class WeightHistoryChart extends StatefulWidget {

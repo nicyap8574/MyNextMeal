@@ -9,6 +9,7 @@ import 'package:mynextmeal/features/meals/meal_history_controller.dart';
 import 'package:mynextmeal/screens/meal_history.dart';
 import 'package:mynextmeal/screens/meal_recommendation.dart';
 import 'package:mynextmeal/screens/meal_recommendation_history.dart';
+import 'package:mynextmeal/screens/weight_history_chart.dart';
 import '../features/user/user_controller.dart';
 import '../utils/constants/colors.dart';
 import '../utils/constants/sizes.dart';
@@ -459,7 +460,21 @@ class Home extends StatelessWidget {
                       }
                       return const SizedBox();
                     }
-                  )
+                  ),
+
+                  const SizedBox(height: AppSizes.spaceBtwSections),
+
+                  Text(
+                    "Weight History (kg)",
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+
+                  const SizedBox(height: AppSizes.md),
+
+
+                  const WeightHistoryChart(),
                 ],
               ),
             )

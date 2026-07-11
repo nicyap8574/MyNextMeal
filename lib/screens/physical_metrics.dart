@@ -80,6 +80,15 @@ class _PhysicalMetricsState extends State<PhysicalMetrics> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Text(
+                  "Weight History (kg)",
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+
+                const SizedBox(height: AppSizes.md),
+
                 const WeightHistoryChart(),
 
                 const SizedBox(height: AppSizes.spaceBtwSections),

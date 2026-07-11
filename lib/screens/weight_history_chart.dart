@@ -63,6 +63,7 @@ class _WeightHistoryChartState extends State<WeightHistoryChart> {
       );
     }
 
+    //only displays latest 5 data
     final displayedEntries = _entries.length > 5
       ? _entries.sublist(_entries.length - 5)
       : _entries;
@@ -98,17 +99,6 @@ class _WeightHistoryChartState extends State<WeightHistoryChart> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsetsGeometry.only(left: 8.0, bottom: 12),
-            child: Text(
-              'Weight History (kg)',
-              style: TextStyle(
-                fontWeight: FontWeight.w700,
-                fontSize: 14,
-                color: dark ? Colors.white : AppColors.textPrimary,
-              ),
-            ),
-          ),
           SizedBox(
             height: 180,
             child: LineChart(
@@ -168,7 +158,7 @@ class _WeightHistoryChartState extends State<WeightHistoryChart> {
                 lineBarsData: [
                   LineChartBarData(
                     spots: spots,
-                    isCurved: true,
+                    isCurved: false,
                     color: AppColors.primary,
                     barWidth: 2.5,
                     dotData: FlDotData(

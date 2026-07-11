@@ -2,14 +2,23 @@ import 'dart:math';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:intl/intl.dart';
 import 'package:mynextmeal/features/user/user_profile_controller.dart';
+import 'package:mynextmeal/screens/physical_metrics.dart';
 
 import '../utils/constants/colors.dart';
+import '../utils/constants/sizes.dart';
 import '../utils/helpers/helper_functions.dart';
 
 class WeightHistoryChart extends StatefulWidget {
-  const WeightHistoryChart({super.key});
+  final bool showUpdateButton;
+
+  const WeightHistoryChart({
+    super.key,
+    this.showUpdateButton = true,
+  });
 
   @override
   State<WeightHistoryChart> createState() => _WeightHistoryChartState();
@@ -80,103 +89,161 @@ class _WeightHistoryChartState extends State<WeightHistoryChart> {
     final lowestWeight = weightSpots.reduce(min); //find lowest weight in history
     final highestWeight = weightSpots.reduce(max); //find highest weight in history
 
-    return Container(
-      padding: const EdgeInsets.fromLTRB(8, 16, 16, 8),
-      decoration: BoxDecoration(
-        color: dark ? const Color(0xFF221E19) : Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: dark ? Colors.white.withOpacity(0.08) : AppColors.apricotCream100,
+    if(_entries.length == 1){
+      final weight = _entries.first['weight'];
+      final date = _entries.first['date'];
+
+      return Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(
+          vertical: AppSizes.spaceBtwSections,
+          horizontal: AppSizes.lg,
         ),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.darkerGrey.withOpacity(0.01),
-            blurRadius: 8,
-            offset: const Offset(0, 3),
+        decoration: BoxDecoration(
+          color: dark ? const Color(0xFF221E19) : AppColors.white,
+          borderRadius: BorderRadius.circular(AppSizes.cardRadiusMd),
+          border: Border.all(
+            color: dark ? Colors.white.withOpacity(0.08) : AppColors.apricotCream100,
           ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: 180,
-            child: LineChart(
-              LineChartData(
-                minY: lowestWeight,
-                maxY: highestWeight,
-                gridData: FlGridData(
-                  show: true,
-                  drawVerticalLine: false,
-                  getDrawingHorizontalLine: (_) => FlLine(
-                    color: (dark ? Colors.white : Colors.black).withOpacity(0.06),
-                    strokeWidth: 1,
-                  ),
+        ),
+
+        child: Column(
+          children: [
+            Icon(
+              Icons.monitor_weight,
+              color: AppColors.primary,
+              size: 40,
+            ),
+
+            SizedBox(height: AppSizes.md),
+
+            Text(
+              'Your current weight: $weight kg',
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+
+            SizedBox(height: AppSizes.xs),
+
+            Text(
+              "Last updated on ${DateFormat('d MMM yyyy').format(date)}",
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: dark ? AppColors.apricotCream200 : AppColors.textSecondary,
+              ),
+            ),
+
+            SizedBox(height: AppSizes.md),
+
+            if(widget.showUpdateButton)
+              ElevatedButton(
+                onPressed: () => Get.to(() => const PhysicalMetrics()),
+                child: Text('Update Weight'),
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
                 ),
-                borderData: FlBorderData(show: false),
-                titlesData: FlTitlesData(
-                  leftTitles: AxisTitles(
-                    sideTitles: SideTitles(
-                      showTitles: true,
-                      reservedSize: 36,
-                      getTitlesWidget: (value, meta){
-                      return Text(
-                        value.toStringAsFixed(1), //one decimal place for y-axis values
-                        style: TextStyle(fontSize: 11, color: dark ? AppColors.apricotCream200 : AppColors.textSecondary),
-                      );
-                      }
+              ),
+          ],
+        )
+      );
+    }else{
+      return Container(
+        padding: const EdgeInsets.fromLTRB(8, 16, 16, 8),
+        decoration: BoxDecoration(
+          color: dark ? const Color(0xFF221E19) : Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: dark ? Colors.white.withOpacity(0.08) : AppColors.apricotCream100,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.darkerGrey.withOpacity(0.01),
+              blurRadius: 8,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 180,
+              child: LineChart(
+                LineChartData(
+                  minY: lowestWeight,
+                  maxY: highestWeight,
+                  gridData: FlGridData(
+                    show: true,
+                    drawVerticalLine: false,
+                    getDrawingHorizontalLine: (_) => FlLine(
+                      color: (dark ? Colors.white : Colors.black).withOpacity(0.06),
+                      strokeWidth: 1,
                     ),
                   ),
-                  bottomTitles: AxisTitles(
-                    sideTitles: SideTitles(
-                      showTitles: true,
-                      reservedSize: 28,
-                      interval: 1,
-                      getTitlesWidget: (value, meta){
-                        final index = value.toInt();
-                        if(index < 0 || index >= _entries.length){
-                          return const SizedBox();
-                        }
-                        final date = _entries[index]['date'] as DateTime;
-                        return Padding(
-                          padding: const EdgeInsets.only(top: 4),
-                          child: Text(
-                            DateFormat('d MMM').format(date),
-                            style: TextStyle(fontSize: 10, color: dark ? AppColors.apricotCream200 : AppColors.textSecondary),
-                          ),
-                        );
-                      },
+                  borderData: FlBorderData(show: false),
+                  titlesData: FlTitlesData(
+                    leftTitles: AxisTitles(
+                      sideTitles: SideTitles(
+                          showTitles: true,
+                          reservedSize: 36,
+                          getTitlesWidget: (value, meta){
+                            return Text(
+                              value.toStringAsFixed(1), //one decimal place for y-axis values
+                              style: TextStyle(fontSize: 11, color: dark ? AppColors.apricotCream200 : AppColors.textSecondary),
+                            );
+                          }
+                      ),
+                    ),
+                    bottomTitles: AxisTitles(
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        reservedSize: 28,
+                        interval: 1,
+                        getTitlesWidget: (value, meta){
+                          final index = value.toInt();
+                          if(index < 0 || index >= _entries.length){
+                            return const SizedBox();
+                          }
+                          final date = _entries[index]['date'] as DateTime;
+                          return Padding(
+                            padding: const EdgeInsets.only(top: 4),
+                            child: Text(
+                              DateFormat('d MMM').format(date),
+                              style: TextStyle(fontSize: 10, color: dark ? AppColors.apricotCream200 : AppColors.textSecondary),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    rightTitles: const AxisTitles(
+                      sideTitles: SideTitles(showTitles: false),
+                    ),
+                    topTitles: const AxisTitles(
+                      sideTitles: SideTitles(showTitles: false),
                     ),
                   ),
-                  rightTitles: const AxisTitles(
-                    sideTitles: SideTitles(showTitles: false),
-                  ),
-                  topTitles: const AxisTitles(
-                    sideTitles: SideTitles(showTitles: false),
-                  ),
-                ),
-                lineBarsData: [
-                  LineChartBarData(
-                    spots: spots,
-                    isCurved: false,
-                    color: AppColors.primary,
-                    barWidth: 2.5,
-                    dotData: FlDotData(
-                      show: true,
-                      getDotPainter: (spot, percent, bar, index) =>
-                          FlDotCirclePainter(
-                            radius: 4,
-                            color: AppColors.primary,
-                            strokeWidth: 2,
-                            strokeColor: dark ? const Color(0xFF221E19) : Colors.white,
-                          ),
+                  lineBarsData: [
+                    LineChartBarData(
+                      spots: spots,
+                      isCurved: false,
+                      color: AppColors.primary,
+                      barWidth: 2.5,
+                      dotData: FlDotData(
+                        show: true,
+                        getDotPainter: (spot, percent, bar, index) =>
+                            FlDotCirclePainter(
+                              radius: 4,
+                              color: AppColors.primary,
+                              strokeWidth: 2,
+                              strokeColor: dark ? const Color(0xFF221E19) : Colors.white,
+                            ),
+                      ),
                     ),
-                  ),
-                ],
-                lineTouchData: LineTouchData(
-                  touchTooltipData: LineTouchTooltipData(
-                    getTooltipColor: (_) =>
-                        dark ? const Color(0xFF3A3530) : Colors.white,
+                  ],
+                  lineTouchData: LineTouchData(
+                    touchTooltipData: LineTouchTooltipData(
+                      getTooltipColor: (_) =>
+                      dark ? const Color(0xFF3A3530) : Colors.white,
                       getTooltipItems: (touchedSpots) {
                         return touchedSpots.map((spot) {
                           final idx = spot.x.toInt();
@@ -190,14 +257,15 @@ class _WeightHistoryChartState extends State<WeightHistoryChart> {
                             ),
                           );
                         }).toList();
-                    },
+                      },
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
-      ),
-    );
+          ],
+        ),
+      );
+    }
   }
 }

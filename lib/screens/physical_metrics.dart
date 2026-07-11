@@ -89,7 +89,7 @@ class _PhysicalMetricsState extends State<PhysicalMetrics> {
 
                 const SizedBox(height: AppSizes.md),
 
-                const WeightHistoryChart(),
+                const WeightHistoryChart(showUpdateButton: false),
 
                 const SizedBox(height: AppSizes.spaceBtwSections),
 

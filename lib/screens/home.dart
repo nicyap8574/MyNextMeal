@@ -454,7 +454,6 @@ class Home extends StatelessWidget {
                               ),
                             ),
 
-                            SizedBox(height: MediaQuery.sizeOf(context).height*0.08),
                           ],
                         );
                       }
@@ -475,6 +474,8 @@ class Home extends StatelessWidget {
 
 
                   const WeightHistoryChart(),
+
+                  SizedBox(height: MediaQuery.sizeOf(context).height*0.08),
                 ],
               ),
             )

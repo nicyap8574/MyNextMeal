@@ -3,6 +3,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:mynextmeal/common/spacing_styles.dart';
+import 'package:mynextmeal/screens/weight_history_chart.dart';
 
 import '../features/auth/onboarding_controller.dart';
 import '../features/user/user_controller.dart';
@@ -79,6 +80,10 @@ class _PhysicalMetricsState extends State<PhysicalMetrics> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                const WeightHistoryChart(),
+
+                const SizedBox(height: AppSizes.spaceBtwSections),
+
                 Text(
                   'Height (in cm)',
                   style: TextStyle(

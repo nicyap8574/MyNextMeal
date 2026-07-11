@@ -16,6 +16,7 @@ class UserProfileController extends GetxController{
   User? get user => _auth.currentUser;
 
   Map<String,dynamic>? cachedData;
+  final weightHistory = <Map<String,dynamic>>[].obs;
 
   Future<void> saveChanges({
     required BuildContext context,
@@ -201,13 +202,13 @@ class UserProfileController extends GetxController{
         'height': height,
         'weight': weight,
         'age': age,
-        // 'weightHistory': {
-        //   ...?(cachedData?['weightHistory'] as Map<String,dynamic>?),
-        //   dateKey: {
-        //     'weight': weight,
-        //     'date': dateKey,
-        //   },
-        // },
+        'weightHistory': {
+          ...?(cachedData?['weightHistory'] as Map<String,dynamic>?),
+          dateKey: {
+            'weight': weight,
+            'date': dateKey,
+          },
+        },
       };
 
       //updates user data
@@ -255,6 +256,36 @@ class UserProfileController extends GetxController{
         print("Error in getUserDetails: $e");
         rethrow;
       }
+    }
+  }
+
+  //fetch weight history from Firestore
+  Future<List<Map<String,dynamic>>> fetchWeightHistory() async{
+    try{
+      final data = await getUserDetails();
+      if(data == null){
+        return [];
+      }
+
+      final rawHistory = data['weightHistory'] as Map<String,dynamic>? ?? {};
+
+      final entries = rawHistory.entries.map((entry){
+        final dateKey = entry.key;
+        final entryData = entry.value as Map<String,dynamic> ?? {};
+        final weight = (entryData['weight'] as num?)?.toDouble() ?? 0.0;
+        return{
+          'date': DateTime.tryParse(dateKey) ?? DateTime.now(),
+          'weight': weight,
+        };
+      }).toList();
+
+      //sort oldest first
+      entries.sort((a,b) => (a['date'] as DateTime).compareTo(b['date'] as DateTime));
+
+      return entries;
+    }catch(e){
+      print("Error fetching weight history: $e");
+      return [];
     }
   }
 

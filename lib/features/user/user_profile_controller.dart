@@ -269,18 +269,23 @@ class UserProfileController extends GetxController{
 
       final rawHistory = data['weightHistory'] as Map<String,dynamic>? ?? {};
 
-      final entries = rawHistory.entries.map((entry){
-        final dateKey = entry.key;
-        final entryData = entry.value as Map<String,dynamic> ?? {};
-        final weight = (entryData['weight'] as num?)?.toDouble() ?? 0.0;
+      final entries = rawHistory.entries.map((entry){ //.map() iterates over all elements in rawHistory
+        final dateKey = entry.key; //document key
+        final entryData = entry.value as Map<String,dynamic>;
+        final weight = (entryData['weight'] as num).toDouble();
         return{
-          'date': DateTime.tryParse(dateKey) ?? DateTime.now(),
+          'date': DateTime.tryParse(dateKey),
           'weight': weight,
         };
       }).toList();
 
       //sort oldest first
-      entries.sort((a,b) => (a['date'] as DateTime).compareTo(b['date'] as DateTime));
+      entries.sort((a,b){
+        DateTime firstDate = a['date'] as DateTime;
+        DateTime secondDate = b['date'] as DateTime;
+
+        return firstDate.compareTo(secondDate);
+      });
 
       return entries;
     }catch(e){

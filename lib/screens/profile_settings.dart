@@ -728,13 +728,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: (){
-                              // final diet = selectedDietOptions
-                              //     .map((index) => dietOptions[index])
-                              //     .toList();
-                              // final focus = selectedDietaryFocus
-                              //     .map((index) => dietaryFocus[index])
-                              //     .toList();
-
                               userProfileController.saveChanges(
                                 context: context,
                                 username: usernameController.text.trim(),

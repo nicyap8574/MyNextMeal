@@ -22,12 +22,8 @@ class WeightHistoryChart extends StatefulWidget {
 }
 
 class _WeightHistoryChartState extends State<WeightHistoryChart> {
+  //Map is a collection of key-value pairs
   List<Map<String,dynamic>> entries = []; //store weight records
-
-  @override
-  void initState(){
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {

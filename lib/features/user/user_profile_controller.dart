@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:intl/intl.dart';
 import 'package:mynextmeal/features/user/user_controller.dart';
 import 'package:mynextmeal/features/user/user_model.dart';
 import '../../utils/popups/loaders.dart';
@@ -17,6 +18,8 @@ class UserProfileController extends GetxController{
 
   Map<String,dynamic>? cachedData;
   final weightHistory = <Map<String,dynamic>>[].obs;
+
+  final userController = UserController.instance;
 
   Future<void> saveChanges({
     required BuildContext context,
@@ -48,18 +51,15 @@ class UserProfileController extends GetxController{
       };
 
       //updates user data
-      if(Get.isRegistered<UserController>()){
-        final userController = UserController.instance;
-        userController.user.update((currentUser){
-          if(currentUser != null){
-            userController.user(UserModel(
-              id: currentUser.id,
-              email: currentUser.email,
-              username: username,
-            ));
-          }
-        });
-      }
+      userController.user.update((currentUser){
+        if(currentUser != null){
+          userController.user(UserModel(
+            id: currentUser.id,
+            email: currentUser.email,
+            username: username,
+          ));
+        }
+      });
 
       AppLoaders.showSnackBar(context, "Changes Saved!");
 
@@ -81,7 +81,8 @@ class UserProfileController extends GetxController{
     required List<String> selectedRestrictions,
   }) async{
     try{
-      await _db.collection('users').doc(user!.uid).set({
+      //update current user details in database
+      await _db.collection('users').doc(user!.uid).update({
         'height': height,
         'weight': weight,
         'age': age,
@@ -91,10 +92,10 @@ class UserProfileController extends GetxController{
         'nutritionalGoals': selectedNutritionalGoals,
         'dietaryRestrictions': selectedRestrictions,
         'hasCompletedOnboarding': true,
-      }, SetOptions(merge: true)); //merge new dietOptions and dietaryFocus with current document
+      });
 
       //save initial weight
-      final String dateKey = DateTime.now().toIso8601String().substring(0,10);
+      final String dateKey = DateFormat('yyyy-MM-dd').format(DateTime.now());
       await _db.collection('users').doc(user!.uid).update({
         'weightHistory.$dateKey':{
           'weight': weight,
@@ -107,7 +108,7 @@ class UserProfileController extends GetxController{
         ...?cachedData, //merge previous cachedData with new
         'id': user!.uid,
         'email': user!.email,
-        'username': UserController.instance.user.value.username,
+        'username': userController.user.value.username,
         'height': height,
         'weight': weight,
         'age': age,
@@ -120,23 +121,21 @@ class UserProfileController extends GetxController{
       };
 
       //updates user data
-      if(Get.isRegistered<UserController>()){
-        final userController = UserController.instance;
-        userController.user.update((currentUser){
-          if(currentUser != null){
-            userController.user(UserModel(
-              id: currentUser.id,
-              email: currentUser.email,
-              username: currentUser.username,
-              height: height,
-              weight: weight,
-              age: age,
-              activityLevel: activityLevel,
-              hasCompletedOnboarding: true,
-            ));
-          }
-        });
-      }
+      userController.user.update((currentUser){
+        if(currentUser != null){
+          userController.user(UserModel(
+            id: currentUser.id,
+            email: currentUser.email,
+            username: currentUser.username,
+            height: height,
+            weight: weight,
+            age: age,
+            activityLevel: activityLevel,
+            hasCompletedOnboarding: true,
+          ));
+        }
+      });
+
     }catch(e){
       print("Error saving changes: $e");
       AppLoaders.showSnackBar(context, "Failed to save onboarding preferences.");
@@ -145,9 +144,9 @@ class UserProfileController extends GetxController{
 
   Future<void> updateActivityLevel({required BuildContext context, required String activityLevel}) async {
     try{
-      await _db.collection('users').doc(user!.uid).set({
+      await _db.collection('users').doc(user!.uid).update({
         'activityLevel': activityLevel,
-      }, SetOptions(merge: true)); //merge new dietOptions and dietaryFocus with current document
+      });
 
       //add selected options to cachedData so does not read again from db
       cachedData = {
@@ -156,23 +155,21 @@ class UserProfileController extends GetxController{
       };
 
       //updates user data
-      if(Get.isRegistered<UserController>()){
-        final userController = UserController.instance;
-        userController.user.update((currentUser){
-          if(currentUser != null){
-            userController.user(UserModel(
-              id: currentUser.id,
-              email: currentUser.email,
-              username: currentUser.username,
-              height: currentUser.height,
-              weight: currentUser.weight,
-              age: currentUser.age,
-              activityLevel: activityLevel,
-              hasCompletedOnboarding: true,
-            ));
-          }
-        });
-      }
+      userController.user.update((currentUser){
+        if(currentUser != null){
+          userController.user(UserModel(
+            id: currentUser.id,
+            email: currentUser.email,
+            username: currentUser.username,
+            height: currentUser.height,
+            weight: currentUser.weight,
+            age: currentUser.age,
+            activityLevel: activityLevel,
+            hasCompletedOnboarding: true,
+          ));
+        }
+      });
+
     }catch(e){
       print("Error saving changes: $e");
       AppLoaders.showSnackBar(context, "Failed to save onboarding preferences.");
@@ -183,13 +180,10 @@ class UserProfileController extends GetxController{
     try{
       final String dateKey = DateTime.now().toIso8601String().substring(0, 10);
 
-      await _db.collection('users').doc(user!.uid).set({
+      await _db.collection('users').doc(user!.uid).update({
         'height': height,
         'weight': weight,
         'age': age,
-      }, SetOptions(merge: true));
-
-      await _db.collection('users').doc(user!.uid).update({
         'weightHistory.$dateKey': {
           'weight': weight,
           'date': dateKey,
@@ -197,7 +191,7 @@ class UserProfileController extends GetxController{
       });
 
       final existingHistory = Map<String,dynamic>.from(
-        cachedData?['weightHistory'] as Map<String,dynamic>? ?? {},
+        cachedData?['weightHistory'] as Map<String,dynamic>,
       );
       existingHistory[dateKey] = {'weight': weight, 'date': dateKey};
 
@@ -213,23 +207,21 @@ class UserProfileController extends GetxController{
       _rebuildWeightHistoryList(existingHistory);
 
       //updates user data
-      if(Get.isRegistered<UserController>()){
-        final userController = UserController.instance;
-        userController.user.update((currentUser){
-          if(currentUser != null){
-            userController.user(UserModel(
-              id: currentUser.id,
-              email: currentUser.email,
-              username: currentUser.username,
-              height: height,
-              weight: weight,
-              age: age,
-              activityLevel: currentUser.activityLevel,
-              hasCompletedOnboarding: true,
-            ));
-          }
-        });
-      }
+      userController.user.update((currentUser){
+        if(currentUser != null){
+          userController.user(UserModel(
+            id: currentUser.id,
+            email: currentUser.email,
+            username: currentUser.username,
+            height: height,
+            weight: weight,
+            age: age,
+            activityLevel: currentUser.activityLevel,
+            hasCompletedOnboarding: true,
+          ));
+        }
+      });
+
       AppLoaders.showSnackBar(context, "Physical metrics updated successfully");
     }catch(e){
       print("Error saving changes: $e");

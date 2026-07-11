@@ -4,6 +4,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:intl/intl.dart';
 import 'package:mynextmeal/features/user/user_profile_controller.dart';
 import 'package:mynextmeal/screens/physical_metrics.dart';
@@ -25,128 +26,54 @@ class WeightHistoryChart extends StatefulWidget {
 }
 
 class _WeightHistoryChartState extends State<WeightHistoryChart> {
-  List<Map<String,dynamic>> _entries = []; //store weight records
-  bool _loading = true;
+  List<Map<String,dynamic>> entries = []; //store weight records
 
   @override
   void initState(){
     super.initState();
-    load();
-  }
-
-  Future<void> load() async{
-    final controller = UserProfileController.instance;
-    final data = await controller.fetchWeightHistory();
-    //only update UI if widget is still alive
-    if(mounted){
-      setState((){
-        _entries = data;
-        _loading = false;
-      });
-    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final controller = UserProfileController.instance;
     final dark = AppHelperFunctions.isDarkMode(context);
 
-    if(_loading){
-      return const SizedBox(
-        height: 200,
-        child: Center(child: CircularProgressIndicator()),
-      );
-    }
+    return Obx((){
+      final entries = controller.weightHistory;
 
-    if(_entries.isEmpty){
-      return Container(
-        height: 160,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: dark ? const Color(0xFF221E19) : Colors.white,
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Text(
-          'No weight history yet',
-          style: TextStyle(color: dark ? AppColors.apricotCream200 : AppColors.textSecondary)
-        )
-      );
-    }
-
-    //only displays latest 5 data
-    final displayedEntries = _entries.length > 5
-      ? _entries.sublist(_entries.length - 5)
-      : _entries;
-
-    //build chart
-    //converts _entries list into a map
-    //keys -> indices
-    final spots = displayedEntries.asMap().entries.map((e){
-      return FlSpot(e.key.toDouble(), (e.value['weight'] as double)); //each entry (index + data) converted into FlSpot
-    }).toList();
-
-    final weightSpots = spots.map((s) => s.y); //only takes y-value (weight) from FlSpot
-
-    final lowestWeight = weightSpots.reduce(min); //find lowest weight in history
-    final highestWeight = weightSpots.reduce(max); //find highest weight in history
-
-    if(_entries.length == 1){
-      final weight = _entries.first['weight'];
-      final date = _entries.first['date'];
-
-      return Container(
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(
-          vertical: AppSizes.spaceBtwSections,
-          horizontal: AppSizes.lg,
-        ),
-        decoration: BoxDecoration(
-          color: dark ? const Color(0xFF221E19) : AppColors.white,
-          borderRadius: BorderRadius.circular(AppSizes.cardRadiusMd),
-          border: Border.all(
-            color: dark ? Colors.white.withOpacity(0.08) : AppColors.apricotCream100,
-          ),
-        ),
-
-        child: Column(
-          children: [
-            Icon(
-              Icons.monitor_weight,
-              color: AppColors.primary,
-              size: 40,
+      if(entries.length <= 1){
+        return Container(
+            height: 160,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: dark ? const Color(0xFF221E19) : Colors.white,
+              borderRadius: BorderRadius.circular(16),
             ),
+            child: Text(
+                'No weight history yet',
+                style: TextStyle(color: dark ? AppColors.apricotCream200 : AppColors.textSecondary)
+            )
+        );
+      }
 
-            SizedBox(height: AppSizes.md),
+      //only displays latest 5 data
+      final displayedEntries = entries.length > 5
+          ? entries.sublist(entries.length - 5)
+          : entries;
 
-            Text(
-              'Your current weight: $weight kg',
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+      //build chart
+      //converts _entries list into a map
+      //keys -> indices
+      final spots = displayedEntries.asMap().entries.map((e){
+        return FlSpot(e.key.toDouble(), (e.value['weight'] as double)); //each entry (index + data) converted into FlSpot
+      }).toList();
 
-            SizedBox(height: AppSizes.xs),
+      final weightSpots = spots.map((s) => s.y); //only takes y-value (weight) from FlSpot
 
-            Text(
-              "Last updated on ${DateFormat('d MMM yyyy').format(date)}",
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: dark ? AppColors.apricotCream200 : AppColors.textSecondary,
-              ),
-            ),
+      final lowestWeight = weightSpots.reduce(min); //find lowest weight in history
+      final highestWeight = weightSpots.reduce(max); //find highest weight in history
 
-            SizedBox(height: AppSizes.md),
 
-            if(widget.showUpdateButton)
-              ElevatedButton(
-                onPressed: () => Get.to(() => const PhysicalMetrics()),
-                child: Text('Update Weight'),
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                ),
-              ),
-          ],
-        )
-      );
-    }else{
       return Container(
         padding: const EdgeInsets.fromLTRB(8, 16, 16, 8),
         decoration: BoxDecoration(
@@ -201,10 +128,10 @@ class _WeightHistoryChartState extends State<WeightHistoryChart> {
                         interval: 1,
                         getTitlesWidget: (value, meta){
                           final index = value.toInt();
-                          if(index < 0 || index >= _entries.length){
+                          if(index < 0 || index >= entries.length){
                             return const SizedBox();
                           }
-                          final date = _entries[index]['date'] as DateTime;
+                          final date = entries[index]['date'] as DateTime;
                           return Padding(
                             padding: const EdgeInsets.only(top: 4),
                             child: Text(
@@ -247,7 +174,7 @@ class _WeightHistoryChartState extends State<WeightHistoryChart> {
                       getTooltipItems: (touchedSpots) {
                         return touchedSpots.map((spot) {
                           final idx = spot.x.toInt();
-                          final date = _entries[idx]['date'] as DateTime;
+                          final date = entries[idx]['date'] as DateTime;
                           return LineTooltipItem(
                             '${spot.y.toStringAsFixed(1)} kg\n${DateFormat('d MMM yyyy').format(date)}',
                             TextStyle(
@@ -266,6 +193,6 @@ class _WeightHistoryChartState extends State<WeightHistoryChart> {
           ],
         ),
       );
-    }
+    });
   }
 }

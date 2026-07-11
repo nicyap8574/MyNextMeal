@@ -472,7 +472,6 @@ class Home extends StatelessWidget {
 
                   const SizedBox(height: AppSizes.md),
 
-
                   const WeightHistoryChart(),
 
                   SizedBox(height: MediaQuery.sizeOf(context).height*0.08),

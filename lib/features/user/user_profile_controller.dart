@@ -196,20 +196,21 @@ class UserProfileController extends GetxController{
         },
       });
 
+      final existingHistory = Map<String,dynamic>.from(
+        cachedData?['weightHistory'] as Map<String,dynamic>? ?? {},
+      );
+      existingHistory[dateKey] = {'weight': weight, 'date': dateKey};
+
       //add to cachedData so does not read again from db
       cachedData = {
         ...?cachedData, //merge previous cachedData with new
         'height': height,
         'weight': weight,
         'age': age,
-        'weightHistory': {
-          ...?(cachedData?['weightHistory'] as Map<String,dynamic>?),
-          dateKey: {
-            'weight': weight,
-            'date': dateKey,
-          },
-        },
+        'weightHistory': existingHistory,
       };
+
+      _rebuildWeightHistoryList(existingHistory);
 
       //updates user data
       if(Get.isRegistered<UserController>()){
@@ -268,30 +269,32 @@ class UserProfileController extends GetxController{
       }
 
       final rawHistory = data['weightHistory'] as Map<String,dynamic>? ?? {};
-
-      final entries = rawHistory.entries.map((entry){ //.map() iterates over all elements in rawHistory
-        final dateKey = entry.key; //document key
-        final entryData = entry.value as Map<String,dynamic>;
-        final weight = (entryData['weight'] as num).toDouble();
-        return{
-          'date': DateTime.tryParse(dateKey),
-          'weight': weight,
-        };
-      }).toList();
-
-      //sort oldest first
-      entries.sort((a,b){
-        DateTime firstDate = a['date'] as DateTime;
-        DateTime secondDate = b['date'] as DateTime;
-
-        return firstDate.compareTo(secondDate);
-      });
-
-      return entries;
+      _rebuildWeightHistoryList(rawHistory);
+      return weightHistory;
     }catch(e){
       print("Error fetching weight history: $e");
       return [];
     }
+  }
+
+  void _rebuildWeightHistoryList(Map<String,dynamic> rawHistory){
+    final entries = rawHistory.entries.map((entry){ //.map() iterates over all elements in rawHistory
+      final entryData = entry.value as Map<String,dynamic>;
+      return{
+        'date': DateTime.tryParse(entry.key),
+        'weight': (entryData['weight'] as num?)?.toDouble(),
+      };
+    }).toList();
+
+    //sort oldest first
+    entries.sort((a,b){
+      DateTime firstDate = a['date'] as DateTime;
+      DateTime secondDate = b['date'] as DateTime;
+
+      return firstDate.compareTo(secondDate);
+    });
+
+    weightHistory.assignAll(entries);
   }
 
   //reset meal preferences

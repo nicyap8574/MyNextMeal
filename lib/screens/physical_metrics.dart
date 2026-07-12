@@ -63,7 +63,6 @@ class _PhysicalMetricsState extends State<PhysicalMetrics> {
   Widget build(BuildContext context) {
     final dark = AppHelperFunctions.isDarkMode(context);
     final controller = Get.put(OnboardingController());
-    final userController = Get.find<UserController>();
 
     return Scaffold(
       backgroundColor: dark ? AppColors.darkBackground : AppColors.lightBackground,

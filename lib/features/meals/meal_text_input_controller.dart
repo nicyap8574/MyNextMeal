@@ -13,7 +13,17 @@ class MealTextInputController extends GetxController{
   final mealDetailsController = TextEditingController();
   GlobalKey<FormState> FormKey = GlobalKey<FormState>();
 
+  @override
+  void dispose(){
+    mealDetailsController.dispose();
+    super.dispose();
+  }
+
   Future<void> manualInputMeal(BuildContext context) async{
+    //checks if form is valid
+    if (!FormKey.currentState!.validate()) {
+      return;
+    }
     final mealDetails = mealDetailsController.text.trim();
     final imageAnalysisController = Get.find<ImageAnalysisController>();
 

@@ -381,11 +381,7 @@ class _FoodAnalysisResultsState extends State<FoodAnalysisResults> {
                                 ],
                               ),
 
-                              // const SizedBox(height: AppSizes.sm),
-
                               Obx(() => Text(controller.briefSummary.value)),
-
-                              // Text(briefSummary),
 
                               const SizedBox(height: AppSizes.spaceBtwItems),
 
@@ -421,7 +417,9 @@ class _FoodAnalysisResultsState extends State<FoodAnalysisResults> {
                                           final imageUrl = controller.imageUrl.value;
                                           print(imageUrl);
 
-                                          await controller.saveMealRecord(data, imageUrl, context);
+                                          final mealDetails = controller.userTextInput;
+
+                                          await controller.saveMealRecord(data, imageUrl, mealDetails, context);
                                         },
                                         child: const Text("Save Meal"),
                                       ),

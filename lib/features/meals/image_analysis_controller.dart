@@ -37,6 +37,7 @@ class ImageAnalysisController{
   String originalProteinCount = "";
   String originalFatsCount = "";
   String originalCategory = "";
+  String userTextInput = "";
 
   final mealNameController = TextEditingController();
   final sentimentController = TextEditingController();
@@ -185,7 +186,29 @@ class ImageAnalysisController{
     try{
       isLoading.value = true;
       errorMessage.value = null;
+
+      //Reset all variables
+      _hasSetMealName = false;
+      _hasSetCarbs = false;
+      _hasSetProtein = false;
+      _hasSetFats = false;
+      _hasSetCategory = false;
+      _hasEditedMealName = false;
+      _hasEditedCarbs = false;
+      _hasEditedProtein = false;
+      _hasEditedFats = false;
+      _hasEditedCategory = false;
+      carbsMacro.value = '';
+      proteinMacro.value = '';
+      fatMacro.value = '';
+      category.value = '';
+      mealNameController.clear();
+      sentimentController.clear();
+      briefSummary.value = '';
       ingredients.clear();
+      foodImage.value = null;
+      imageUrl.value = "";
+      userTextInput = "";
 
       final isValid = await validateImage(file);
 
@@ -244,6 +267,8 @@ class ImageAnalysisController{
         originalProteinCount = meal['protein_macro'] ?? '';
         originalFatsCount = meal['fats_macro'] ?? '';
         originalCategory = meal['category'] ?? '';
+
+        meal['manual_text_input'] = "";
 
         //initial Gemini result
         final briefSummaryOriginal = meal['brief_summary'] ?? '';
@@ -305,12 +330,17 @@ class ImageAnalysisController{
       _hasEditedProtein = false;
       _hasEditedFats = false;
       _hasEditedCategory = false;
+      carbsMacro.value = '';
+      proteinMacro.value = '';
+      fatMacro.value = '';
+      category.value = '';
       mealNameController.clear();
       sentimentController.clear();
       briefSummary.value = '';
       ingredients.clear();
       foodImage.value = null;
       imageUrl.value = "";
+      userTextInput = mealDetails;
 
       //text prompt
       final prompt = TextPart("""
@@ -437,7 +467,7 @@ class ImageAnalysisController{
   }
 
   //Map<String,dynamic> --> every key is a String, every value is dynamic
-  Future<void> saveMealRecord(Map<String, dynamic> json, String imageUrl, BuildContext context) async{
+  Future<void> saveMealRecord(Map<String, dynamic> json, String imageUrl, String mealDetails, BuildContext context) async{
     final user = _auth.currentUser;
     final nutrients = json['nutrients'] as List<dynamic>;
     final meal = nutrients[0] as Map<String,dynamic>;
@@ -448,22 +478,22 @@ class ImageAnalysisController{
       meal['meal_name'] = mealNameController.text;
     }
 
-    if(originalCarbsCount != carbsMacro){
+    if(originalCarbsCount != carbsMacro.value){
       _hasEditedCarbs = true;
       meal['carbs_macro'] = carbsMacro.value;
     }
 
-    if(originalProteinCount != proteinMacro){
+    if(originalProteinCount != proteinMacro.value){
       _hasEditedProtein = true;
       meal['protein_macro'] = proteinMacro.value;
     }
 
-    if(originalFatsCount != fatMacro){
+    if(originalFatsCount != fatMacro.value){
       _hasEditedFats = true;
       meal['fats_macro'] = fatMacro.value;
     }
 
-    if(originalCategory != category){
+    if(originalCategory != category.value){
       _hasEditedCategory = true;
       meal['category'] = category.value;
     }
@@ -473,6 +503,8 @@ class ImageAnalysisController{
 
     //Save updated summary
     meal['brief_summary'] = briefSummary.value;
+
+    meal['manual_text_input'] = userTextInput;
 
     SentimentResult? sentiment;
 

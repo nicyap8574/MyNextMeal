@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:mynextmeal/features/meals/image_analysis_controller.dart';
 import 'package:mynextmeal/features/meals/meal_history_controller.dart';
 
-
 class IndividualMealController extends GetxController{
   static IndividualMealController get instance => Get.find();
   final FirebaseFirestore _db = FirebaseFirestore.instance;

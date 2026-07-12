@@ -29,12 +29,6 @@ class LoginController extends GetxController {
         return;
       }
 
-      //Remember Me
-      if(rememberMe.value){
-        localStorage.write('REMEMBER_ME_EMAIL', email.text.trim());
-        localStorage.write('REMEMBER_ME_PASSWORD', password.text.trim());
-      }
-
       showDialog(
         context: context,
         barrierDismissible: false,

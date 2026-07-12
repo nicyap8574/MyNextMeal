@@ -67,7 +67,7 @@ class _IndividualMealState extends State<IndividualMeal> {
                 final manualTextInput = nutrients['manual_text_input']?.toString() ?? "No description provided";
 
                 return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     if(widget.imageUrl != null && widget.imageUrl!.isNotEmpty)
                       ClipRRect(

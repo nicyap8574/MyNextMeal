@@ -29,7 +29,7 @@ class IndividualMealController extends GetxController{
     if(mealData != null){
       final imageUrl = mealData['imageUrl'];
 
-      if(imageUrl != null){
+      if(imageUrl != null && imageUrl.toString().isNotEmpty){
 
         try{
           await repo.deleteImage(imageUrl: mealData!['imageUrl']);

@@ -86,13 +86,10 @@ class _CameraScreenState extends State<CameraScreen> {
                           backgroundColor: AppColors.primary,
                           shape: const CircleBorder(),
                           elevation: 0,
-                          child: SvgPicture.asset("assets/icons/photo_camera_secondary.svg",  height: 40),
-
-                          // child: const Icon(Icons.camera),
-                          // child: const CircleAvatar(
-                          //   radius: 50,
-                          //   backgroundColor: Colors.black,
-                          // ),
+                          child: Icon(
+                              Icons.photo_camera,
+                              size: 40.0
+                          ),
                         ),
                       )
                   )

@@ -35,7 +35,7 @@ class MealHistoryController extends GetxController{
       //delete image from Cloud Storage
       final imageUrl = data['imageUrl'];
 
-      if(imageUrl != null){
+      if(imageUrl != null && imageUrl.toString().isNotEmpty){
         await imageAnalysisController.deleteImage(imageUrl: imageUrl);
       }
 

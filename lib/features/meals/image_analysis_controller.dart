@@ -289,6 +289,108 @@ class ImageAnalysisController{
     }
   }
 
+  Future<void> analyseFoodText({required String mealDetails}) async{
+    try{
+      isLoading.value = true;
+      errorMessage.value = null;
+
+      //Reset all variables
+      _hasSetMealName = false;
+      _hasSetCarbs = false;
+      _hasSetProtein = false;
+      _hasSetFats = false;
+      _hasSetCategory = false;
+      _hasEditedMealName = false;
+      _hasEditedCarbs = false;
+      _hasEditedProtein = false;
+      _hasEditedFats = false;
+      _hasEditedCategory = false;
+      mealNameController.clear();
+      sentimentController.clear();
+      briefSummary.value = '';
+      ingredients.clear();
+      foodImage.value = null;
+      imageUrl.value = "";
+
+      //text prompt
+      final prompt = TextPart("""
+        Analyze this meal description: $mealDetails
+        - Identify the ingredients and estimate the macronutrient composition (carbs, protein, fat as low/medium/high) 
+        - Give an overall meal healthiness (unhealthy/moderate/healthy) 
+        - Give confidence level (low/medium/high)
+        - Give category of meal (fried/healthy/spicy). 
+        - Provide a 1-line macro explanation describing the balance of carbs, protein, and fats. Must directly reference carbs, protein, and/or fats. Focus on balance (e.g. high carbs, low protein, moderate fat)
+        For anything you're unsure about, just state "Unknown".
+      """);
+
+      final result = await gemini.analysisModel.generateContent([
+        Content.text(prompt.text)
+      ]);
+
+      final text = result.text ?? '';
+
+      if(text.contains("error") || text.contains("Overloaded")){
+        errorMessage.value = "AI is currently busy. Please try again later.";
+        response.value = '';
+        return;
+      }
+
+      response.value = text;
+
+      try{
+        final data = jsonDecode(text);
+        final nutrients = data['nutrients'] as List<dynamic>;
+        final meal = nutrients[0] as Map<String,dynamic>;
+
+        originalMealName = meal['meal_name'] ?? '';
+        originalCarbsCount = meal['carbs_macro'] ?? '';
+        originalProteinCount = meal['protein_macro'] ?? '';
+        originalFatsCount = meal['fats_macro'] ?? '';
+        originalCategory = meal['category'] ?? '';
+
+        //initial Gemini result
+        final briefSummaryOriginal = meal['brief_summary'] ?? '';
+        briefSummary.value = briefSummaryOriginal;
+
+        if(!_hasSetMealName){
+          mealNameController.text = originalMealName;
+          _hasSetMealName = true;
+        }
+        if(!_hasSetCarbs){
+          carbsMacro.value = originalCarbsCount;
+          _hasSetCarbs = true;
+        }
+        if(!_hasSetProtein){
+          proteinMacro.value = originalProteinCount;
+          _hasSetProtein = true;
+        }
+        if(!_hasSetFats){
+          fatMacro.value = originalFatsCount;
+          _hasSetFats = true;
+        }
+        if(!_hasSetCategory){
+          category.value = originalCategory;
+          _hasSetCategory = true;
+        }
+
+        final List<dynamic> detectedIngredients = meal['detected_ingredients'] ?? [];
+        ingredients.assignAll(detectedIngredients.cast<String>());
+
+        briefSummary.value = meal['brief_summary'] ?? '';
+
+      }catch(e){
+        print(e);
+      }
+
+      errorMessage.value = null;
+    }catch(e){
+      errorMessage.value = "An error has occurred. Please try again.";
+      response.value = '';
+    }finally{
+      isLoading.value = false;
+    }
+  }
+
   Future<void> regenerateMealSummary() async{
 
     try{

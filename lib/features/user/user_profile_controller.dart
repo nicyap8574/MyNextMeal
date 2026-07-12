@@ -193,7 +193,12 @@ class UserProfileController extends GetxController{
       final existingHistory = Map<String,dynamic>.from(
         cachedData?['weightHistory'] as Map<String,dynamic>,
       );
-      existingHistory[dateKey] = {'weight': weight, 'date': dateKey};
+
+      //overwrites old weight data for that day if already exists
+      existingHistory[dateKey] = {
+        'weight': weight,
+        'date': dateKey
+      };
 
       //add to cachedData so does not read again from db
       cachedData = {
@@ -204,6 +209,7 @@ class UserProfileController extends GetxController{
         'weightHistory': existingHistory,
       };
 
+      //rebuilds list for UI so page refreshes instantly upon update
       _rebuildWeightHistoryList(existingHistory);
 
       //updates user data
@@ -260,7 +266,10 @@ class UserProfileController extends GetxController{
         return [];
       }
 
-      final rawHistory = data['weightHistory'] as Map<String,dynamic>? ?? {};
+      //gets from Firestore directly
+      final rawHistory = data['weightHistory'] as Map<String,dynamic>;
+
+      //instantly updates widget
       _rebuildWeightHistoryList(rawHistory);
       return weightHistory;
     }catch(e){
@@ -270,11 +279,12 @@ class UserProfileController extends GetxController{
   }
 
   void _rebuildWeightHistoryList(Map<String,dynamic> rawHistory){
-    final entries = rawHistory.entries.map((entry){ //.map() iterates over all elements in rawHistory
+    //convert map to list of key-value pairs
+    final entries = rawHistory.entries.map((entry){ //.map() iterates over all elements in rawHistory (data from firestore)
       final entryData = entry.value as Map<String,dynamic>;
       return{
         'date': DateTime.tryParse(entry.key),
-        'weight': (entryData['weight'] as num?)?.toDouble(),
+        'weight': entryData['weight'] as double,
       };
     }).toList();
 

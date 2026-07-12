@@ -57,6 +57,8 @@ class _WeightHistoryChartState extends State<WeightHistoryChart> {
       //converts _entries list into a map
       //keys -> indices
       final spots = displayedEntries.asMap().entries.map((e){
+        // x-value -> index (sorted from oldest to newest date)
+        // y-value -> weight
         return FlSpot(e.key.toDouble(), (e.value['weight'] as double)); //each entry (index + data) converted into FlSpot
       }).toList();
 

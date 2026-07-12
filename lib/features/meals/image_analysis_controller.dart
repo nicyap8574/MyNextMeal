@@ -47,12 +47,6 @@ class ImageAnalysisController{
   bool _hasSetFats = false;
   bool _hasSetCategory = false;
 
-  bool _hasEditedMealName = false;
-  bool _hasEditedCarbs = false;
-  bool _hasEditedProtein = false;
-  bool _hasEditedFats = false;
-  bool _hasEditedCategory = false;
-
   var carbsMacro = ''.obs;
   var proteinMacro = ''.obs;
   var fatMacro = ''.obs;
@@ -193,11 +187,6 @@ class ImageAnalysisController{
       _hasSetProtein = false;
       _hasSetFats = false;
       _hasSetCategory = false;
-      _hasEditedMealName = false;
-      _hasEditedCarbs = false;
-      _hasEditedProtein = false;
-      _hasEditedFats = false;
-      _hasEditedCategory = false;
       carbsMacro.value = '';
       proteinMacro.value = '';
       fatMacro.value = '';
@@ -325,11 +314,6 @@ class ImageAnalysisController{
       _hasSetProtein = false;
       _hasSetFats = false;
       _hasSetCategory = false;
-      _hasEditedMealName = false;
-      _hasEditedCarbs = false;
-      _hasEditedProtein = false;
-      _hasEditedFats = false;
-      _hasEditedCategory = false;
       carbsMacro.value = '';
       proteinMacro.value = '';
       fatMacro.value = '';
@@ -474,27 +458,22 @@ class ImageAnalysisController{
 
     //Save edited meal name
     if(originalMealName != mealNameController.text){
-      _hasEditedMealName = true;
       meal['meal_name'] = mealNameController.text;
     }
 
     if(originalCarbsCount != carbsMacro.value){
-      _hasEditedCarbs = true;
       meal['carbs_macro'] = carbsMacro.value;
     }
 
     if(originalProteinCount != proteinMacro.value){
-      _hasEditedProtein = true;
       meal['protein_macro'] = proteinMacro.value;
     }
 
     if(originalFatsCount != fatMacro.value){
-      _hasEditedFats = true;
       meal['fats_macro'] = fatMacro.value;
     }
 
     if(originalCategory != category.value){
-      _hasEditedCategory = true;
       meal['category'] = category.value;
     }
 

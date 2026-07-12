@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:mynextmeal/common/spacing_styles.dart';
 import 'package:mynextmeal/screens/weight_history_chart.dart';
 
@@ -11,7 +10,6 @@ import '../features/user/user_profile_controller.dart';
 import '../utils/constants/colors.dart';
 import '../utils/constants/sizes.dart';
 import '../utils/helpers/helper_functions.dart';
-import '../utils/popups/loaders.dart';
 import '../utils/validator/validator.dart';
 
 class PhysicalMetrics extends StatefulWidget {

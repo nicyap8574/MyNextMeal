@@ -6,7 +6,6 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:intl/intl.dart';
 import 'package:mynextmeal/features/meals/meal_history_controller.dart';
-import 'package:mynextmeal/screens/meal_history.dart';
 import 'package:mynextmeal/screens/meal_recommendation.dart';
 import 'package:mynextmeal/screens/meal_recommendation_history.dart';
 import 'package:mynextmeal/screens/weight_history_chart.dart';

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:intl/intl.dart';
 import 'package:mynextmeal/features/meals/individual_meal_controller.dart';
 import '../common/spacing_styles.dart';
-import '../features/meals/image_analysis_controller.dart';
 import '../utils/constants/colors.dart';
 import '../utils/constants/sizes.dart';
 import '../utils/helpers/helper_functions.dart';
@@ -24,7 +22,6 @@ class _IndividualMealState extends State<IndividualMeal> {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<IndividualMealController>();
-    final imageAnalysisController = Get.find<ImageAnalysisController>();
     final dark = AppHelperFunctions.isDarkMode(context);
 
     return Scaffold(

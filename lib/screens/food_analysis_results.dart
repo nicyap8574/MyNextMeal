@@ -9,7 +9,6 @@ import '../features/meals/image_analysis_controller.dart';
 import '../utils/constants/colors.dart';
 import '../utils/constants/sizes.dart';
 import '../utils/helpers/helper_functions.dart';
-import 'image_analysis.dart';
 
 class FoodAnalysisResults extends StatefulWidget {
   const FoodAnalysisResults({super.key});
@@ -115,15 +114,11 @@ class _FoodAnalysisResultsState extends State<FoodAnalysisResults> {
                         final data = jsonDecode(controller.response.value);
                         final nutrients = data['nutrients'] as List<dynamic>;
                         final meal = nutrients[0] as Map<String, dynamic>;
-                        final mealName = meal['meal_name'];
-                        final ingredients = meal['detected_ingredients'] as List<dynamic>;
                         final carbsMacro = meal['carbs_macro'];
                         final proteinMacro = meal['protein_macro'];
                         final fatsMacro = meal['fats_macro'];
-                        final mealCategory = meal['category'];
                         final mealHealthiness = meal['meal_healthiness'];
                         final confidenceLevel = meal['confidence_level'];
-                        final briefSummary = meal['brief_summary'];
 
                         if(controller.carbsMacro.value.isEmpty||controller.proteinMacro.value.isEmpty||controller.fatMacro.value.isEmpty){
                           controller.carbsMacro.value = carbsMacro;

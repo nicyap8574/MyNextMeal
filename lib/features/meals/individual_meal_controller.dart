@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mynextmeal/features/meals/image_analysis_controller.dart';
-import 'package:mynextmeal/features/meals/meal_history_controller.dart';
 
 class IndividualMealController extends GetxController{
   static IndividualMealController get instance => Get.find();

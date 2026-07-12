@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:mynextmeal/common/spacing_styles.dart';
 import 'package:mynextmeal/features/auth/forgot_password_controller.dart';
 import 'package:mynextmeal/screens/physical_metrics.dart';

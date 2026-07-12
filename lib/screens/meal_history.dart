@@ -8,7 +8,6 @@ import '../features/meals/meal_history_controller.dart';
 import '../utils/constants/colors.dart';
 import '../utils/constants/sizes.dart';
 import '../utils/helpers/helper_functions.dart';
-import '../utils/popups/loaders.dart';
 import 'image_analysis.dart';
 import 'individual_meal.dart';
 

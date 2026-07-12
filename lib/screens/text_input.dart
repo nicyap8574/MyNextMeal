@@ -30,13 +30,13 @@ class TextInput extends StatelessWidget {
             key: controller.FormKey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   "Describe your meal",
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey[700],
-                    fontWeight: FontWeight.w500,
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    color: dark ? AppColors.textWhite : Colors.black,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
   
@@ -48,9 +48,8 @@ class TextInput extends StatelessWidget {
                   validator: (value) => AppValidator.validateEmptyText("Meal description", value),
                   maxLines: 10,
                   decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                    ),
+                    hintText: "Enter your meal details (e.g. 2 scrambled eggs, 1 slice of whole wheat toast, 1 avocado)",
+                    hintStyle: TextStyle(color: dark ? AppColors.textWhite.withOpacity(0.7) : AppColors.textSecondary),
                   ),
                 ),
   

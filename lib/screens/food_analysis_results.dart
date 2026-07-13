@@ -91,7 +91,33 @@ class _FoodAnalysisResultsState extends State<FoodAnalysisResults> {
                             ],
                           );
                         }else{
-                          return const SizedBox.shrink();
+                          return Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                color: dark ?  const Color(0xFF221E19) : AppColors.white,
+                                border: Border.all(
+                                    color: dark ? Colors.white.withOpacity(0.08) : AppColors.apricotCream100,
+                                    width: 1
+                                ),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Manual Text Input",
+                                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+
+                                  const SizedBox(height: 8),
+
+                                  Text(controller.userTextInput),
+                                ],
+                              )
+                          );
                         }
                       }),
 

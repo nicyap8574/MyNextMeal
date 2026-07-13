@@ -1,8 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/src/extension_instance.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/get.dart';
 import 'package:mynextmeal/common/spacing_styles.dart';
 import 'package:mynextmeal/features/auth/forgot_password_controller.dart';
 import 'package:mynextmeal/screens/physical_metrics.dart';
@@ -823,6 +821,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                           final confirmed = await showDialog<bool>(
                             context: context,
                             builder: (BuildContext context) {
+                              final hidePassword = true.obs;
                               return AlertDialog(
                                 title: const Text('Delete Account'),
                                 content: Column(
@@ -833,12 +832,19 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                           'This cannot be undone. Please enter your password to confirm.',
                                     ),
                                     const SizedBox(height: AppSizes.spaceBtwItems),
-                                    TextField(
-                                      controller: passwordController,
-                                      obscureText: true,
-                                      decoration: const InputDecoration(
-                                        labelText: 'Password',
-                                        border: OutlineInputBorder(),
+                                    Obx(
+                                      () => TextField(
+                                        controller: passwordController,
+                                        obscureText: hidePassword.value,
+                                        decoration: InputDecoration(
+                                          labelText: 'Password',
+                                          prefixIcon: const Icon(Icons.lock),
+                                          suffixIcon: IconButton(
+                                            onPressed: () => hidePassword.value = !hidePassword.value,
+                                            icon: Icon(hidePassword.value ? Icons.visibility_off : Icons.visibility),
+                                          ),
+                                          border: const OutlineInputBorder(),
+                                        ),
                                       ),
                                     ),
                                   ],

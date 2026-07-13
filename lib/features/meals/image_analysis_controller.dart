@@ -205,6 +205,7 @@ class ImageAnalysisController{
         return;
       }
 
+      foodImage.value = file;
       isLoading.value = true;
 
       final user = _auth.currentUser;

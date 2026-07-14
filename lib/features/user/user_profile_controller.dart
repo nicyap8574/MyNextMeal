@@ -24,9 +24,9 @@ class UserProfileController extends GetxController{
   Future<void> saveChanges({
     required BuildContext context,
     required String username,
-    required List<String> selectedDietOptions,
-    required List<String> selectedDietaryFocus,
-    required List<String> selectedNutritionalGoals,
+    required List<String> selectedDietaryPreferences,
+    required List<String> selectedHealthGoals,
+    required List<String> selectedNutritionalFocus,
     required List<String> selectedRestrictions
   }) async {
 
@@ -34,19 +34,19 @@ class UserProfileController extends GetxController{
     try{
       await _db.collection('users').doc(user!.uid).set({
         'username': username,
-        'dietOptions': selectedDietOptions,
-        'dietaryFocus': selectedDietaryFocus,
-        'nutritionalGoals': selectedNutritionalGoals,
+        'dietaryPreferences': selectedDietaryPreferences,
+        'healthGoals': selectedHealthGoals,
+        'nutritionalFocus': selectedNutritionalFocus,
         'dietaryRestrictions': selectedRestrictions,
-      }, SetOptions(merge: true)); //merge new dietOptions and dietaryFocus with current document
+      }, SetOptions(merge: true)); //merge new dietaryPreferences and healthGoals with current document
 
       //add selected options to cachedData so does not read again from db
       cachedData = {
         ...?cachedData, //merge previous cachedData with new
         'username': username,
-        'dietOptions': selectedDietOptions,
-        'dietaryFocus': selectedDietaryFocus,
-        'nutritionalGoals': selectedNutritionalGoals,
+        'dietaryPreferences': selectedDietaryPreferences,
+        'healthGoals': selectedHealthGoals,
+        'nutritionalFocus': selectedNutritionalFocus,
         'dietaryRestrictions': selectedRestrictions,
       };
 
@@ -75,9 +75,9 @@ class UserProfileController extends GetxController{
     required double weight,
     required int age,
     required String activityLevel,
-    required List<String> selectedDietOptions,
-    required List<String> selectedDietaryFocus,
-    required List<String> selectedNutritionalGoals,
+    required List<String> selectedDietaryPreferences,
+    required List<String> selectedHealthGoals,
+    required List<String> selectedNutritionalFocus,
     required List<String> selectedRestrictions,
   }) async{
     try{
@@ -87,9 +87,9 @@ class UserProfileController extends GetxController{
         'weight': weight,
         'age': age,
         'activityLevel': activityLevel,
-        'dietOptions': selectedDietOptions,
-        'dietaryFocus': selectedDietaryFocus,
-        'nutritionalGoals': selectedNutritionalGoals,
+        'dietaryPreferences': selectedDietaryPreferences,
+        'healthGoals': selectedHealthGoals,
+        'nutritionalFocus': selectedNutritionalFocus,
         'dietaryRestrictions': selectedRestrictions,
         'hasCompletedOnboarding': true,
       });
@@ -113,9 +113,9 @@ class UserProfileController extends GetxController{
         'weight': weight,
         'age': age,
         'activityLevel': activityLevel,
-        'dietOptions': selectedDietOptions,
-        'dietaryFocus': selectedDietaryFocus,
-        'nutritionalGoals': selectedNutritionalGoals,
+        'dietaryPreferences': selectedDietaryPreferences,
+        'healthGoals': selectedHealthGoals,
+        'nutritionalFocus': selectedNutritionalFocus,
         'dietaryRestrictions': selectedRestrictions,
         'hasCompletedOnboarding': true,
       };
@@ -306,8 +306,11 @@ class UserProfileController extends GetxController{
     await userRef.update({
       "categoryStats" : FieldValue.delete(),
       "dietOptions": FieldValue.delete(),
+      "dietaryPreferences": FieldValue.delete(),
       "dietaryFocus": FieldValue.delete(),
+      "healthGoals": FieldValue.delete(),
       "nutritionalGoals": FieldValue.delete(),
+      "nutritionalFocus": FieldValue.delete(),
       "dietaryRestrictions": FieldValue.delete(),
     });
 

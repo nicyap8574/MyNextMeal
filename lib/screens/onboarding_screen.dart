@@ -287,10 +287,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 
                       const SizedBox(height: AppSizes.spaceBtwSections),
                 
-                      //dietary goals
-
+                      //dietary preferences
                       Text(
-                        'Dietary Goals',
+                        'Dietary Preferences',
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: AppSizes.fontSizeLg
@@ -301,13 +300,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 
                       Wrap(
                         spacing: 8.0,
-                        children: controller.dietOptions.map((option){
+                        children: controller.dietaryPreferences.map((option){
                           return Obx((){
-                            final isSelected = controller.selectedDietOptions.contains(option);
+                            final isSelected = controller.selectedDietaryPreferences.contains(option);
                             return ChoiceChip(
                                 label: Text(option),
                                 selected: isSelected,
-                              onSelected: (_) => controller.toggleDietOptions(option),
+                              onSelected: (_) => controller.toggleDietaryPreferences(option),
                             );
                           });
                         }).toList(),
@@ -315,10 +314,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 
                       const SizedBox(height: AppSizes.spaceBtwSections),
                 
-                      //dietary focus
-                
+                      //health goals
                       Text(
-                        'Dietary Focus',
+                        'Health Goals',
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: AppSizes.fontSizeLg
@@ -329,13 +327,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 
                       Wrap(
                         spacing: 8.0,
-                        children: controller.dietaryFocus.map((option){
+                        children: controller.healthGoals.map((option){
                           return Obx((){
-                            final isSelected = controller.selectedDietaryFocus.contains(option);
+                            final isSelected = controller.selectedHealthGoals.contains(option);
                             return ChoiceChip(
                               label: Text(option),
                               selected: isSelected,
-                              onSelected: (_) => controller.toggleDietaryFocus(option),
+                              onSelected: (_) => controller.toggleHealthGoals(option),
                             );
                           });
                         }).toList(),
@@ -343,10 +341,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 
                       const SizedBox(height: AppSizes.spaceBtwSections),
                 
-                      //nutritional goals
-                
+                      //nutritional focus
                       Text(
-                        'Nutritional Goals',
+                        'Nutritional Focus',
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: AppSizes.fontSizeLg
@@ -357,13 +354,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 
                       Wrap(
                         spacing: 8.0,
-                        children: controller.nutritionalGoals.map((option){
+                        children: controller.nutritionalFocus.map((option){
                           return Obx((){
-                            final isSelected = controller.selectedNutritionalGoals.contains(option);
+                            final isSelected = controller.selectedNutritionalFocus.contains(option);
                             return ChoiceChip(
                               label: Text(option),
                               selected: isSelected,
-                              onSelected: (_) => controller.toggleNutritionalGoals(option),
+                              onSelected: (_) => controller.toggleNutritionalFocus(option),
                             );
                           });
                         }).toList(),

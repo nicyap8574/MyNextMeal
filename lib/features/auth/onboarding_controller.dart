@@ -20,21 +20,21 @@ class OnboardingController extends GetxController{
 
   var activityLevel = 'Sedentary'.obs;
 
-  var selectedDietOptions = <String>{}.obs;
-  var selectedDietaryFocus = <String>{}.obs;
-  var selectedNutritionalGoals = <String>{}.obs;
+  var selectedDietaryPreferences = <String>{}.obs;
+  var selectedHealthGoals = <String>{}.obs;
+  var selectedNutritionalFocus = <String>{}.obs;
 
   var selectedRestrictions = <String>[].obs;
   final customRestrictionController = TextEditingController();
 
-  final List<String> dietOptions = [
+  final List<String> dietaryPreferences = [
     'Halal',
     'Vegetarian',
     'Vegan',
     'Keto'
   ];
 
-  final List<String> dietaryFocus = [
+  final List<String> healthGoals = [
     'Type-2 Diabetes',
     'High Cholesterol',
     'Weight Loss',
@@ -43,7 +43,7 @@ class OnboardingController extends GetxController{
     'General Health'
   ];
 
-  final List<String> nutritionalGoals = [
+  final List<String> nutritionalFocus = [
     'High protein',
     'Low carb',
     'Low fat',
@@ -110,27 +110,27 @@ class OnboardingController extends GetxController{
     }
   }
 
-  void toggleDietOptions(String option){
-    if(selectedDietOptions.contains(option)){
-      selectedDietOptions.remove(option);
+  void toggleDietaryPreferences(String option){
+    if(selectedDietaryPreferences.contains(option)){
+      selectedDietaryPreferences.remove(option);
     }else{
-      selectedDietOptions.add(option);
+      selectedDietaryPreferences.add(option);
     }
   }
 
-  void toggleDietaryFocus(String focus){
-    if(selectedDietaryFocus.contains(focus)){
-      selectedDietaryFocus.remove(focus);
+  void toggleHealthGoals(String focus){
+    if(selectedHealthGoals.contains(focus)){
+      selectedHealthGoals.remove(focus);
     }else{
-      selectedDietaryFocus.add(focus);
+      selectedHealthGoals.add(focus);
     }
   }
 
-  void toggleNutritionalGoals(String goals){
-    if(selectedNutritionalGoals.contains(goals)){
-      selectedNutritionalGoals.remove(goals);
+  void toggleNutritionalFocus(String goals){
+    if(selectedNutritionalFocus.contains(goals)){
+      selectedNutritionalFocus.remove(goals);
     }else{
-      selectedNutritionalGoals.add(goals);
+      selectedNutritionalFocus.add(goals);
     }
   }
 
@@ -170,9 +170,9 @@ class OnboardingController extends GetxController{
         weight: weight,
         age: age,
         activityLevel: activityLevel.value,
-        selectedDietOptions: selectedDietOptions.toList(),
-        selectedDietaryFocus: selectedDietaryFocus.toList(),
-        selectedNutritionalGoals: selectedNutritionalGoals.toList(),
+        selectedDietaryPreferences: selectedDietaryPreferences.toList(),
+        selectedHealthGoals: selectedHealthGoals.toList(),
+        selectedNutritionalFocus: selectedNutritionalFocus.toList(),
         selectedRestrictions: selectedRestrictions.toList(),
     );
 

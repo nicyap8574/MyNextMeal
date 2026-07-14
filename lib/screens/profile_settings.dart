@@ -24,34 +24,34 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   late UserProfileController userProfileController;
   final forgotPasswordController = Get.find<ForgotPasswordController>();
 
-  // Set<int> selectedDietOptions = {}; //stores selected diet options
-  // Set<int> selectedDietaryFocus = {}; //stores selected dietary focus
-  List<String> selectedDietOptions = []; //stores selected diet options
-  List<String> selectedDietaryFocus = []; //stores selected dietary focus
+  // Set<int> selectedDietaryPreferences = {}; //stores selected dietary preferences
+  // Set<int> selectedHealthGoals = {}; //stores selected health goals
+  List<String> selectedDietaryPreferences = []; //stores selected dietary preferences
+  List<String> selectedHealthGoals = []; //stores selected health goals
   List<String> selectedRestrictions = [];
-  List<String> selectedNutritionalGoals = []; //stores selected nutritional goals
+  List<String> selectedNutritionalFocus = []; //stores selected nutritional focus
 
   //collapsible sections
-  bool _isDietaryGoalsExpanded = false;
-  bool _isDietaryFocusExpanded = false;
-  bool _isNutritionGoalsExpanded = false;
+  bool _isDietaryPreferencesExpanded = false;
+  bool _isHealthGoalsExpanded = false;
+  bool _isNutritionalFocusExpanded = false;
   bool _isDietaryRestrictionsExpanded = false;
 
 
   final TextEditingController usernameController = TextEditingController();
-  final TextEditingController goalsController = TextEditingController();
-  final TextEditingController focusController = TextEditingController();
+  final TextEditingController preferencesController = TextEditingController();
+  final TextEditingController healthGoalsController = TextEditingController();
   final TextEditingController restrictionController = TextEditingController();
-  final TextEditingController nutritionController = TextEditingController();
+  final TextEditingController nutritionalFocusController = TextEditingController();
 
-  final List<String> dietOptions = [
+  final List<String> dietaryPreferences = [
     'Halal',
     'Vegetarian',
     'Vegan',
     'Keto'
   ];
 
-  final List<String> dietaryFocus = [
+  final List<String> healthGoals = [
     'Type-2 Diabetes',
     'High Cholesterol',
     'Weight Loss',
@@ -60,7 +60,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     'General Health'
   ];
 
-  final List<String> nutritionalGoals = [
+  final List<String> nutritionalFocus = [
     'High protein',
     'Low carb',
     'Low fat',
@@ -90,10 +90,10 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   @override
   void dispose(){
     usernameController.dispose();
-    goalsController.dispose();
-    focusController.dispose();
+    preferencesController.dispose();
+    healthGoalsController.dispose();
     restrictionController.dispose();
-    nutritionController.dispose();
+    nutritionalFocusController.dispose();
     super.dispose();
   }
 
@@ -103,9 +103,9 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
     if(data != null){
 
-      final List<dynamic> diet = data['dietOptions'] ?? [];
-      final List<dynamic> focus = data['dietaryFocus'] ?? [];
-      final List<dynamic> goals = data['nutritionalGoals'] ?? [];
+      final List<dynamic> diet = data['dietaryPreferences'] ?? data['dietOptions'] ?? [];
+      final List<dynamic> focus = data['healthGoals'] ?? data['dietaryFocus'] ?? [];
+      final List<dynamic> goals = data['nutritionalFocus'] ?? data['nutritionalGoals'] ?? [];
       final List<dynamic> restrictions = data['dietaryRestrictions'] ?? [];
       final String username = data['username'] ?? '';
 
@@ -113,41 +113,41 @@ class _ProfileSettingsState extends State<ProfileSettings> {
       setState((){
         usernameController.text = username; //populate textfield
 
-        // selectedDietOptions = diet.map((item) => dietOptions
+        // selectedDietaryPreferences = diet.map((item) => dietaryPreferences
         //     .indexOf(item)) //converts String to index (read by ChoiceChip)
         //     .toSet(); //converts List to Set
         //
-        // selectedDietaryFocus = focus.map((item) => dietaryFocus
+        // selectedHealthGoals = focus.map((item) => healthGoals
         //     .indexOf(item))
         //     .toSet();
 
-        selectedDietOptions = List<String>.from(diet);
-        selectedDietaryFocus = List<String>.from(focus);
-        selectedNutritionalGoals = List<String>.from(goals);
+        selectedDietaryPreferences = List<String>.from(diet);
+        selectedHealthGoals = List<String>.from(focus);
+        selectedNutritionalFocus = List<String>.from(goals);
         selectedRestrictions = List<String>.from(restrictions);
       });
     }
   }
-  void addCustomDietaryGoals(String input){
+  void addCustomDietaryPreferences(String input){
     final trimmedInput = input.trim();
     if(trimmedInput.isNotEmpty){
       setState(() {
-        if(!selectedDietOptions.contains(trimmedInput)){
-          selectedDietOptions.add(trimmedInput);
+        if(!selectedDietaryPreferences.contains(trimmedInput)){
+          selectedDietaryPreferences.add(trimmedInput);
         }
-        goalsController.clear();
+        preferencesController.clear();
       });
     }
   }
 
-  void addCustomDietaryFocus(String input){
+  void addCustomHealthGoals(String input){
     final trimmedInput = input.trim();
     if(trimmedInput.isNotEmpty){
       setState(() {
-        if(!selectedDietaryFocus.contains(trimmedInput)){
-          selectedDietaryFocus.add(trimmedInput);
+        if(!selectedHealthGoals.contains(trimmedInput)){
+          selectedHealthGoals.add(trimmedInput);
         }
-        focusController.clear();
+        healthGoalsController.clear();
       });
     }
   }
@@ -164,14 +164,14 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     }
   }
 
-  void addCustomNutritionalGoals(String input){
+  void addCustomNutritionalFocus(String input){
     final trimmedInput = input.trim();
     if(trimmedInput.isNotEmpty){
       setState(() {
-        if(!selectedNutritionalGoals.contains(trimmedInput)){
-          selectedNutritionalGoals.add(trimmedInput);
+        if(!selectedNutritionalFocus.contains(trimmedInput)){
+          selectedNutritionalFocus.add(trimmedInput);
         }
-        nutritionController.clear();
+        nutritionalFocusController.clear();
       });
     }
   }
@@ -274,7 +274,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children:[
                         InkWell(
-                          onTap: () => setState(() => _isDietaryGoalsExpanded = !_isDietaryGoalsExpanded),
+                          onTap: () => setState(() => _isDietaryPreferencesExpanded = !_isDietaryPreferencesExpanded),
                           borderRadius: BorderRadius.circular(8),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 4),
@@ -282,21 +282,21 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  'Dietary Goals',
+                                  'Dietary Preferences',
                                   style: TextStyle(
                                     fontSize: AppSizes.fontSizeLg,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 Icon(
-                                  _isDietaryGoalsExpanded ? Icons.expand_less : Icons.expand_more,
+                                  _isDietaryPreferencesExpanded ? Icons.expand_less : Icons.expand_more,
                                 ),
                               ],
                             ),
                           ),
                         ),
 
-                        if(_isDietaryGoalsExpanded) ...[
+                        if(_isDietaryPreferencesExpanded) ...[
                           Container(
                             child: Text(
                               'Select all that apply',
@@ -312,8 +312,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
                           Wrap(
                             spacing: 8.0,
-                            children: dietOptions.map((goals){
-                              final isSelected = selectedDietOptions.contains(goals);
+                            children: dietaryPreferences.map((goals){
+                              final isSelected = selectedDietaryPreferences.contains(goals);
 
                               return ChoiceChip(
                                   label: Text(goals),
@@ -321,9 +321,9 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                   onSelected: (bool selected){
                                     setState((){
                                       if (isSelected){
-                                        selectedDietOptions.remove(goals);
+                                        selectedDietaryPreferences.remove(goals);
                                       }else{
-                                        selectedDietOptions.add(goals);
+                                        selectedDietaryPreferences.add(goals);
                                       }
                                     });
                                   }
@@ -333,19 +333,19 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
                           const SizedBox(height: AppSizes.spaceBtwSections-6),
 
-                          //custom dietary goals
-                          if(selectedDietOptions.any((g) => !dietOptions.contains(g))) ...[
+                          //custom dietary preferences
+                          if(selectedDietaryPreferences.any((g) => !dietaryPreferences.contains(g))) ...[
                             Wrap(
                               spacing: 8.0,
                               runSpacing: 4.0,
-                              children: selectedDietOptions
-                                  .where((g) => !dietOptions.contains(g))
+                              children: selectedDietaryPreferences
+                                  .where((g) => !dietaryPreferences.contains(g))
                                   .map((goal){
                                 return InputChip(
                                   label: Text(goal),
                                   onDeleted: (){
                                     setState(() {
-                                      selectedDietOptions.remove(goal);
+                                      selectedDietaryPreferences.remove(goal);
                                     });
                                   },
                                 );
@@ -354,23 +354,23 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                             const SizedBox(height: AppSizes.spaceBtwItems),
                           ],
 
-                          //text field for typing custom dietary goals
+                          //text field for typing custom dietary preferences
                           Row(
                             children:[
                               Expanded(
                                 child: TextField(
-                                  controller: goalsController,
+                                  controller: preferencesController,
                                   decoration: const InputDecoration(
-                                    hintText: 'Type custom dietary goals',
+                                    hintText: 'Type custom dietary preferences',
                                     isDense: true,
                                     contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                                   ),
-                                  onSubmitted: addCustomDietaryGoals,
+                                  onSubmitted: addCustomDietaryPreferences,
                                 ),
                               ),
                               IconButton(
                                 icon: const Icon(Icons.add_circle, color: AppColors.primary, size: 30),
-                                onPressed: () => addCustomDietaryGoals(goalsController.text),
+                                onPressed: () => addCustomDietaryPreferences(preferencesController.text),
                               ),
                             ],
                           ),
@@ -379,7 +379,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                         const SizedBox(height: AppSizes.spaceBtwSections),
 
                         InkWell(
-                          onTap: () => setState(() => _isDietaryFocusExpanded = !_isDietaryFocusExpanded),
+                          onTap: () => setState(() => _isHealthGoalsExpanded = !_isHealthGoalsExpanded),
                           borderRadius: BorderRadius.circular(8),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 4),
@@ -387,21 +387,21 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  'Dietary Focus',
+                                  'Health Goals',
                                   style: TextStyle(
                                     fontSize: AppSizes.fontSizeLg,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 Icon(
-                                  _isDietaryFocusExpanded ? Icons.expand_less : Icons.expand_more,
+                                  _isHealthGoalsExpanded ? Icons.expand_less : Icons.expand_more,
                                 ),
                               ],
                             ),
                           ),
                         ),
 
-                        if(_isDietaryFocusExpanded) ...[
+                        if(_isHealthGoalsExpanded) ...[
                           Container(
                             child: Text(
                               'Select all that apply',
@@ -417,8 +417,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
                           Wrap(
                             spacing: 8.0,
-                            children: dietaryFocus.map((focus){
-                              final isSelected = selectedDietaryFocus.contains(focus);
+                            children: healthGoals.map((focus){
+                              final isSelected = selectedHealthGoals.contains(focus);
 
                               return ChoiceChip(
                                   label: Text(focus),
@@ -426,9 +426,9 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                   onSelected: (bool selected){
                                     setState((){
                                       if (isSelected){
-                                        selectedDietaryFocus.add(focus);
+                                        selectedHealthGoals.remove(focus);
                                       }else{
-                                        selectedDietaryFocus.remove(focus);
+                                        selectedHealthGoals.add(focus);
                                       }
                                     });
                                   }
@@ -438,19 +438,19 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
                           const SizedBox(height: AppSizes.spaceBtwSections-6),
 
-                          //custom dietary focus
-                          if(selectedDietaryFocus.any((f) => !dietaryFocus.contains(f))) ...[
+                          //custom health goals
+                          if(selectedHealthGoals.any((f) => !healthGoals.contains(f))) ...[
                             Wrap(
                               spacing: 8.0,
                               runSpacing: 4.0,
-                              children: selectedDietaryFocus
-                                  .where((f) => !dietaryFocus.contains(f))
+                              children: selectedHealthGoals
+                                  .where((f) => !healthGoals.contains(f))
                                   .map((focus){
                                 return InputChip(
                                   label: Text(focus),
                                   onDeleted: (){
                                     setState(() {
-                                      selectedDietaryFocus.remove(focus);
+                                      selectedHealthGoals.remove(focus);
                                     });
                                   },
                                 );
@@ -459,23 +459,23 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                             const SizedBox(height: AppSizes.spaceBtwItems),
                           ],
 
-                          //text field for typing custom restrictions
+                          //text field for typing custom health goals
                           Row(
                             children:[
                               Expanded(
                                 child: TextField(
-                                  controller: focusController,
+                                  controller: healthGoalsController,
                                   decoration: const InputDecoration(
-                                    hintText: 'Type custom dietary focus',
+                                    hintText: 'Type custom health goals',
                                     isDense: true,
                                     contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                                   ),
-                                  onSubmitted: addCustomDietaryFocus,
+                                  onSubmitted: addCustomHealthGoals,
                                 ),
                               ),
                               IconButton(
                                 icon: const Icon(Icons.add_circle, color: AppColors.primary, size: 30),
-                                onPressed: () => addCustomDietaryFocus(focusController.text),
+                                onPressed: () => addCustomHealthGoals(healthGoalsController.text),
                               ),
                             ],
                           ),
@@ -484,7 +484,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                         const SizedBox(height: AppSizes.spaceBtwSections),
 
                         InkWell(
-                          onTap: () => setState(() => _isNutritionGoalsExpanded = !_isNutritionGoalsExpanded),
+                          onTap: () => setState(() => _isNutritionalFocusExpanded = !_isNutritionalFocusExpanded),
                           borderRadius: BorderRadius.circular(8),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 4),
@@ -492,21 +492,21 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  'Dietary Focus',
+                                  'Nutritional Focus',
                                   style: TextStyle(
                                     fontSize: AppSizes.fontSizeLg,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 Icon(
-                                  _isNutritionGoalsExpanded ? Icons.expand_less : Icons.expand_more,
+                                  _isNutritionalFocusExpanded ? Icons.expand_less : Icons.expand_more,
                                 ),
                               ],
                             ),
                           ),
                         ),
 
-                        if(_isNutritionGoalsExpanded) ...[
+                        if(_isNutritionalFocusExpanded) ...[
                           Container(
                             child: Text(
                               'Select all that apply',
@@ -522,17 +522,17 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
                           Wrap(
                             spacing: 8.0,
-                            children: nutritionalGoals.map((goals){
-                              final isSelected = selectedNutritionalGoals.contains(goals);
+                            children: nutritionalFocus.map((goals){
+                              final isSelected = selectedNutritionalFocus.contains(goals);
                               return ChoiceChip(
                                   label: Text(goals),
                                   selected: isSelected,
                                   onSelected: (bool selected){
                                     setState((){
                                       if (selected){
-                                        selectedNutritionalGoals.add(goals);
+                                        selectedNutritionalFocus.add(goals);
                                       }else{
-                                        selectedNutritionalGoals.remove(goals);
+                                        selectedNutritionalFocus.remove(goals);
                                       }
                                     });
                                   }
@@ -542,19 +542,19 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
                           const SizedBox(height: AppSizes.spaceBtwSections-6),
 
-                          //custom nutritional goals
-                          if(selectedNutritionalGoals.any((n) => !nutritionalGoals.contains(n))) ...[
+                          //custom nutritional focus
+                          if(selectedNutritionalFocus.any((n) => !nutritionalFocus.contains(n))) ...[
                             Wrap(
                               spacing: 8.0,
                               runSpacing: 4.0,
-                              children: selectedNutritionalGoals
-                                  .where((n) => !nutritionalGoals.contains(n))
+                              children: selectedNutritionalFocus
+                                  .where((n) => !nutritionalFocus.contains(n))
                                   .map((nutrition){
                                 return InputChip(
                                   label: Text(nutrition),
                                   onDeleted: (){
                                     setState(() {
-                                      selectedNutritionalGoals.remove(nutrition);
+                                      selectedNutritionalFocus.remove(nutrition);
                                     });
                                   },
                                 );
@@ -563,23 +563,23 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                             const SizedBox(height: AppSizes.spaceBtwItems),
                           ],
 
-                          //text field for typing custom restrictions
+                          //text field for typing custom nutritional focus
                           Row(
                             children:[
                               Expanded(
                                 child: TextField(
-                                  controller: nutritionController,
+                                  controller: nutritionalFocusController,
                                   decoration: const InputDecoration(
-                                    hintText: 'Type custom nutritional goals',
+                                    hintText: 'Type custom nutritional focus',
                                     isDense: true,
                                     contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                                   ),
-                                  onSubmitted: addCustomNutritionalGoals,
+                                  onSubmitted: addCustomNutritionalFocus,
                                 ),
                               ),
                               IconButton(
                                 icon: const Icon(Icons.add_circle, color: AppColors.primary, size: 30),
-                                onPressed: () => addCustomNutritionalGoals(nutritionController.text),
+                                onPressed: () => addCustomNutritionalFocus(nutritionalFocusController.text),
                               ),
                             ],
                           ),
@@ -728,9 +728,9 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                               userProfileController.saveChanges(
                                 context: context,
                                 username: usernameController.text.trim(),
-                                selectedDietOptions: selectedDietOptions,
-                                selectedDietaryFocus: selectedDietaryFocus,
-                                selectedNutritionalGoals: selectedNutritionalGoals,
+                                selectedDietaryPreferences: selectedDietaryPreferences,
+                                selectedHealthGoals: selectedHealthGoals,
+                                selectedNutritionalFocus: selectedNutritionalFocus,
                                 selectedRestrictions: selectedRestrictions,
                               );
                             },
@@ -782,9 +782,9 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                           await userProfileController.resetPreferences();
 
                           setState(() {
-                            selectedDietOptions.clear();
-                            selectedDietaryFocus.clear();
-                            selectedNutritionalGoals.clear();
+                            selectedDietaryPreferences.clear();
+                            selectedHealthGoals.clear();
+                            selectedNutritionalFocus.clear();
                             selectedRestrictions.clear();
                           });
 

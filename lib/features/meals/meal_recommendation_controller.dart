@@ -110,10 +110,10 @@ class MealRecommendationController extends GetxController{
       if(todayMeals.isEmpty){
         final data = await userProfile.getUserDetails();
 
-        //user selected dietary goals
-        List<dynamic>? selectedDietOptions = data?['dietOptions'] ?? [];
-        List<dynamic>? selectedDietaryFocus = data?['dietaryFocus'] ?? [];
-        List<dynamic>? selectedNutritionalGoals = data?['nutritionalGoals'] ?? [];
+        //user selected dietary preferences and health goals
+        List<dynamic>? selectedDietaryPreferences = data?['dietaryPreferences'] ?? data?['dietOptions'] ?? [];
+        List<dynamic>? selectedHealthGoals = data?['healthGoals'] ?? data?['dietaryFocus'] ?? [];
+        List<dynamic>? selectedNutritionalFocus = data?['nutritionalFocus'] ?? data?['nutritionalGoals'] ?? [];
         List<dynamic>? selectedDietaryRestrictions = data?['dietaryRestrictions'] ?? [];
         int? age = data?['age'] ?? [];
         double? height = data?['height'] ?? [];
@@ -131,16 +131,16 @@ class MealRecommendationController extends GetxController{
           This meal is for $selectedMealType
           Only give me meals of $selectedMealCuisine cuisine
           
-          User dietary goals and preferences include:
-          Diet Options: $selectedDietOptions
-          Dietary Focus: $selectedDietaryFocus
-          Nutritional Goals: $selectedNutritionalGoals
+          User dietary preferences and health goals include:
+          Dietary Preferences: $selectedDietaryPreferences
+          Health Goals: $selectedHealthGoals
+          Nutritional Focus: $selectedNutritionalFocus
           Dietary Restrictions: $selectedDietaryRestrictions
           Preferred categories: $preferredCategories
           Avoid categories: $avoidCategories
           
           Return 4 simple, healthy meal recommendations that:
-          - match the diet and focus and nutritional goals
+          - match the diet, health goals, and nutritional focus
           - exclude any ingredients containing dietary restrictions
           - prioritize preferred categories
           - exclude avoided categories
@@ -214,11 +214,11 @@ class MealRecommendationController extends GetxController{
 
         final data = await UserProfileController.instance.getUserDetails();
 
-        //user selected dietary goals
-        List<dynamic>? selectedDietOptions = data?['dietOptions'];
-        List<dynamic>? selectedDietaryFocus = data?['dietaryFocus'];
-        List<dynamic>? selectedNutritionalGoals = data?['nutritionalGoals'] ?? [];
-        List<dynamic>? selectedDietaryRestrictions = data?['dietaryRestrictions'];
+        //user selected dietary preferences and health goals
+        List<dynamic>? selectedDietaryPreferences = data?['dietaryPreferences'] ?? data?['dietOptions'] ?? [];
+        List<dynamic>? selectedHealthGoals = data?['healthGoals'] ?? data?['dietaryFocus'] ?? [];
+        List<dynamic>? selectedNutritionalFocus = data?['nutritionalFocus'] ?? data?['nutritionalGoals'] ?? [];
+        List<dynamic>? selectedDietaryRestrictions = data?['dietaryRestrictions'] ?? [];
         int? age = data?['age'] ?? [];
         double? height = data?['height'] ?? [];
         double? weight = data?['weight'] ?? [];
@@ -240,16 +240,16 @@ class MealRecommendationController extends GetxController{
           This meal is for $selectedMealType
           Only give me meals of $selectedMealCuisine cuisine
           
-          User dietary goals and preferences include:
-          Diet Options: $selectedDietOptions
-          Dietary Focus: $selectedDietaryFocus
-          Nutritional Goals: $selectedNutritionalGoals
+          User dietary preferences and health goals include:
+          Dietary Preferences: $selectedDietaryPreferences
+          Health Goals: $selectedHealthGoals
+          Nutritional Focus: $selectedNutritionalFocus
           Dietary Restrictions: $selectedDietaryRestrictions
           Preferred categories: $preferredCategories
           Avoid categories: $avoidCategories
           
           Return 4 simple, healthy meal recommendations that:
-          - match the diet and focus and nutritional goals
+          - match the diet, health goals, and nutritional focus
           - exclude any ingredients containing dietary restrictions
           - prioritize preferred categories
           - exclude avoided categories

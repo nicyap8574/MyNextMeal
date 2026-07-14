@@ -62,7 +62,7 @@ dev_dependencies:
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/icons/OrangeLogo.png"
+  image_path: "assets/icons/OrangeLogoNew.png"
   adaptive_icon_foreground: "assets/icons/Trans-Bg.png"
   adaptive_icon_background: "#FF9D00"
   adaptive_icon_foreground_inset: 28

@@ -42,12 +42,22 @@ class LoginScreen extends StatelessWidget {
 
                   Text(
                     'Welcome to MyNextMeal',
-                    textDirection: TextDirection.ltr,
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                     ),
-                  )
+                  ),
+
+                  const SizedBox(height: 3),
+
+                  Text(
+                    'Healthy eating, simplified.',
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+
+                  const SizedBox(height: AppSizes.spaceBtwItems),
                 ],
               ),
 

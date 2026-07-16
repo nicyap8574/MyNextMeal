@@ -91,7 +91,7 @@ class LoginScreen extends StatelessWidget {
                     const SizedBox(height: AppSizes.sm),
 
 
-                    //Remember me and forgot password
+                    //forgot password
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children:[

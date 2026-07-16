@@ -52,10 +52,13 @@ class UserController extends GetxController {
 
   //sign out
   Future<void> signOut() async {
-    user(UserModel.empty()); //clear UI
-    
+    user(UserModel.empty()); //clear user from UI immediately
+
+    //clear cached user data from previous sessions
     if (Get.isRegistered<UserProfileController>()) {
-      Get.find<UserProfileController>().cachedData = null;
+      final profileController = Get.find<UserProfileController>();
+      profileController.cachedData = null;
+      profileController.weightHistory.clear();
     }
 
     await _auth.signOut();

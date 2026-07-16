@@ -190,9 +190,9 @@ class UserProfileController extends GetxController{
         },
       });
 
-      final existingHistory = Map<String,dynamic>.from(
-        cachedData?['weightHistory'] as Map<String,dynamic>,
-      );
+      final existingHistory = cachedData?['weightHistory'] != null
+          ? Map<String,dynamic>.from(cachedData!['weightHistory'] as Map) //creates a copy of cachedData['weightHistory'] map
+          : <String,dynamic>{}; //creates empty map if there is no weight history
 
       //overwrites old weight data for that day if already exists
       existingHistory[dateKey] = {
@@ -267,7 +267,13 @@ class UserProfileController extends GetxController{
       }
 
       //gets from Firestore directly
-      final rawHistory = data['weightHistory'] as Map<String,dynamic>;
+      final rawHistory = data['weightHistory'] as Map<String,dynamic>?;
+
+      //clears off local weight history if no weightHistory found for current user in database
+      if (rawHistory == null) {
+        weightHistory.clear();
+        return [];
+      }
 
       //instantly updates widget
       _rebuildWeightHistoryList(rawHistory);
@@ -284,7 +290,7 @@ class UserProfileController extends GetxController{
       final entryData = entry.value as Map<String,dynamic>;
       return{
         'date': DateTime.tryParse(entry.key),
-        'weight': entryData['weight'] as double,
+        'weight': (entryData['weight'] as num?)?.toDouble() ?? 0.0,
       };
     }).toList();
 

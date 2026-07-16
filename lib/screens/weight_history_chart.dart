@@ -26,6 +26,13 @@ class _WeightHistoryChartState extends State<WeightHistoryChart> {
   List<Map<String,dynamic>> entries = []; //store weight records
 
   @override
+  void initState() {
+    super.initState();
+    // Fetch weight history on load
+    UserProfileController.instance.fetchWeightHistory();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final controller = UserProfileController.instance;
     final dark = AppHelperFunctions.isDarkMode(context);
@@ -122,10 +129,10 @@ class _WeightHistoryChartState extends State<WeightHistoryChart> {
                         interval: 1,
                         getTitlesWidget: (value, meta){
                           final index = value.toInt();
-                          if(index < 0 || index >= entries.length){
+                          if(index < 0 || index >= displayedEntries.length){
                             return const SizedBox();
                           }
-                          final date = entries[index]['date'] as DateTime;
+                          final date = displayedEntries[index]['date'] as DateTime;
                           return Padding(
                             padding: const EdgeInsets.only(top: 4),
                             child: Text(
@@ -168,7 +175,7 @@ class _WeightHistoryChartState extends State<WeightHistoryChart> {
                       getTooltipItems: (touchedSpots) {
                         return touchedSpots.map((spot) {
                           final idx = spot.x.toInt();
-                          final date = entries[idx]['date'] as DateTime;
+                          final date = displayedEntries[idx]['date'] as DateTime;
                           return LineTooltipItem(
                             '${spot.y.toStringAsFixed(1)} kg\n${DateFormat('d MMM yyyy').format(date)}',
                             TextStyle(

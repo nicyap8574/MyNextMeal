@@ -323,6 +323,10 @@ class UserProfileController extends GetxController{
     cachedData = null;
   }
 
+  void clearCache() {
+    cachedData = null;
+  }
+
   Future<bool> deleteAccount({String? password}) async{
     final currentUser = _auth.currentUser;
 

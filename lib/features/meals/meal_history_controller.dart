@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:mynextmeal/features/meals/image_analysis_controller.dart';
+import 'package:mynextmeal/features/user/user_profile_controller.dart';
 
 class MealHistoryController extends GetxController{
 
@@ -42,6 +43,16 @@ class MealHistoryController extends GetxController{
       //delete from Firestore
       await _db.collection('meals').doc(doc.id).delete();
 
+    }
+
+    // Reset preferred/avoid category stats in database (delete field)
+    try {
+      await _db.collection('users').doc(user.uid).update({
+        "categoryStats": FieldValue.delete(),
+      });
+      UserProfileController.instance.clearCache();
+    } catch (e) {
+      print("Error deleting category stats during mass delete: $e");
     }
   }
 }

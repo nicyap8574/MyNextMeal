@@ -103,28 +103,28 @@ class GeminiController{
 
   final validationModel = FirebaseAI.googleAI().generativeModel(
     model: 'gemini-3.5-flash',
-    //   model: 'gemini-2.5-flash-lite',
+      // model: 'gemini-2.5-flash-lite',
       generationConfig: GenerationConfig(
           responseMimeType: 'application/json', responseSchema: validationJsonSchema));
 
   //Meal recommendation
   final recommendationModel_PreviousMeals = FirebaseAI.googleAI().generativeModel(
       model: 'gemini-3.5-flash',
-    //   model: 'gemini-2.5-flash-lite',
+      // model: 'gemini-2.5-flash-lite',
       generationConfig: GenerationConfig(
           responseMimeType: 'application/json', responseSchema: recommendationJsonSchema_PreviousMeals));
 
   //Meal recommendation
   final recommendationModel_NoPreviousMeals = FirebaseAI.googleAI().generativeModel(
       model: 'gemini-3.5-flash',
-    //   model: 'gemini-2.5-flash-lite',
+      // model: 'gemini-2.5-flash-lite',
       generationConfig: GenerationConfig(
           responseMimeType: 'application/json', responseSchema: recommendationJsonSchema_NoPreviousMeals));
 
   //Brief summary
   final summaryModel = FirebaseAI.googleAI().generativeModel(
       model: 'gemini-3.5-flash',
-    //   model: 'gemini-2.5-flash-lite',
+      // model: 'gemini-2.5-flash-lite',
       generationConfig: GenerationConfig(
           responseMimeType: 'application/json', responseSchema: summaryJsonSchema));
 

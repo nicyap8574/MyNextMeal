@@ -154,7 +154,7 @@ class _WeightHistoryChartState extends State<WeightHistoryChart> {
                       color: AppColors.primary,
                       barWidth: 2.5,
                       dotData: FlDotData(
-                        show: true,
+                        show: true, //show dots on points
                         getDotPainter: (spot, percent, bar, index) =>
                             FlDotCirclePainter(
                               radius: 4,
@@ -171,7 +171,7 @@ class _WeightHistoryChartState extends State<WeightHistoryChart> {
                       dark ? const Color(0xFF3A3530) : Colors.white,
                       getTooltipItems: (touchedSpots) {
                         return touchedSpots.map((spot) {
-                          final idx = spot.x.toInt();
+                          final idx = spot.x.toInt(); //index of touched spot (matches index in displayedEntries)
                           final date = displayedEntries[idx]['date'] as DateTime;
                           return LineTooltipItem(
                             '${spot.y.toStringAsFixed(1)} kg\n${DateFormat('d MMM yyyy').format(date)}',

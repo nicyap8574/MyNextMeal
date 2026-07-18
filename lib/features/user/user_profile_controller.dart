@@ -169,7 +169,7 @@ class UserProfileController extends GetxController{
           ));
         }
       });
-
+      AppLoaders.showSnackBar(Get.context!, "Activity level updated successfully");
     }catch(e){
       print("Error saving changes: $e");
       AppLoaders.showSnackBar(context, "Failed to save onboarding preferences.");

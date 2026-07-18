@@ -1,11 +1,9 @@
 import 'dart:math';
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:intl/intl.dart';
 import 'package:mynextmeal/features/user/user_profile_controller.dart';
-
 import '../utils/constants/colors.dart';
 import '../utils/helpers/helper_functions.dart';
 
@@ -61,7 +59,7 @@ class _WeightHistoryChartState extends State<WeightHistoryChart> {
           : entries;
 
       //build chart
-      //converts _entries list into a map
+      //converts entries list into a map, gives each item an index
       //keys -> indices
       final spots = displayedEntries.asMap().entries.map((e){
         // x-value -> index (sorted from oldest to newest date)
@@ -73,7 +71,6 @@ class _WeightHistoryChartState extends State<WeightHistoryChart> {
 
       final lowestWeight = weightSpots.reduce(min); //find lowest weight in history
       final highestWeight = weightSpots.reduce(max); //find highest weight in history
-
 
       return Container(
         padding: const EdgeInsets.fromLTRB(8, 16, 16, 8),

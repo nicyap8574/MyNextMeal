@@ -62,9 +62,9 @@ class ImageAnalysisController{
 
   Future<String> uploadImage({required String path, required XFile image}) async{
     try{
-      final storageRef = FirebaseStorage.instance.ref(path);
+      final storageRef = FirebaseStorage.instance.ref(path); //gets singleton (only one instance) of Firebase storage
       final imageRef = storageRef.child(image.name);
-      await imageRef.putFile(File(image.path));
+      await imageRef.putFile(File(image.path)); //uploads file to Firebase Storage
       return await imageRef.getDownloadURL();
     }catch (e){
       print("FIREBASE STORAGE ERROR: $e");
@@ -94,7 +94,7 @@ class ImageAnalysisController{
         return false;
       }
 
-      final data = jsonDecode(text);
+      final data = jsonDecode(text); //converts to Map<String,dynamic>
       final bool isFood = data['is_food'] ?? false;
       final double confidence = (data['confidence'] as num?)?.toDouble() ?? 0.0;
 
@@ -113,10 +113,8 @@ class ImageAnalysisController{
             ],
           ),
         );
-
         return false;
       }
-
       return true;
     }catch(e){
       print("Validation error: $e");

@@ -11,12 +11,14 @@ import '../../utils/popups/loaders.dart';
 
 class UserProfileController extends GetxController{
   //look for existing instance in memory
+
+  //static getter
   static UserProfileController get instance => Get.find();
-  final FirebaseFirestore _db = FirebaseFirestore.instance;
+  final FirebaseFirestore _db = FirebaseFirestore.instance; //singleton of Firestore
   final _auth = FirebaseAuth.instance;
   User? get user => _auth.currentUser;
 
-  Map<String,dynamic>? cachedData;
+  Map<String,dynamic>? cachedData; //stores JSON
   final weightHistory = <Map<String,dynamic>>[].obs;
 
   final userController = UserController.instance;
@@ -178,7 +180,7 @@ class UserProfileController extends GetxController{
 
   Future<void> updatePhysicalMetrics({required BuildContext context, required double height, required double weight, required int age}) async {
     try{
-      final String dateKey = DateTime.now().toIso8601String().substring(0, 10);
+      final String dateKey = DateTime.now().toIso8601String().substring(0, 10); //YYYY-MM-DDTHH:mm:ssZ format
 
       await _db.collection('users').doc(user!.uid).update({
         'height': height,

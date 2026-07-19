@@ -28,6 +28,7 @@ class ImageAnalysisController{
   final RxString imageUrl = "".obs;
   final Rxn<String> errorMessage = Rxn<String>();
   final RxBool isLoading = false.obs;
+  final RxBool isSaving = false.obs;
   final ImagePicker picker = ImagePicker();
   final Rxn<XFile> foodImage = Rxn<XFile>();
   final FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -488,6 +489,7 @@ class ImageAnalysisController{
     SentimentResult? sentiment;
 
     try{
+      isSaving.value = true;
       final sentimentText = sentimentController.text.trim();
       if(sentimentText.isNotEmpty){
         sentiment = await sentimentAnalysis.analyse(sentimentText, apiToken: Env.hf_apiKey);
@@ -529,7 +531,8 @@ class ImageAnalysisController{
     }catch(e){
       print("Error saving meal: $e");
     }finally{
-            Navigator.pushAndRemoveUntil(
+      isSaving.value = false;
+      Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
             builder: (context) => const MealHistoryPage(),

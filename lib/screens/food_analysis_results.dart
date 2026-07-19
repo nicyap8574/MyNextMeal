@@ -63,7 +63,17 @@ class _FoodAnalysisResultsState extends State<FoodAnalysisResults> {
         body: Obx((){
           if(controller.isLoading.value == true){
             return Center(
-              child: const CircularProgressIndicator(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const CircularProgressIndicator(),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Analysing meal...',
+                  ),
+                ],
+              )
             );
           }
 
@@ -425,24 +435,35 @@ class _FoodAnalysisResultsState extends State<FoodAnalysisResults> {
                               const SizedBox(height: AppSizes.spaceBtwSections),
 
                               Center(
-                                child: Column(
+                                child: Obx(() => Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children:[
                                     //save meal
                                     SizedBox(
                                       width: double.infinity,
                                       child: ElevatedButton(
-                                        onPressed: () async {
-                                          final data = jsonDecode(controller.response.value);
+                                        onPressed: controller.isSaving.value
+                                            ? null
+                                            : () async {
+                                                final data = jsonDecode(controller.response.value);
 
-                                          final imageUrl = controller.imageUrl.value;
-                                          print(imageUrl);
+                                                final imageUrl = controller.imageUrl.value;
+                                                print(imageUrl);
 
-                                          final mealDetails = controller.userTextInput;
+                                                final mealDetails = controller.userTextInput;
 
-                                          await controller.saveMealRecord(data, imageUrl, mealDetails, context);
-                                        },
-                                        child: const Text("Save Meal"),
+                                                await controller.saveMealRecord(data, imageUrl, mealDetails, context);
+                                              },
+                                        child: controller.isSaving.value
+                                            ? const SizedBox(
+                                                height: 20,
+                                                width: 20,
+                                                child: CircularProgressIndicator(
+                                                  strokeWidth: 2,
+                                                  color: Colors.white,
+                                                ),
+                                              )
+                                            : const Text("Save Meal"),
                                       ),
                                     ),
 
@@ -457,11 +478,12 @@ class _FoodAnalysisResultsState extends State<FoodAnalysisResults> {
                                           foregroundColor: dark ? AppColors.white : AppColors.black,
                                           side: dark ? BorderSide(color: Colors.white.withOpacity(0.1)) : BorderSide.none,
                                         ),
-                                        onPressed: () => Navigator.pop(context),
+                                        onPressed: controller.isSaving.value ? null : () => Navigator.pop(context),
                                         child: const Text("Cancel"),
                                       ),
                                     ),
                                   ],
+                                ),
                                 ),
                               ),
                             ]

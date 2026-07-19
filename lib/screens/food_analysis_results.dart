@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:material3_expressive_loading_indicator/material3_expressive_loading_indicator.dart';
 import 'package:mynextmeal/common/spacing_styles.dart';
 import '../features/meals/image_analysis_controller.dart';
 import '../utils/constants/colors.dart';
@@ -65,7 +66,7 @@ class _FoodAnalysisResultsState extends State<FoodAnalysisResults> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const CircularProgressIndicator(),
+                  const ExpressiveLoadingIndicator(),
                   const SizedBox(height: 8),
                   Text(
                     'Analysing meal...',
@@ -91,7 +92,7 @@ class _FoodAnalysisResultsState extends State<FoodAnalysisResults> {
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(AppSizes.cardRadiusMd),
                                 child: Image.file(
-                                    File(imageFile.path), //converts XFile to File -> directory to image in device
+                                    File(imageFile.path), //returns image file location on device
                                     height: 300,
                                     fit: BoxFit.cover
                                 ),
@@ -443,7 +444,7 @@ class _FoodAnalysisResultsState extends State<FoodAnalysisResults> {
                                         onPressed: controller.isSaving.value
                                             ? null
                                             : () async {
-                                                final data = jsonDecode(controller.response.value);
+                                                final data = jsonDecode(controller.response.value); //AI response in JSON format //converts String into Map<String,dynamic>
 
                                                 final imageUrl = controller.imageUrl.value;
                                                 print(imageUrl);

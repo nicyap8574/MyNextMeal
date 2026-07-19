@@ -46,20 +46,6 @@ class UserRepository extends GetxController{
     }
   }
 
-  //Update user data
-/*  Future<void> updateUserDetails(UserModel updateUser) async{
-    final user = _auth.currentUser;
-    try{
-      await _db.collection("Users").doc(updatedUser.id).update(updatedUser.toJson());
-    }on FirebaseException catch (e){
-      final details = e.message ?? 'No additional details provided.';
-      throw 'Firestore failed (${e.code}): $details';
-
-    }catch(e){
-      throw "Unexpected error occurred: $e";
-    }
-  }*/
-
   //Update user data (any field)
   Future<void> updateSingleField(Map<String, dynamic> json) async{
     final user = _auth.currentUser;
@@ -86,6 +72,4 @@ class UserRepository extends GetxController{
       throw "Unexpected error occurred: $e";
     }
   }
-
-
 }

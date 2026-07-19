@@ -164,7 +164,7 @@ class _IndividualMealState extends State<IndividualMeal> {
                               return Chip(
                                 label: Text(individual_ingredient?.toString() ?? 'Unknown'),
                               );
-                            }).toList(), //converts Iterable to List<Widget> to be accepted by children
+                            }).toList(), //converts Iterable to List<Chip> to be accepted by children
                           ),
 
                           const SizedBox(height: AppSizes.spaceBtwItems),

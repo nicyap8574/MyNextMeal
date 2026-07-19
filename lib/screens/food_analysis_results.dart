@@ -21,11 +21,11 @@ class _FoodAnalysisResultsState extends State<FoodAnalysisResults> {
 
   final TextEditingController categoryController = TextEditingController();
   final TextEditingController ingredientsController = TextEditingController();
+  final controller = Get.find<ImageAnalysisController>();
 
   void addCustomCategory(String rawCategory){
     final trimmedCategory = rawCategory.trim();
     if(trimmedCategory.isNotEmpty){
-      final controller = Get.find<ImageAnalysisController>();
       setState(() {
         final alreadyExists = controller.categoryOptions.any((element) => element.toLowerCase() == trimmedCategory.toLowerCase());
         if(!alreadyExists){
@@ -41,7 +41,6 @@ class _FoodAnalysisResultsState extends State<FoodAnalysisResults> {
   void addCustomIngredient(String rawIngredient){
     final trimmedIngredient = rawIngredient.trim();
     if(trimmedIngredient.isNotEmpty){
-      final controller = Get.find<ImageAnalysisController>();
       if(!controller.ingredients.contains(trimmedIngredient)){
         controller.ingredients.add(trimmedIngredient);
       }
@@ -52,7 +51,6 @@ class _FoodAnalysisResultsState extends State<FoodAnalysisResults> {
   @override
   Widget build(BuildContext context) {
     final dark = AppHelperFunctions.isDarkMode(context);
-    final controller = Get.find<ImageAnalysisController>();
 
     return Scaffold(
         backgroundColor: dark ? AppColors.darkBackground : AppColors.lightBackground,

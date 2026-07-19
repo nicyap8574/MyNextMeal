@@ -8,6 +8,7 @@ import 'package:mynextmeal/features/auth/forgot_password_controller.dart';
 import 'package:mynextmeal/features/meals/image_analysis_controller.dart';
 import 'package:mynextmeal/features/meals/individual_meal_controller.dart';
 import 'package:mynextmeal/features/meals/meal_history_controller.dart';
+import 'package:mynextmeal/features/meals/meal_recommendation_controller.dart';
 import 'package:mynextmeal/features/meals/meal_recommendation_history_controller.dart';
 import 'package:mynextmeal/features/user/user_profile_controller.dart';
 import 'package:mynextmeal/features/user/user_controller.dart';
@@ -40,6 +41,7 @@ Future<void> main() async {
   Get.put(IndividualMealController());
   Get.put(ForgotPasswordController());
   Get.put(MealRecommendationHistoryController());
+  Get.put(MealRecommendationController());
 
 
   runApp(const App());

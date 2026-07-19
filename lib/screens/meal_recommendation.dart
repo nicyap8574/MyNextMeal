@@ -19,6 +19,8 @@ class MealRecommendation extends StatefulWidget {
 }
 
 class _MealRecommendationState extends State<MealRecommendation> {
+  final controller = Get.put(MealRecommendationController());
+
   final List<String> mealType = ['Breakfast','Lunch','Dinner','Supper','Snack'];
   final List<DropdownMenuEntry<String>> cuisine = [
     DropdownMenuEntry(value: 'Random', label: 'Random'),
@@ -43,18 +45,12 @@ class _MealRecommendationState extends State<MealRecommendation> {
   @override
   void initState(){
     super.initState();
-
-    final controller = Get.put(MealRecommendationController());
     todayMeals = controller.displayTodayMeals();
   }
 
   @override
   Widget build(BuildContext context) {
     final dark = AppHelperFunctions.isDarkMode(context);
-    final controller = Get.put(MealRecommendationController());
-    // final todayMeals = controller.todayMeals;
-    // var mealType = controller.mealType;
-
 
     return Scaffold(
         backgroundColor: dark ? AppColors.darkBackground : AppColors.lightBackground,

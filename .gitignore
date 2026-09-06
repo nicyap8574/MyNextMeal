@@ -48,3 +48,6 @@ app.*.map.json
 
 .env
 *.g.dart
+
+# Demo recordings are hosted on YouTube; keep local copies out of Git.
+/docs/videos/

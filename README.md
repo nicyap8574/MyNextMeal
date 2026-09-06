@@ -20,9 +20,23 @@ To run your own copy, configure your own Firebase project and Hugging Face token
 
 AI-generated meal information is an estimate and can be inaccurate. This is an academic prototype, not a clinically validated nutrition tool.
 
-<!-- Add screenshots of the home screen, meal analysis, and recommendations here.
-Use relative links to actual files, for example docs/images/home.png.
-Add a demo video link only when a recording is available. -->
+## Screenshots
+
+| Home | Meal analysis | Recommendations |
+| --- | --- | --- |
+| <img src="docs/images/Home.png" alt="Home screen with daily macros and logged meals" width="240"> | <img src="docs/images/Meal%20Analysis%20Results%201.png" alt="Meal analysis with detected dish and ingredients" width="240"> | <img src="docs/images/Meal%20Recommendations.png" alt="Personalised meal recommendations" width="240"> |
+
+| Meal history | Dietary preferences | Weight history |
+| --- | --- | --- |
+| <img src="docs/images/Meal%20History.png" alt="History of logged meals" width="240"> | <img src="docs/images/Profile%20Settings.png" alt="Profile settings with nutritional preferences" width="240"> | <img src="docs/images/Weight%20Chart.png" alt="Weight history chart and physical metrics" width="240"> |
+
+[View the meal analysis summary and feedback screen](docs/images/Meal%20Analysis%20Results%202.png).
+
+## Demo video
+
+Watch the [MyNextMeal walkthrough on YouTube](https://youtu.be/0HeeoZNbi7c).
+
+The recording demonstrates the app before its original backend was retired. Running your own copy requires the setup described below.
 
 ## Technology
 
